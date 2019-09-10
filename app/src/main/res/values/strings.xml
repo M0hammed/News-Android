@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DaggerSample</string>
+    <string name="server_error">Server Error</string>
+    <string name="internet_connection_error">Internet Error Connection</string>
+    <string name="no_data">no data available now</string>
+    <string name="loading">please wait</string>
 </resources>

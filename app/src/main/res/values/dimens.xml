@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--text size-->
+    <dimen name="text_size_extra_small">10sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_normal">14sp</dimen>
+    <dimen name="text_size_m">15sp</dimen>
+    <dimen name="text_size_large">16sp</dimen>
+    <dimen name="text_size_largex">18sp</dimen>
+    <dimen name="text_size_largexx">20sp</dimen>
+    <dimen name="text_size_largexxx">22sp</dimen>
+    <dimen name="text_size_largexxxx">24sp</dimen>
+    <dimen name="text_size_largexxxxx">30sp</dimen>
+
+    <!--padding-->
+    <dimen name="padding_15">15dp</dimen>
+    <!--margin-->
+    <dimen name="margin_5">5dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+</resources>

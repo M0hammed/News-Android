@@ -29,4 +29,6 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>() {
     override fun setListeners() {
 
     }
+
+    override fun getProgressMessage(): Int = R.string.loading
 }
