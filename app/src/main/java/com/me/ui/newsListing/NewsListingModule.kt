@@ -1,4 +1,4 @@
-package com.me.daggersample.newsListing
+package com.me.ui.newsListing
 
 import com.me.daggersample.network.apiInterface.NewsListingApiInterface
 import dagger.Module

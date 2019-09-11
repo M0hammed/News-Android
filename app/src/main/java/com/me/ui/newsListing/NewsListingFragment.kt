@@ -1,4 +1,4 @@
-package com.me.daggersample.newsListing
+package com.me.ui.newsListing
 
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -22,8 +22,12 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>() {
     }
 
     override fun initialize() {
-        val disposable = viewModel.getNewsListing()
-        addDisposable()?.add(disposable)
+        val viewModelDisposable = viewModel.getNewsListing()
+        addDisposable()?.add(viewModelDisposable)
+
+        addDisposable()?.add(viewModel.newsListing.subscribe {
+
+        })
     }
 
     override fun setListeners() {

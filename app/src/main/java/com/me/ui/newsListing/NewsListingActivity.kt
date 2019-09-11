@@ -1,7 +1,6 @@
-package com.me.daggersample.newsListing
+package com.me.ui.newsListing
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import com.me.daggersample.R
 import com.me.daggersample.base.BaseActivity
 

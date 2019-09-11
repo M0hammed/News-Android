@@ -1,4 +1,4 @@
-package com.me.daggersample.newsListing
+package com.me.ui.newsListing
 
 import com.me.daggersample.base.BaseRepository
 import com.me.daggersample.data.NewsResponse
@@ -12,6 +12,7 @@ class NewsListingRepository @Inject constructor(val newsApiInterface: NewsListin
     BaseRepository() {
 
     fun getListingNews(): PublishSubject<NetworkOutcome<NewsResponse>> {
+
         return newsApiInterface.getNewsListing().getNetworkResponse()
     }
 }
