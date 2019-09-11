@@ -1,4 +1,4 @@
-package com.me.ui.newsListing
+package com.me.daggersample.ui.newsListing
 
 import com.me.daggersample.base.BaseRepository
 import com.me.daggersample.data.NewsResponse

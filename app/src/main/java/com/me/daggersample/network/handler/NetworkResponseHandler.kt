@@ -28,16 +28,3 @@ fun <T> Call<T>.getNetworkResponse(): PublishSubject<NetworkOutcome<T>> {
 
     return networkOutcome
 }
-
-
-//fun <T> Call<T>.getNetworkResponses(): Observable<NetworkOutcome<T>> {
-//    try {
-//        if (execute().isSuccessful) {
-//            return Observable.just(NetworkOutcome<T>(true, execute().body(), ErrorResponse()))
-//        } else {
-//            return Observable.just(NetworkOutcome<T>(true, null, ErrorResponse()))
-//        }
-//    } catch (ex: Exception) {
-//        return Observable.just(NetworkOutcome<T>(false, null, NetworkExceptionHandler(ex).getFailureException()))
-//    }
-//}

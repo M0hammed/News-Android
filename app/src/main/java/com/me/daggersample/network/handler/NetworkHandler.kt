@@ -18,6 +18,7 @@ class NetworkHandler<T : BaseViewModel, R : Any>(private val viewModel: T, priva
                 if (it.isSuccess) {
                     it.body?.apply { execBlock(this) }
                 } else {
+                    Log.e("xxx", "subscribe : $it")
                     viewModel.handleErrorMessage.onNext(it.responseError)
                 }
             }

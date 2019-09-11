@@ -9,12 +9,16 @@ import io.reactivex.subjects.PublishSubject
 
 abstract class BaseProcessor<ResponseType : Any> {
     fun execute(): Observable<NetworkOutcome<ResponseType>> {
-        return process().doOnSubscribe { validate() }
-            .onErrorReturn {
-                Log.e("xxx", "onErrorReturn : $it")
-                val exception = it as ResponseErrorException
-                NetworkOutcome(false, null, exception.errorModel)
-            }
+        try {
+            validate()
+            return process()
+        } catch (ex: ResponseErrorException) {
+            return Observable.just(NetworkOutcome<ResponseType>(false, null, ex.errorModel))
+                .onErrorReturn {
+                    val exception = it as ResponseErrorException
+                    NetworkOutcome(false, null, exception.errorModel)
+                }
+        }
     }
 
     abstract fun validate() // to call validation

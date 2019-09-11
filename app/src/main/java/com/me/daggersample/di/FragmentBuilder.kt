@@ -1,6 +1,6 @@
 package com.me.daggersample.di
 
-import com.me.ui.newsListing.NewsListingFragment
+import com.me.daggersample.ui.newsListing.NewsListingFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

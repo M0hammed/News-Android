@@ -1,4 +1,4 @@
-package com.me.ui.newsListing
+package com.me.daggersample.ui.newsListing
 
 import android.util.Log
 import com.me.daggersample.base.BaseProcessor
@@ -11,7 +11,7 @@ import io.reactivex.subjects.PublishSubject
 class NewsListingProcessor(val newsListingRepository: NewsListingRepository) : BaseProcessor<NewsResponse>() {
     override fun validate() {
         Log.e("xxx","make a validation")
-        MobileNumberShouldBeValid("1234575",INVALID_CUSTOMER_MOBILE).orThrow()
+//        MobileNumberShouldBeValid("1234575",INVALID_CUSTOMER_MOBILE).orThrow()
     }
 
     override fun process(): PublishSubject<NetworkOutcome<NewsResponse>> {

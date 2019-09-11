@@ -1,4 +1,4 @@
-package com.me.ui.newsListing
+package com.me.daggersample.ui.newsListing
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
