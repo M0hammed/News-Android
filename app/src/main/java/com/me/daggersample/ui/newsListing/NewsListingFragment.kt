@@ -1,5 +1,6 @@
 package com.me.daggersample.ui.newsListing
 
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
@@ -7,12 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.me.daggersample.base.BaseFragment
 import com.me.daggersample.base.OnListItemClickListener
 import com.me.daggersample.base.PaginationScrollListener
-import com.me.daggersample.data.NewsModel
+import com.me.daggersample.data.news.NewsModel
 import com.me.daggersample.extentions.makeSuccessMessage
+import com.me.daggersample.network.handler.ResponseStatus
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.app_recycler_layout.*
 import javax.inject.Inject
-import io.reactivex.Completable
-import java.io.IOException
 
 
 class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
@@ -47,9 +49,18 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
     }
 
     override fun initialize() {
-        val viewModelDisposable = viewModel.getNewsListing()
-
-        addDisposable()?.add(viewModelDisposable)
+        addDisposable()?.add(
+            viewModel.getNewsListing()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    if (it is ResponseStatus.Success) {
+                        val data = it.data?.result?.newsData?.get(0)
+                        Log.e("xxx", "title is ${data?.imageUrl}")
+                        Log.e("xxx", "title is ${it}")
+                    }
+                }, { Log.e("xxx", "error message ${it.message}") })
+        )
 
         addDisposable()?.add(viewModel.newsListing.subscribe {
             newsListingAdapter.insertAll(it)
@@ -58,8 +69,16 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
 
     override fun setListeners() {
         swipeRefresh.setOnRefreshListener {
-            val viewModelDisposable = viewModel.getNewsListing()
-            addDisposable()?.add(viewModelDisposable)
+            viewModel.getNewsListing()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+//                    if (it is ResponseStatus.Success) {
+//                        val data = it.data?.result?.newsData?.get(0)
+//                        Log.e("xxx", "title is ${data?.imageUrl}")
+                        Log.e("xxx", "title is ${it}")
+//                    }
+                }, { Log.e("xxx", "error message ${it.message}") })
         }
     }
 

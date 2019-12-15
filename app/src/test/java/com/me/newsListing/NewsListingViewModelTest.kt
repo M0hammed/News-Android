@@ -1,16 +1,13 @@
 package com.me.newsListing
 
-import com.me.daggersample.common.INVALID_CUSTOMER_MOBILE
 import com.me.daggersample.common.NO_DATA
-import com.me.daggersample.data.NewsModel
+import com.me.daggersample.data.news.NewsModel
 import com.me.daggersample.network.apiInterface.NewsListingApiInterface
 import com.me.daggersample.ui.newsListing.NewsListingRepository
 import com.me.daggersample.ui.newsListing.NewsListingViewModel
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 

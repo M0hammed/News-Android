@@ -9,7 +9,7 @@ import com.me.daggersample.R
 import com.me.daggersample.base.BaseAdapter
 import com.me.daggersample.base.BaseViewHolder
 import com.me.daggersample.base.OnListItemClickListener
-import com.me.daggersample.data.NewsModel
+import com.me.daggersample.data.news.NewsModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_news.view.*
 

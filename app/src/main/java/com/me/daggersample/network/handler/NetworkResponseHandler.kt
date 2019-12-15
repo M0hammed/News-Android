@@ -1,41 +1,34 @@
 package com.me.daggersample.network.handler
 
 import android.util.Log
-import com.me.daggersample.data.networkData.ErrorResponse
+import com.me.daggersample.data.base.ApiResponse
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.HttpException
 import retrofit2.Response
-import java.lang.Exception
 
-fun <T> Call<T>.getNetworkResponse(): PublishSubject<NetworkOutcome<T>> {
-    val networkOutcome = PublishSubject.create<NetworkOutcome<T>>()
-
-    networkOutcome.onNext((NetworkOutcome(false, null, ErrorResponse())))
+fun <T> Call<T>.getNetworkResponse(): Observable<ResponseStatus<T>> {
+    val networkOutcome = PublishSubject.create<ResponseStatus<T>>()
 
     enqueue(object : Callback<T> {
         override fun onResponse(call: Call<T>?, response: Response<T>) {
-            if (response.isSuccessful) {
-                networkOutcome.onNext(NetworkOutcome(true, response.body(), ErrorResponse()))
+            if (response.isSuccessful && response.code() == 200) {
+                val apiResponse = response.body() as ApiResponse<T>
+                if (apiResponse.status == 0) {
+                    networkOutcome.onNext(ResponseStatus.Success(data = response.body()))
+                } else {
+                    networkOutcome.onNext(ResponseStatus.ServerError() as ResponseStatus<T>)
+                }
+            } else {
+                networkOutcome.onNext(ResponseStatus.ApiFailed(response.code()) as ResponseStatus<T>)
             }
         }
 
         override fun onFailure(call: Call<T>, t: Throwable) {
-            if (call.isCanceled) {
-                Log.e("xxx", "call canceled interrupted")
-            }
-            Log.e("xxx", "failure : $t")
-            networkOutcome.onNext(
-                NetworkOutcome(
-                    false,
-                    null,
-                    NetworkExceptionHandler(t).getFailureException()
-                )
-            )
+            networkOutcome.onNext(ResponseStatus.Error() as ResponseStatus<T>)
         }
     })
 
-    return networkOutcome
+    return networkOutcome.hide()
 }
