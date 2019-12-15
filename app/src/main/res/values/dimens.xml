@@ -18,4 +18,25 @@
     <dimen name="margin_5">5dp</dimen>
     <dimen name="margin_10">10dp</dimen>
     <dimen name="margin_15">15dp</dimen>
+
+    <dimen name="recycler_padding">5dp</dimen>
+
+    <!--recycler items-->
+    <dimen name="item_news_margin_top">5dp</dimen>
+    <dimen name="item_news_margin_start">20dp</dimen>
+    <dimen name="item_news_margin_end">20dp</dimen>
+    <dimen name="item_news_widgets_margin">10dp</dimen>
+    <dimen name="title_horizontal_margin">50dp</dimen>
+    <dimen name="news_image_size">100dp</dimen>
+    <dimen name="circle_image_padding">2dp</dimen>
+
+    <!--text size-->
+    <dimen name="main_text_size">17sp</dimen>
+    <dimen name="small_text_size">13sp</dimen>
+
+    <!--drawables-->
+    <dimen name="image_circle_size">50dp</dimen>
+    <dimen name="circle_stroke_width">1dp</dimen>
+    <dimen name="corner_radius">10dp</dimen>
+
 </resources>

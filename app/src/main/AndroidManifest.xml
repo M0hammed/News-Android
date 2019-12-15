@@ -4,6 +4,7 @@
           package="com.me.daggersample"
           android:installLocation="auto">
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -16,10 +17,11 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:targetApi="m">
-        <activity android:name="com.me.daggersample.ui.newsListing.NewsListingActivity">
+        <activity android:name=".ui.newsListing.NewsListingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

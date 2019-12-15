@@ -6,18 +6,23 @@ import com.me.daggersample.data.NewsModel
 import com.me.daggersample.data.networkData.ErrorResponse
 import com.me.daggersample.network.handler.NetworkHandler
 import io.reactivex.disposables.Disposable
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class NewsListingViewModel(val newsListingRepository: NewsListingRepository) : BaseViewModel() {
-    val newsListing = PublishSubject.create<ArrayList<NewsModel>>()
+    val newsListing = BehaviorSubject.create<ArrayList<NewsModel>>()
+
     fun getNewsListing(): Disposable {
-        return NetworkHandler(this, NewsListingProcessor(newsListingRepository))
+        return NetworkHandler(this, NewsListingProcessor(newsListingRepository, "123456"))
             .execute {
-                if (it.newsData != null && it.newsData.size > 0) {
-                    newsListing.onNext(it.newsData)
-                } else {
-                    handleErrorMessage.onNext(ErrorResponse(NO_DATA))
-                }
+                validateNewsList(it.newsData)
             }
+    }
+
+    fun validateNewsList(newsData: ArrayList<NewsModel>) {
+        if (newsData != null && newsData.size > 0) {
+            newsListing.onNext(newsData)
+        } else {
+            handleErrorMessage.onNext(ErrorResponse(NO_DATA))
+        }
     }
 }

@@ -4,19 +4,19 @@ import com.google.gson.annotations.SerializedName
 
 data class NewsModel(
     @SerializedName("NewsTitle")
-    val newsTitle: String,
+    val newsTitle: String = "",
     @SerializedName("ItemDescription")
-    val itemDescription: String,
+    val itemDescription: String = "",
     @SerializedName("Nid")
-    val nId: String,
+    val nId: String = "",
     @SerializedName("PostDate")
-    val postDate: String,
+    val postDate: String = "",
     @SerializedName("ImageUrl")
-    val imageUrl: String,
+    val imageUrl: String = "",
     @SerializedName("NewsType")
-    val newsType: String,
+    val newsType: String = "",
     @SerializedName("NumofViews")
-    val numofViews: String,
+    val numofViews: String = "",
     @SerializedName("Likes")
-    val likes: String
+    val likes: String = ""
 )

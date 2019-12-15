@@ -12,7 +12,9 @@ import java.lang.Exception
 
 fun <T> Call<T>.getNetworkResponse(): PublishSubject<NetworkOutcome<T>> {
     val networkOutcome = PublishSubject.create<NetworkOutcome<T>>()
+
     networkOutcome.onNext((NetworkOutcome(false, null, ErrorResponse())))
+
     enqueue(object : Callback<T> {
         override fun onResponse(call: Call<T>?, response: Response<T>) {
             if (response.isSuccessful) {
@@ -21,8 +23,17 @@ fun <T> Call<T>.getNetworkResponse(): PublishSubject<NetworkOutcome<T>> {
         }
 
         override fun onFailure(call: Call<T>, t: Throwable) {
+            if (call.isCanceled) {
+                Log.e("xxx", "call canceled interrupted")
+            }
             Log.e("xxx", "failure : $t")
-            networkOutcome.onNext(NetworkOutcome(false, null, NetworkExceptionHandler(t).getFailureException()))
+            networkOutcome.onNext(
+                NetworkOutcome(
+                    false,
+                    null,
+                    NetworkExceptionHandler(t).getFailureException()
+                )
+            )
         }
     })
 

@@ -1,6 +1,7 @@
 package com.me.daggersample.validator
 
 import com.me.daggersample.data.networkData.ErrorResponse
+import com.me.daggersample.network.handler.ResponseErrorException
 
 class MobileNumberShouldBeValid(private val mobileNumber: String,
                                 private val key: String) : BaseValidator {

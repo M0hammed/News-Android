@@ -5,4 +5,10 @@
     <string name="no_data">no data available now</string>
     <string name="mobile_num_error">Mobile Number error</string>
     <string name="loading">please wait</string>
+    <string name="news_listing">News Listing</string>
+    <string name="likes">Likes ( %1$s )</string>
+    <string name="views">%1$s Views</string>
+
+    <string name="new_message_notification_title_template">New message: %1$s</string>
+
 </resources>

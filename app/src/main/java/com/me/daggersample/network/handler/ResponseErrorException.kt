@@ -1,4 +1,4 @@
-package com.me.daggersample.validator
+package com.me.daggersample.network.handler
 
 import com.me.daggersample.data.networkData.ErrorResponse
 
