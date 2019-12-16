@@ -1,7 +1,7 @@
-package com.me.daggersample.network.apiClient
+package com.me.daggersample.source.remote.apiClient
 
 import com.me.daggersample.BuildConfig
-import com.me.daggersample.network.apiInterface.NewsListingApiInterface
+import com.me.daggersample.source.remote.apiInterface.NewsListingApiInterface
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

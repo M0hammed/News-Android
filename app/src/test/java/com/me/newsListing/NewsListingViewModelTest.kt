@@ -1,8 +1,8 @@
 package com.me.newsListing
 
 import com.me.daggersample.common.NO_DATA
-import com.me.daggersample.data.news.NewsModel
-import com.me.daggersample.network.apiInterface.NewsListingApiInterface
+import com.me.daggersample.model.news.NewsModel
+import com.me.daggersample.source.remote.apiInterface.NewsListingApiInterface
 import com.me.daggersample.ui.newsListing.NewsListingRepository
 import com.me.daggersample.ui.newsListing.NewsListingViewModel
 import org.junit.Assert.*

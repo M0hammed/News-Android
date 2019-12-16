@@ -2,7 +2,7 @@ package com.me.daggersample.app
 
 import android.app.Application
 import com.me.daggersample.di.ActivityBuilder
-import com.me.daggersample.network.apiClient.NetworkModule
+import com.me.daggersample.source.remote.apiClient.NetworkModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule

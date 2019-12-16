@@ -1,10 +1,10 @@
 package com.me.newsListing
 
 import com.me.daggersample.common.INVALID_CUSTOMER_MOBILE
-import com.me.daggersample.network.apiInterface.NewsListingApiInterface
+import com.me.daggersample.source.remote.apiInterface.NewsListingApiInterface
 import com.me.daggersample.ui.newsListing.NewsListingProcessor
 import com.me.daggersample.ui.newsListing.NewsListingRepository
-import com.me.daggersample.network.handler.ResponseErrorException
+import com.me.daggersample.source.remote.handler.ResponseErrorException
 import org.junit.Assert
 import org.junit.Test
 import org.mockito.Mockito

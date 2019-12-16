@@ -3,18 +3,19 @@ package com.me.daggersample.ui.newsListing
 import android.util.Log
 import com.me.daggersample.base.BaseViewModel
 import com.me.daggersample.common.NO_DATA
-import com.me.daggersample.data.base.ApiResponse
-import com.me.daggersample.data.networkData.ErrorResponse
-import com.me.daggersample.data.news.NewsModel
-import com.me.daggersample.data.news.NewsResponse
-import com.me.daggersample.network.handler.ResponseStatus
+import com.me.daggersample.model.base.ApiResponse
+import com.me.daggersample.model.networkData.ErrorResponse
+import com.me.daggersample.model.news.NewsModel
+import com.me.daggersample.model.news.NewsResponse
+import com.me.daggersample.model.team.Teams
+import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
 class NewsListingViewModel(val newsListingRepository: NewsListingRepository) : BaseViewModel() {
     val newsListing = BehaviorSubject.create<ArrayList<NewsModel>>()
 
-    fun getNewsListing(): Observable<ResponseStatus<ApiResponse<NewsResponse>>> {
+    fun getNewsListing(): Observable<ResponseStatus<ApiResponse<ArrayList<Teams>>>> {
         return newsListingRepository.getListingNews()
     }
 

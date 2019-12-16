@@ -1,13 +1,12 @@
 package com.me.daggersample.base
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.me.daggersample.customViews.CustomProgressDialog
-import com.me.daggersample.data.networkData.ErrorResponse
+import com.me.daggersample.model.networkData.ErrorResponse
 import com.me.daggersample.messageHandler.ErrorMessageHandler
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable

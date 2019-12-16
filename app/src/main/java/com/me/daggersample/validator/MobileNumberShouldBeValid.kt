@@ -1,7 +1,5 @@
 package com.me.daggersample.validator
 
-import com.me.daggersample.data.networkData.ErrorResponse
-
 class MobileNumberShouldBeValid(private val mobileNumber: String,
                                 private val key: String) : BaseValidator {
     private val allowedLength = 11

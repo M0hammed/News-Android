@@ -1,6 +1,6 @@
 package com.me.daggersample.ui.newsListing
 
-import com.me.daggersample.network.apiInterface.NewsListingApiInterface
+import com.me.daggersample.source.remote.apiInterface.NewsListingApiInterface
 import dagger.Module
 import dagger.Provides
 

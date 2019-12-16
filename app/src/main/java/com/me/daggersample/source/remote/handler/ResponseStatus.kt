@@ -1,4 +1,4 @@
-package com.me.daggersample.network.handler
+package com.me.daggersample.source.remote.handler
 
 import androidx.annotation.StringRes
 

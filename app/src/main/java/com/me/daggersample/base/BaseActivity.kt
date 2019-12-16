@@ -1,16 +1,9 @@
 package com.me.daggersample.base
 
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import com.me.daggersample.customViews.CustomProgressDialog
-import com.me.daggersample.data.networkData.ErrorResponse
-import com.me.daggersample.messageHandler.ErrorMessageHandler
 import dagger.android.HasAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
-import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseActivity : DaggerAppCompatActivity(), HasAndroidInjector {
 

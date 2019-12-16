@@ -1,20 +1,19 @@
 package com.me.daggersample.ui.newsListing
 
 import com.me.daggersample.base.BaseRepository
-import com.me.daggersample.data.base.ApiResponse
-import com.me.daggersample.data.news.NewsResponse
-import com.me.daggersample.network.apiInterface.NewsListingApiInterface
-import com.me.daggersample.network.handler.ResponseStatus
-import com.me.daggersample.network.handler.getNetworkResponse
+import com.me.daggersample.model.base.ApiResponse
+import com.me.daggersample.model.team.Teams
+import com.me.daggersample.source.remote.apiInterface.NewsListingApiInterface
+import com.me.daggersample.source.remote.handler.ResponseStatus
+import com.me.daggersample.source.remote.handler.getNetworkResponse
 import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class NewsListingRepository @Inject constructor(val newsApiInterface: NewsListingApiInterface) :
     BaseRepository() {
 
-    fun getListingNews(): Observable<ResponseStatus<ApiResponse<NewsResponse>>> {
+    fun getListingNews(): Observable<ResponseStatus<ApiResponse<ArrayList<Teams>>>> {
 
-        return newsApiInterface.getNewsListing().getNetworkResponse()
+        return newsApiInterface.getTeams().getNetworkResponse()
     }
 }

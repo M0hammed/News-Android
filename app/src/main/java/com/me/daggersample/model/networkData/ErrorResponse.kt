@@ -1,4 +1,4 @@
-package com.me.daggersample.data.networkData
+package com.me.daggersample.model.networkData
 
 data class ErrorResponse(var code: String = "",
                          var devDetails: String = "",

@@ -22,7 +22,7 @@ android {
     productFlavors {
         dev {
             dimension "serverURL"
-            buildConfigField("String", "BASE_URL", '"https://egyptinnovate.com/en/api/v01/safe/"')
+            buildConfigField("String", "BASE_URL", '"http://oss-ihf-testing.linkdevsite.com/api/v1/"')
         }
     }
     buildTypes {

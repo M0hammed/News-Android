@@ -6,7 +6,7 @@ import com.me.daggersample.common.INVALID_CUSTOMER_MOBILE
 import com.me.daggersample.common.InternetConnectionError
 import com.me.daggersample.common.NO_DATA
 import com.me.daggersample.common.ServerError
-import com.me.daggersample.data.networkData.ErrorResponse
+import com.me.daggersample.model.networkData.ErrorResponse
 
 class ErrorMessageHandler(private val context: Context) {
     fun getErrorMessage(errorModel: ErrorResponse): String =

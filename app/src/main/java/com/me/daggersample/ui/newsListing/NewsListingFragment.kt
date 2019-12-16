@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.me.daggersample.base.BaseFragment
 import com.me.daggersample.base.OnListItemClickListener
 import com.me.daggersample.base.PaginationScrollListener
-import com.me.daggersample.data.news.NewsModel
+import com.me.daggersample.model.news.NewsModel
 import com.me.daggersample.extentions.makeSuccessMessage
-import com.me.daggersample.network.handler.ResponseStatus
+import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.app_recycler_layout.*
@@ -55,8 +55,8 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (it is ResponseStatus.Success) {
-                        val data = it.data?.result?.newsData?.get(0)
-                        Log.e("xxx", "title is ${data?.imageUrl}")
+                        val data = it.data?.result?.get(0)
+                        Log.e("xxx", "title is ${data?.teamName}")
                         Log.e("xxx", "title is ${it}")
                     }
                 }, { Log.e("xxx", "error message ${it.message}") })
@@ -73,10 +73,10 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-//                    if (it is ResponseStatus.Success) {
+                    //                    if (it is ResponseStatus.Success) {
 //                        val data = it.data?.result?.newsData?.get(0)
 //                        Log.e("xxx", "title is ${data?.imageUrl}")
-                        Log.e("xxx", "title is ${it}")
+                    Log.e("xxx", "title is ${it}")
 //                    }
                 }, { Log.e("xxx", "error message ${it.message}") })
         }

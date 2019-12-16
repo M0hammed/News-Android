@@ -1,4 +1,4 @@
-package com.me.daggersample.data.news
+package com.me.daggersample.model.news
 
 import com.google.gson.annotations.SerializedName
 

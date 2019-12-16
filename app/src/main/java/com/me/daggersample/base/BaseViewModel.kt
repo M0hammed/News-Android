@@ -1,7 +1,7 @@
 package com.me.daggersample.base
 
 import androidx.lifecycle.ViewModel
-import com.me.daggersample.data.networkData.ErrorResponse
+import com.me.daggersample.model.networkData.ErrorResponse
 import io.reactivex.subjects.BehaviorSubject
 
 open class BaseViewModel : ViewModel() {
