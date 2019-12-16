@@ -19,10 +19,6 @@ import javax.inject.Inject
 
 class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
     OnListItemClickListener<NewsModel> {
-    private var currentPage = 1
-    private var isLastPage = false
-    private var totalPage = 10
-    private var isLoading = false
 
     @Inject
     lateinit var newsListingViewModelFactory: NewsListingViewModelFactory
@@ -53,13 +49,7 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
             viewModel.getNewsListing()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    if (it is ResponseStatus.Success) {
-                        val data = it.data?.result?.get(0)
-                        Log.e("xxx", "title is ${data?.teamName}")
-                        Log.e("xxx", "title is ${it}")
-                    }
-                }, { Log.e("xxx", "error message ${it.message}") })
+                .subscribe({}, { Log.e("xxx", "error message ${it.message}") })
         )
 
         addDisposable()?.add(viewModel.newsListing.subscribe {
@@ -72,13 +62,7 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
             viewModel.getNewsListing()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    //                    if (it is ResponseStatus.Success) {
-//                        val data = it.data?.result?.newsData?.get(0)
-//                        Log.e("xxx", "title is ${data?.imageUrl}")
-                    Log.e("xxx", "title is ${it}")
-//                    }
-                }, { Log.e("xxx", "error message ${it.message}") })
+                .subscribe({}, { Log.e("xxx", "error message ${it.message}") })
         }
     }
 
@@ -88,21 +72,8 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
         requireContext().apply { Toast(this).makeSuccessMessage(this, model.newsTitle) }
     }
 
-    private fun setRecyclerViewPagination(layoutManager: LinearLayoutManager) {
-        rvApp.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
-            override fun loadMoreItems() {
-                isLoading = true
-                currentPage++
-                isLastPage = false
-            }
-
-            override fun getTotalPageCount(): Int {
-                return 10
-            }
-
-            override fun isLastPage(): Boolean = isLastPage
-
-            override fun isLoading(): Boolean = isLoading
-        })
+    override fun onDestroyView() {
+        viewModel.cancelApiCall()
+        super.onDestroyView()
     }
 }

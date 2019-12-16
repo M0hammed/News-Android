@@ -9,20 +9,22 @@ import com.me.daggersample.model.news.NewsModel
 import com.me.daggersample.model.news.NewsResponse
 import com.me.daggersample.model.team.Teams
 import com.me.daggersample.source.remote.handler.ResponseStatus
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
 class NewsListingViewModel(val newsListingRepository: NewsListingRepository) : BaseViewModel() {
     val newsListing = BehaviorSubject.create<ArrayList<NewsModel>>()
 
-    fun getNewsListing(): Observable<ResponseStatus<ApiResponse<ArrayList<Teams>>>> {
-        return newsListingRepository.getListingNews()
+    fun getNewsListing(): Completable {
+        return newsListingRepository.getListingNews().map { mapNewsListing(it) }
+            .ignoreElements()
     }
 
-    private fun mapNewsListing(it: ResponseStatus<ApiResponse<NewsResponse>>): ResponseStatus<ApiResponse<NewsResponse>> {
+    private fun mapNewsListing(it: ResponseStatus<ApiResponse<ArrayList<Teams>>>): ResponseStatus<ApiResponse<ArrayList<Teams>>> {
         if (it is ResponseStatus.Success) {
-            val data = it.data?.result?.newsData?.get(0)
-            Log.e("xxx", "title is ${data?.imageUrl}")
+            val data = it.data?.result?.get(0)
+            Log.e("xxx", "title is ${data?.teamFlag}")
         }
         return it
     }
@@ -33,5 +35,9 @@ class NewsListingViewModel(val newsListingRepository: NewsListingRepository) : B
         } else {
             handleErrorMessage.onNext(ErrorResponse(NO_DATA))
         }
+    }
+
+    fun cancelApiCall() {
+        newsListingRepository.cancelApiCall()
     }
 }

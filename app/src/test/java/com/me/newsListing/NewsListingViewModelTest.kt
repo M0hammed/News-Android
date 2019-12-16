@@ -2,7 +2,7 @@ package com.me.newsListing
 
 import com.me.daggersample.common.NO_DATA
 import com.me.daggersample.model.news.NewsModel
-import com.me.daggersample.source.remote.apiInterface.NewsListingApiInterface
+import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
 import com.me.daggersample.ui.newsListing.NewsListingRepository
 import com.me.daggersample.ui.newsListing.NewsListingViewModel
 import org.junit.Assert.*
@@ -14,7 +14,7 @@ import org.mockito.MockitoAnnotations
 
 class NewsListingViewModelTest {
 
-    val newsListingApiInterface = Mockito.mock(NewsListingApiInterface::class.java)
+    val newsListingApiInterface = Mockito.mock(RetrofitApisInterface::class.java)
 
     val newsListingRepository = NewsListingRepository(newsListingApiInterface)
 

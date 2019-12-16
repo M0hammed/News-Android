@@ -1,5 +1,6 @@
 package com.me.daggersample.source.remote.handler
 
+import android.util.Log
 import com.me.daggersample.model.base.ApiResponse
 import com.me.daggersample.source.remote.handler.networkStatusCodes.SUCCESS_STATUS
 import io.reactivex.Observable
@@ -25,7 +26,11 @@ fun <T> Call<T>.getNetworkResponse(): Observable<ResponseStatus<T>> {
         }
 
         override fun onFailure(call: Call<T>, t: Throwable) {
-            networkOutcome.onNext(ResponseStatus.Error() as ResponseStatus<T>)
+            if (call.isCanceled) {
+                Log.e("xxx", "call is canceled")
+            } else {
+                networkOutcome.onNext(ResponseStatus.Error() as ResponseStatus<T>)
+            }
         }
     })
 

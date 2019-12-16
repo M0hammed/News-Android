@@ -5,7 +5,7 @@ import com.me.daggersample.model.team.Teams
 import retrofit2.Call
 import retrofit2.http.GET
 
-interface NewsListingApiInterface {
+interface RetrofitApisInterface {
     @GET("competitions/54/teams")
     fun getTeams():Call<ApiResponse<ArrayList<Teams>>>
 }

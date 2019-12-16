@@ -1,6 +1,7 @@
 package com.me.daggersample.ui.newsListing
 
-import com.me.daggersample.source.remote.apiInterface.NewsListingApiInterface
+import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
+import com.me.daggersample.source.remote.data_source.IRemoteDataSource
 import dagger.Module
 import dagger.Provides
 
@@ -8,8 +9,8 @@ import dagger.Provides
 class NewsListingModule {
 
     @Provides
-    internal fun providesNewsListingRepository(newsListingApiInterface: NewsListingApiInterface): NewsListingRepository =
-        NewsListingRepository(newsListingApiInterface)
+    internal fun providesNewsListingRepository(iRemoteDataSource: IRemoteDataSource): NewsListingRepository =
+        NewsListingRepository(iRemoteDataSource)
 
 
     @Provides

@@ -1,5 +1,5 @@
 package com.me.daggersample.base
 
-open class BaseRepository {
-
+abstract class BaseRepository {
+    abstract fun cancelApiCall()
 }

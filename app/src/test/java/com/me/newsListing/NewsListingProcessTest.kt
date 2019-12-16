@@ -1,7 +1,7 @@
 package com.me.newsListing
 
 import com.me.daggersample.common.INVALID_CUSTOMER_MOBILE
-import com.me.daggersample.source.remote.apiInterface.NewsListingApiInterface
+import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
 import com.me.daggersample.ui.newsListing.NewsListingProcessor
 import com.me.daggersample.ui.newsListing.NewsListingRepository
 import com.me.daggersample.source.remote.handler.ResponseErrorException
@@ -11,7 +11,7 @@ import org.mockito.Mockito
 
 class NewsListingProcessTest {
 
-    val newsListingApiInterface = Mockito.mock(NewsListingApiInterface::class.java)
+    val newsListingApiInterface = Mockito.mock(RetrofitApisInterface::class.java)
     val newsListingRepository = NewsListingRepository(newsListingApiInterface)
 
     @Test
