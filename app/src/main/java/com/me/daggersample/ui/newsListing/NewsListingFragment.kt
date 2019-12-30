@@ -70,6 +70,10 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
         requireContext().apply { Toast(this).makeSuccessMessage(this, model.newsTitle) }
     }
 
+    fun getTestString(): String {
+        return "Hello"
+    }
+
     override fun onDestroyView() {
         viewModel.cancelApiCall()
         super.onDestroyView()
