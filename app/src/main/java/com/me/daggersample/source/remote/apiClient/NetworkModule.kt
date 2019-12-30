@@ -1,9 +1,12 @@
 package com.me.daggersample.source.remote.apiClient
 
+import android.app.Application
 import com.me.daggersample.BuildConfig
 import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
 import com.me.daggersample.source.remote.data_source.IRemoteDataSource
 import com.me.daggersample.source.remote.data_source.RemoteDataSource
+import com.me.daggersample.validator.INetworkValidator
+import com.me.daggersample.validator.NetworkValidator
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -59,4 +62,9 @@ class NetworkModule {
     internal fun provideRemoteDataSource(retrofitApisInterface: RetrofitApisInterface): IRemoteDataSource {
         return RemoteDataSource(retrofitApisInterface)
     }
+
+    @Singleton
+    @Provides
+    internal fun provideNetworkValidator(application: Application):INetworkValidator =
+        NetworkValidator(application)
 }

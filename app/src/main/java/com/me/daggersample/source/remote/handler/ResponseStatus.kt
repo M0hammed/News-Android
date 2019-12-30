@@ -1,6 +1,7 @@
 package com.me.daggersample.source.remote.handler
 
 import androidx.annotation.StringRes
+import com.me.daggersample.R
 
 sealed class ResponseStatus<T> {
     data class Success<T>(
@@ -26,8 +27,8 @@ sealed class ResponseStatus<T> {
     ) : ResponseStatus<Nothing>()
 
     data class NoNetwork(
-        @StringRes val message: Int = STATUS_NO_MESSAGE,
-        @StringRes val subMessage: Int = STATUS_NO_MESSAGE
+        @StringRes val message: Int = R.string.no_network,
+        @StringRes val subMessage: Int = R.string.please_try_again
     ) : ResponseStatus<Nothing>()
 
     data class ApiFailed(var httpCode: Int) : ResponseStatus<Nothing>()

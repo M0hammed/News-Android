@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import com.me.daggersample.customViews.CustomProgressDialog
 import com.me.daggersample.model.networkData.ErrorResponse
 import com.me.daggersample.messageHandler.ErrorMessageHandler
@@ -16,10 +17,9 @@ abstract class BaseFragment<V : BaseViewModel> : DaggerFragment() {
     protected lateinit var viewModel: V
     private var disposable: CompositeDisposable? = null
     private var errorMessageHandler: ErrorMessageHandler? = null
-    private var progressDialog: CustomProgressDialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(getLayoutResource(), container, false)
+        inflater.inflate(getLayoutResource, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,15 +52,9 @@ abstract class BaseFragment<V : BaseViewModel> : DaggerFragment() {
     }
 
     private fun showProgressDialog() { // show loading dialog
-        progressDialog = CustomProgressDialog(requireContext())
-        progressDialog?.setType(CustomProgressDialog.SPINNER_PROGRESS_DIALOG)
-        progressDialog?.setCancellable(false)
-        progressDialog?.setMessage(getString(getProgressMessage()))
-        progressDialog?.show()
     }
 
     private fun hideProgressDialog() { // hide loading dialog
-        progressDialog?.dismiss()
     }
 
     protected fun addDisposable(): CompositeDisposable? { // handle disposable
@@ -73,7 +67,8 @@ abstract class BaseFragment<V : BaseViewModel> : DaggerFragment() {
         super.onDestroy()
     }
 
-    protected abstract fun getLayoutResource(): Int
+    @get:LayoutRes
+    protected abstract val getLayoutResource: Int
 
     protected abstract fun initViews(view: View)
 
@@ -82,7 +77,4 @@ abstract class BaseFragment<V : BaseViewModel> : DaggerFragment() {
     protected abstract fun initialize()
 
     protected abstract fun setListeners()
-
-    protected abstract fun getProgressMessage(): Int
-
 }

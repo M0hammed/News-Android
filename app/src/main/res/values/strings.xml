@@ -10,5 +10,7 @@
     <string name="views">%1$s Views</string>
 
     <string name="new_message_notification_title_template">New message: %1$s</string>
+    <string name="no_network">No Network</string>
+    <string name="please_try_again">Please try again</string>
 
 </resources>

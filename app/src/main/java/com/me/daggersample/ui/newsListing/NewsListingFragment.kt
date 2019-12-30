@@ -5,12 +5,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.me.daggersample.R
 import com.me.daggersample.base.BaseFragment
 import com.me.daggersample.base.OnListItemClickListener
-import com.me.daggersample.base.PaginationScrollListener
 import com.me.daggersample.model.news.NewsModel
 import com.me.daggersample.extentions.makeSuccessMessage
-import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.app_recycler_layout.*
@@ -29,7 +28,8 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
         fun newInstance(): NewsListingFragment = NewsListingFragment()
     }
 
-    override fun getLayoutResource(): Int = com.me.daggersample.R.layout.fragment_news_listing
+    override val getLayoutResource: Int
+        get() = R.layout.fragment_news_listing
 
     override fun initViews(view: View) {
         rvApp.layoutManager = LinearLayoutManager(requireContext())
@@ -65,8 +65,6 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
                 .subscribe({}, { Log.e("xxx", "error message ${it.message}") })
         }
     }
-
-    override fun getProgressMessage(): Int = com.me.daggersample.R.string.loading
 
     override fun onItemClicked(view: View?, model: NewsModel) {
         requireContext().apply { Toast(this).makeSuccessMessage(this, model.newsTitle) }
