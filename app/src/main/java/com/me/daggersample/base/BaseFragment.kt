@@ -6,19 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.LayoutRes
-import com.me.daggersample.customViews.CustomProgressDialog
-import com.me.daggersample.model.networkData.ErrorResponse
+import androidx.fragment.app.Fragment
 import com.me.daggersample.messageHandler.ErrorMessageHandler
-import dagger.android.support.DaggerFragment
+import com.me.daggersample.model.networkData.ErrorResponse
 import io.reactivex.disposables.CompositeDisposable
 
-abstract class BaseFragment<V : BaseViewModel> : DaggerFragment() {
+abstract class BaseFragment<V : BaseViewModel> : Fragment() {
 
     protected lateinit var viewModel: V
     private var disposable: CompositeDisposable? = null
     private var errorMessageHandler: ErrorMessageHandler? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         inflater.inflate(getLayoutResource, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -19,7 +19,6 @@ import javax.inject.Inject
 class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
     OnListItemClickListener<NewsModel> {
 
-    @Inject
     lateinit var newsListingViewModelFactory: NewsListingViewModelFactory
     private lateinit var newsListingAdapter: NewsListingAdapter
 

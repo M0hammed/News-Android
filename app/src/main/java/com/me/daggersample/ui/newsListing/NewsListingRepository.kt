@@ -7,9 +7,8 @@ import com.me.daggersample.source.remote.data_source.IRemoteDataSource
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import com.me.daggersample.validator.INetworkValidator
 import io.reactivex.Observable
-import javax.inject.Inject
 
-class NewsListingRepository @Inject constructor(
+class NewsListingRepository (
     private val iRemoteDataSource: IRemoteDataSource,
     private val networkValidator: INetworkValidator
 ) : BaseRepository() {
