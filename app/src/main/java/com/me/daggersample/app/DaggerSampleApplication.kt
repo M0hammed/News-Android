@@ -1,6 +1,7 @@
 package com.me.daggersample.app
 
 import android.app.Application
+import com.me.daggersample.di.DaggerAppComponent
 
 class DaggerSampleApplication : Application() {
 
@@ -10,5 +11,8 @@ class DaggerSampleApplication : Application() {
     }
 
     private fun initAppComponent() {
+        DaggerAppComponent.builder()
+            .application(this)
+            .build()
     }
 }

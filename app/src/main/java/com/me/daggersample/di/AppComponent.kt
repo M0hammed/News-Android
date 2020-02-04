@@ -1,12 +1,14 @@
-package com.me.daggersample.app
+package com.me.daggersample.di
 
 import android.app.Application
+import com.me.daggersample.app.DaggerSampleApplication
+import com.me.daggersample.source.remote.apiClient.NetworkModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [])
+@Component(modules = [NetworkModule::class])
 interface AppComponent {
 
     @Component.Builder
