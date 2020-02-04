@@ -8,7 +8,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.me.daggersample"
         minSdkVersion 17
@@ -39,7 +39,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
@@ -47,8 +47,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
 
     // view model
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.1.0"
-    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 
     // dependency injection
     implementation 'com.google.dagger:dagger:2.24'
