@@ -17,7 +17,6 @@ class NewsListingModule {
 
     @Provides
     internal fun providesNewsListingViewModelProvider(
-        newsListingFragment: NewsListingFragment,
         newsListingRepository: NewsListingRepository
-    ) = NewsListingViewModelFactory(newsListingRepository,newsListingFragment)
+    ) = NewsListingViewModelFactory(newsListingRepository)
 }

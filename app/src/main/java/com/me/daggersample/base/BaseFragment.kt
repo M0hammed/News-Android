@@ -33,6 +33,7 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initDependencyInjection()
         initViewModel()
         initialize()
         handleObservers()
@@ -74,6 +75,8 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
     protected abstract val getLayoutResource: Int
 
     protected abstract fun initViews(view: View)
+
+    protected abstract fun initDependencyInjection()
 
     protected abstract fun initViewModel()
 

@@ -3,9 +3,11 @@ package com.me.daggersample.ui.newsListing
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.me.daggersample.R
+import com.me.daggersample.app.DaggerSampleApplication
 import com.me.daggersample.base.BaseFragment
 import com.me.daggersample.base.OnListItemClickListener
 import com.me.daggersample.model.news.NewsModel
@@ -19,6 +21,7 @@ import javax.inject.Inject
 class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
     OnListItemClickListener<NewsModel> {
 
+    @Inject
     lateinit var newsListingViewModelFactory: NewsListingViewModelFactory
     private lateinit var newsListingAdapter: NewsListingAdapter
 
@@ -37,7 +40,17 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
 
     }
 
+    override fun initDependencyInjection() {
+        (activity?.application as DaggerSampleApplication).appComponent
+            .getNewsListingComponentBuilder()
+            .build()
+            .inject(this)
+    }
+
     override fun initViewModel() {
+//        viewModel = ViewModelProvider(
+//            this, newsListingViewModelFactory
+//        ).get(NewsListingViewModel::class.java)
         viewModel =
             ViewModelProviders.of(this, newsListingViewModelFactory)
                 .get(NewsListingViewModel::class.java)
@@ -67,10 +80,6 @@ class NewsListingFragment : BaseFragment<NewsListingViewModel>(),
 
     override fun onItemClicked(view: View?, model: NewsModel) {
         requireContext().apply { Toast(this).makeSuccessMessage(this, model.newsTitle) }
-    }
-
-    fun getTestString(): String {
-        return "Hello"
     }
 
     override fun onDestroyView() {
