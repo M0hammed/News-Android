@@ -1,20 +1,17 @@
-package com.me.daggersample.ui.newsListing
+package com.me.daggersample.ui.TeamsListing
 
 import android.util.Log
 import com.me.daggersample.base.BaseViewModel
 import com.me.daggersample.common.NO_DATA
 import com.me.daggersample.model.base.ApiResponse
 import com.me.daggersample.model.networkData.ErrorResponse
-import com.me.daggersample.model.news.NewsModel
-import com.me.daggersample.model.news.NewsResponse
 import com.me.daggersample.model.team.Teams
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
-class NewsListingViewModel(val newsListingRepository: NewsListingRepository) : BaseViewModel() {
-    val newsListing = BehaviorSubject.create<ArrayList<NewsModel>>()
+class TeamsListingViewModel(val newsListingRepository: TeamsListingRepository) : BaseViewModel() {
+    val newsListing = BehaviorSubject.create<ArrayList<Teams>>()
 
     fun getNewsListing(): Completable {
         return newsListingRepository.getListingNews().map { mapNewsListing(it) }
@@ -29,7 +26,7 @@ class NewsListingViewModel(val newsListingRepository: NewsListingRepository) : B
         return it
     }
 
-    fun validateNewsList(newsData: ArrayList<NewsModel>) {
+    fun validateNewsList(newsData: ArrayList<Teams>) {
         if (newsData != null && newsData.size > 0) {
             newsListing.onNext(newsData)
         } else {

@@ -2,7 +2,7 @@ package com.me.daggersample.di
 
 import android.app.Application
 import com.me.daggersample.source.remote.apiClient.NetworkModule
-import com.me.daggersample.ui.newsListing.NewsListingComponent
+import com.me.daggersample.ui.TeamsListing.TeamsListingComponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Component(modules = [NetworkModule::class])
 interface AppComponent {
 
-    fun getNewsListingComponentBuilder(): NewsListingComponent.Builder
+    fun getNewsListingComponentBuilder(): TeamsListingComponent.Builder
 
     @Component.Builder
     interface Builder {

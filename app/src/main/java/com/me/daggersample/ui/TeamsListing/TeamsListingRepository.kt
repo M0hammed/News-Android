@@ -1,4 +1,4 @@
-package com.me.daggersample.ui.newsListing
+package com.me.daggersample.ui.TeamsListing
 
 import com.me.daggersample.base.BaseRepository
 import com.me.daggersample.model.base.ApiResponse
@@ -8,7 +8,7 @@ import com.me.daggersample.source.remote.handler.ResponseStatus
 import com.me.daggersample.validator.INetworkValidator
 import io.reactivex.Observable
 
-class NewsListingRepository (
+class TeamsListingRepository (
     private val iRemoteDataSource: IRemoteDataSource,
     private val networkValidator: INetworkValidator
 ) : BaseRepository() {

@@ -1,6 +1,7 @@
 package com.me.daggersample.base
 
 import android.os.Bundle
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
@@ -9,7 +10,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(getLayoutResource())
+        setContentView(layoutResource)
 
         initViews()
 
@@ -33,7 +34,8 @@ abstract class BaseActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    protected abstract fun getLayoutResource(): Int
+    @get:LayoutRes
+    protected abstract val layoutResource: Int
 
     protected abstract fun initViews()
 

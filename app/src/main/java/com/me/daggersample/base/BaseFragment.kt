@@ -14,7 +14,7 @@ import io.reactivex.disposables.CompositeDisposable
 abstract class BaseFragment<V : BaseViewModel> : Fragment() {
 
     protected lateinit var viewModel: V
-    private var disposable: CompositeDisposable? = null
+    protected var disposable = CompositeDisposable()
     private var errorMessageHandler: ErrorMessageHandler? = null
 
     override fun onCreateView(
@@ -40,12 +40,12 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
     }
 
     private fun handleObservers() { // handle error messages and progress loading
-        addDisposable()?.add(viewModel.handleProgress.subscribe {
+        disposable.add(viewModel.handleProgress.subscribe {
             if (it) showProgressDialog()
             else hideProgressDialog()
         })
 
-        addDisposable()?.add(viewModel.handleErrorMessage.subscribe {
+        disposable.add(viewModel.handleErrorMessage.subscribe {
             if (it != null) showErrorMessage(it)
         })
     }
@@ -61,13 +61,8 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
     private fun hideProgressDialog() { // hide loading dialog
     }
 
-    protected fun addDisposable(): CompositeDisposable? { // handle disposable
-        disposable = CompositeDisposable()
-        return disposable
-    }
-
     override fun onDestroy() { // for disposing when destroy
-        disposable?.dispose()
+        disposable.dispose()
         super.onDestroy()
     }
 

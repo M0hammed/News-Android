@@ -1,4 +1,4 @@
-package com.me.daggersample.ui.newsListing
+package com.me.daggersample.ui.TeamsListing
 
 import com.me.daggersample.source.remote.data_source.IRemoteDataSource
 import com.me.daggersample.validator.INetworkValidator
@@ -6,17 +6,17 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class NewsListingModule {
+class TeamsListingModule {
 
     @Provides
     internal fun providesNewsListingRepository(
         iRemoteDataSource: IRemoteDataSource, networkValidator: INetworkValidator
-    ): NewsListingRepository =
-        NewsListingRepository(iRemoteDataSource, networkValidator)
+    ): TeamsListingRepository =
+        TeamsListingRepository(iRemoteDataSource, networkValidator)
 
 
     @Provides
     internal fun providesNewsListingViewModelProvider(
-        newsListingRepository: NewsListingRepository
-    ) = NewsListingViewModelFactory(newsListingRepository)
+        newsListingRepository: TeamsListingRepository
+    ) = TeamsListingViewModelFactory(newsListingRepository)
 }
