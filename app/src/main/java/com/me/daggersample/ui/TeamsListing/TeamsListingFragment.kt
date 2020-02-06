@@ -24,7 +24,7 @@ class TeamsListingFragment : BaseFragment<TeamsListingViewModel>(),
 
     @Inject
     lateinit var newsListingViewModelFactory: TeamsListingViewModelFactory
-    private lateinit var newsListingAdapter: TeamsListingAdapter
+    @Inject lateinit var newsListingAdapter: TeamsListingAdapter
 
     companion object {
         const val TAG: String = "NewsListingFragmentTag"
@@ -36,7 +36,7 @@ class TeamsListingFragment : BaseFragment<TeamsListingViewModel>(),
 
     override fun initViews(view: View) {
         rvApp.layoutManager = LinearLayoutManager(requireContext())
-        newsListingAdapter = TeamsListingAdapter(requireContext(), this)
+//        newsListingAdapter = TeamsListingAdapter(requireContext(), this)
         rvApp.adapter = newsListingAdapter
 
     }
@@ -44,7 +44,7 @@ class TeamsListingFragment : BaseFragment<TeamsListingViewModel>(),
     override fun initDependencyInjection() {
         (activity?.application as DaggerSampleApplication).appComponent
             .getNewsListingComponentBuilder()
-            .build()
+            .create(requireContext(),this)
             .inject(this)
     }
 
@@ -62,7 +62,7 @@ class TeamsListingFragment : BaseFragment<TeamsListingViewModel>(),
                 .subscribe({}, { Log.e("xxx", "error message ${it.message}") })
         )
         viewModel.teamsListing.observe(this, Observer {
-            Log.e("xxx", "name ${it[0].teamName}")
+            newsListingAdapter.insertAll(it)
         })
     }
 

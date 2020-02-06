@@ -26,6 +26,7 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initDependencyInjection()
         initViews(view)
         errorMessageHandler = ErrorMessageHandler(requireContext())
         setListeners()
@@ -33,7 +34,6 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initDependencyInjection()
         initViewModel()
         initialize()
         handleObservers()

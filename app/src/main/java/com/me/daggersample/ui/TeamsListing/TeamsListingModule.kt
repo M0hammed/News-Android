@@ -1,5 +1,6 @@
 package com.me.daggersample.ui.TeamsListing
 
+import android.content.Context
 import com.me.daggersample.source.remote.data_source.IRemoteDataSource
 import com.me.daggersample.validator.INetworkValidator
 import dagger.Module
@@ -19,4 +20,9 @@ class TeamsListingModule {
     internal fun providesNewsListingViewModelProvider(
         newsListingRepository: TeamsListingRepository
     ) = TeamsListingViewModelFactory(newsListingRepository)
+
+    @Provides
+    internal fun provideTeamsListingAdapter(
+        context: Context, teamsListingFragment: TeamsListingFragment
+    ) = TeamsListingAdapter(context, teamsListingFragment)
 }
