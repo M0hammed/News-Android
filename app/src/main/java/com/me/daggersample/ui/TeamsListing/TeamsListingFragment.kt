@@ -3,6 +3,8 @@ package com.me.daggersample.ui.TeamsListing
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.me.daggersample.R
@@ -47,12 +49,9 @@ class TeamsListingFragment : BaseFragment<TeamsListingViewModel>(),
     }
 
     override fun initViewModel() {
-//        viewModel = ViewModelProvider(
-//            this, newsListingViewModelFactory
-//        ).get(TeamsListingViewModel::class.java)
-        viewModel =
-            ViewModelProviders.of(this, newsListingViewModelFactory)
-                .get(TeamsListingViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this, newsListingViewModelFactory
+        ).get(TeamsListingViewModel::class.java)
     }
 
     override fun initialize() {
@@ -62,9 +61,8 @@ class TeamsListingFragment : BaseFragment<TeamsListingViewModel>(),
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({}, { Log.e("xxx", "error message ${it.message}") })
         )
-
-        disposable.add(viewModel.newsListing.subscribe {
-            newsListingAdapter.insertAll(it)
+        viewModel.teamsListing.observe(this, Observer {
+            Log.e("xxx", "name ${it[0].teamName}")
         })
     }
 
@@ -78,8 +76,10 @@ class TeamsListingFragment : BaseFragment<TeamsListingViewModel>(),
     }
 
     override fun onItemClicked(view: View?, model: Teams) {
-        model.teamName?.apply { Toast(requireContext())
-            .makeSuccessMessage(requireContext(), this) }
+        model.teamName?.apply {
+            Toast(requireContext())
+                .makeSuccessMessage(requireContext(), this)
+        }
     }
 
     override fun onDestroyView() {

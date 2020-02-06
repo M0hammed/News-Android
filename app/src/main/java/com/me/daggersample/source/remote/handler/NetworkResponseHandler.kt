@@ -14,14 +14,18 @@ fun <T> Call<T>.getNetworkResponse(): Observable<ResponseStatus<T>> {
     enqueue(object : Callback<T> {
         override fun onResponse(call: Call<T>?, response: Response<T>) {
             if (response.isSuccessful && response.code() == 200) {
-                val apiResponse = response.body() as ApiResponse<T>
-                if (apiResponse.status == SUCCESS_STATUS) {
-                    networkOutcome.onNext(ResponseStatus.Success(data = response.body()))
+                val apiResponse = response.body() as ApiResponse<T>?
+                if (apiResponse != null) {
+                    if (apiResponse.status == SUCCESS_STATUS) {
+                        networkOutcome.onNext(ResponseStatus.Success(data = response.body()))
+                    } else {
+                        networkOutcome.onNext(ResponseStatus.ServerError() as ResponseStatus<T>)
+                    }
                 } else {
-                    networkOutcome.onNext(ResponseStatus.ServerError() as ResponseStatus<T>)
+                    networkOutcome.onNext(ResponseStatus.ApiFailed(response.code()) as ResponseStatus<T>)
                 }
             } else {
-                networkOutcome.onNext(ResponseStatus.ApiFailed(response.code()) as ResponseStatus<T>)
+                networkOutcome.onNext(ResponseStatus.Error() as ResponseStatus<T>)
             }
         }
 

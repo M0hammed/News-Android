@@ -13,7 +13,7 @@ class TeamsListingRepository (
     private val networkValidator: INetworkValidator
 ) : BaseRepository() {
 
-    fun getListingNews(): Observable<ResponseStatus<ApiResponse<ArrayList<Teams>>>> {
+    fun getListingTeams(): Observable<ResponseStatus<ApiResponse<ArrayList<Teams>>>> {
         return if (networkValidator.isConnected())
             iRemoteDataSource.getTeamsList()
         else
