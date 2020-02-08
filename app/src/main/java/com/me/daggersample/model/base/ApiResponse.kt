@@ -6,11 +6,8 @@ import com.google.gson.annotations.SerializedName
 open class ApiResponse<T> {
     @SerializedName("status")
     @Expose
-    var status: Int = 0
-    @SerializedName("message")
-    @Expose
-    var message: String? = null
-    @SerializedName("result")
+    var status: String? = null
+    @SerializedName("sources")
     @Expose
     var result: T? = null
     @SerializedName("totalcount")

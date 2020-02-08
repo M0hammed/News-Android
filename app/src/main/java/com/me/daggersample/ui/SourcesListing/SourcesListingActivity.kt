@@ -1,4 +1,4 @@
-package com.me.daggersample.ui.TeamsListing
+package com.me.daggersample.ui.SourcesListing
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
@@ -7,10 +7,10 @@ import com.me.daggersample.base.BaseActivity
 import com.me.daggersample.extentions.replaceFragment
 import kotlinx.android.synthetic.main.appbar_layout.*
 
-class TeamsListingActivity : BaseActivity() {
+class SourcesListingActivity : BaseActivity() {
 
     override val layoutResource: Int
-        get() = R.layout.activity_main
+        get() = R.layout.activity_source_listing
 
     override fun initViews() {
         setToolbar(toolbar, getString(R.string.news_listing))
@@ -19,8 +19,8 @@ class TeamsListingActivity : BaseActivity() {
     override fun initialize(savedInstanceState: Bundle?) {
         supportFragmentManager.replaceFragment(
             R.id.contentMainLayout,
-            TeamsListingFragment.newInstance(),
-            TeamsListingFragment.TAG
+            SourcesListingFragment.newInstance(),
+            SourcesListingFragment.TAG
         )
 
     }

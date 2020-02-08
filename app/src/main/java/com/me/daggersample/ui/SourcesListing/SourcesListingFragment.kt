@@ -1,42 +1,41 @@
-package com.me.daggersample.ui.TeamsListing
+package com.me.daggersample.ui.SourcesListing
 
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.me.daggersample.R
 import com.me.daggersample.app.DaggerSampleApplication
 import com.me.daggersample.base.BaseFragment
 import com.me.daggersample.base.OnListItemClickListener
 import com.me.daggersample.extentions.makeSuccessMessage
-import com.me.daggersample.model.team.Teams
+import com.me.daggersample.model.source.Sources
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.app_recycler_layout.*
 import javax.inject.Inject
 
 
-class TeamsListingFragment : BaseFragment<TeamsListingViewModel>(),
-    OnListItemClickListener<Teams> {
+class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
+    OnListItemClickListener<Sources> {
 
     @Inject
-    lateinit var newsListingViewModelFactory: TeamsListingViewModelFactory
-    @Inject lateinit var newsListingAdapter: TeamsListingAdapter
+    lateinit var newsListingViewModelFactory: SourcesListingViewModelFactory
+    @Inject lateinit var newsListingAdapter: SourcesListingAdapter
 
     companion object {
         const val TAG: String = "NewsListingFragmentTag"
-        fun newInstance(): TeamsListingFragment = TeamsListingFragment()
+        fun newInstance(): SourcesListingFragment = SourcesListingFragment()
     }
 
     override val getLayoutResource: Int
-        get() = R.layout.fragment_news_listing
+        get() = R.layout.fragment_source_listing
 
     override fun initViews(view: View) {
         rvApp.layoutManager = LinearLayoutManager(requireContext())
-//        newsListingAdapter = TeamsListingAdapter(requireContext(), this)
+//        newsListingAdapter = SourcesListingAdapter(requireContext(), this)
         rvApp.adapter = newsListingAdapter
 
     }
@@ -51,7 +50,7 @@ class TeamsListingFragment : BaseFragment<TeamsListingViewModel>(),
     override fun initViewModel() {
         viewModel = ViewModelProvider(
             this, newsListingViewModelFactory
-        ).get(TeamsListingViewModel::class.java)
+        ).get(SourcesListingViewModel::class.java)
     }
 
     override fun initialize() {
@@ -61,7 +60,7 @@ class TeamsListingFragment : BaseFragment<TeamsListingViewModel>(),
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({}, { Log.e("xxx", "error message ${it.message}") })
         )
-        viewModel.teamsListing.observe(this, Observer {
+        viewModel.sourcesListing.observe(this, Observer {
             newsListingAdapter.insertAll(it)
         })
     }
@@ -75,8 +74,8 @@ class TeamsListingFragment : BaseFragment<TeamsListingViewModel>(),
         }
     }
 
-    override fun onItemClicked(view: View?, model: Teams) {
-        model.teamName?.apply {
+    override fun onItemClicked(view: View?, model: Sources) {
+        model.name?.apply {
             Toast(requireContext())
                 .makeSuccessMessage(requireContext(), this)
         }

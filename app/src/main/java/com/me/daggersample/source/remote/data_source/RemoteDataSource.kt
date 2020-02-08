@@ -1,7 +1,7 @@
 package com.me.daggersample.source.remote.data_source
 
 import com.me.daggersample.model.base.ApiResponse
-import com.me.daggersample.model.team.Teams
+import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import com.me.daggersample.source.remote.handler.getNetworkResponse
@@ -30,7 +30,7 @@ class RemoteDataSource(private val retrofitApisInterface: RetrofitApisInterface)
         }
     }
 
-    override fun getTeamsList(): Observable<ResponseStatus<ApiResponse<ArrayList<Teams>>>> {
+    override fun getTeamsList(): Observable<ResponseStatus<ApiResponse<ArrayList<Sources>>>> {
         val teamsCall = retrofitApisInterface.getTeams()
         return executeApiCall(teamsCall, "teamsTag")
     }

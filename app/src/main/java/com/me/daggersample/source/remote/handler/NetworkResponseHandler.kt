@@ -42,5 +42,5 @@ fun <T> Call<T>.getNetworkResponse(): Observable<ResponseStatus<T>> {
 }
 
 object networkStatusCodes {
-    const val SUCCESS_STATUS = 1
+    const val SUCCESS_STATUS = "ok"
 }

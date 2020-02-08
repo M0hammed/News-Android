@@ -1,26 +1,26 @@
-package com.me.daggersample.ui.TeamsListing
+package com.me.daggersample.ui.SourcesListing
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.me.daggersample.base.BaseViewModel
 import com.me.daggersample.model.base.ApiResponse
-import com.me.daggersample.model.team.Teams
+import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.Completable
 
-class TeamsListingViewModel(private val teamsListingRepository: TeamsListingRepository) :
+class SourcesListingViewModel(private val sourcesListingRepository: SourcesListingRepository) :
     BaseViewModel() {
-    private val _teamsListing = MutableLiveData<ArrayList<Teams>>()
-    val teamsListing: LiveData<ArrayList<Teams>>
+    private val _teamsListing = MutableLiveData<ArrayList<Sources>>()
+    val sourcesListing: LiveData<ArrayList<Sources>>
         get() = _teamsListing
-    private var cashedTeamsList: ArrayList<Teams>? = null
+    private var cashedSourcesList: ArrayList<Sources>? = null
 
     fun getNewsListing(): Completable {
-        return teamsListingRepository.getListingTeams().map { mapTeamsListing(it) }
+        return sourcesListingRepository.getListingTeams().map { mapTeamsListing(it) }
             .ignoreElements()
     }
 
-    private fun mapTeamsListing(it: ResponseStatus<ApiResponse<ArrayList<Teams>>>): ResponseStatus<ApiResponse<ArrayList<Teams>>> {
+    private fun mapTeamsListing(it: ResponseStatus<ApiResponse<ArrayList<Sources>>>): ResponseStatus<ApiResponse<ArrayList<Sources>>> {
         when (it) {
             is ResponseStatus.Success -> {
                 validateTeamsListing(it.data?.result)
@@ -36,11 +36,11 @@ class TeamsListingViewModel(private val teamsListingRepository: TeamsListingRepo
     }
 
     // validate list Size and nullability
-    private fun validateTeamsListing(teamsList: ArrayList<Teams>?) {
-        if (teamsList != null) {
-            if (teamsList.isNotEmpty()) {// data received successfully
-                _teamsListing.value = teamsList
-                updateCashedTeamsList(teamsList)
+    private fun validateTeamsListing(sourcesList: ArrayList<Sources>?) {
+        if (sourcesList != null) {
+            if (sourcesList.isNotEmpty()) {// data received successfully
+                _teamsListing.value = sourcesList
+                updateCashedTeamsList(sourcesList)
             } else {// no data found
                 updateCashedTeamsList(ArrayList())
             }
@@ -52,11 +52,11 @@ class TeamsListingViewModel(private val teamsListingRepository: TeamsListingRepo
     }
 
     // update cashed data with given new values
-    private fun updateCashedTeamsList(teamsList: ArrayList<Teams>) {
-        this.cashedTeamsList = teamsList
+    private fun updateCashedTeamsList(sourcesList: ArrayList<Sources>) {
+        this.cashedSourcesList = sourcesList
     }
 
     fun cancelApiCall() {
-        teamsListingRepository.cancelApiCall()
+        sourcesListingRepository.cancelApiCall()
     }
 }
