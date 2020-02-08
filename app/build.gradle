@@ -9,6 +9,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+    flavorDimensions "default"
     defaultConfig {
         applicationId "com.me.daggersample"
         minSdkVersion 17
@@ -18,17 +19,37 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    flavorDimensions "serverURL"
+    signingConfigs {
+        release {
+            storeFile file("../keyStore/releaseKeyStore.jks")
+            storePassword '123456789'
+            keyAlias 'mvvmRXAlias'
+            keyPassword '123456789'
+        }
+    }
     productFlavors {
         dev {
-            dimension "serverURL"
+            buildConfigField("String", "BASE_URL", '"http://oss-ihf-testing.linkdevsite.com/api/v1/"')
+        }
+
+        live {
             buildConfigField("String", "BASE_URL", '"http://oss-ihf-testing.linkdevsite.com/api/v1/"')
         }
     }
+
     buildTypes {
+
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            debuggable true
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
         }
     }
 }
