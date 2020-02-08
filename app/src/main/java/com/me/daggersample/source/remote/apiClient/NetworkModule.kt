@@ -9,6 +9,7 @@ import com.me.daggersample.validator.INetworkValidator
 import com.me.daggersample.validator.NetworkValidator
 import dagger.Module
 import dagger.Provides
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -25,9 +26,16 @@ class NetworkModule {
     internal fun provideHttpInterceptor(): HttpLoggingInterceptor {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         return httpLoggingInterceptor.apply {
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            if (BuildConfig.DEBUG)
+                httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            else
+                httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
         }
     }
+
+    @Singleton
+    @Provides
+    internal fun providerRequestInterceptor(): Interceptor = RetrofitInterceptor()
 
     @Singleton
     @Provides
@@ -45,7 +53,7 @@ class NetworkModule {
     internal fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl("")
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .build()
@@ -65,6 +73,6 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    internal fun provideNetworkValidator(application: Application):INetworkValidator =
+    internal fun provideNetworkValidator(application: Application): INetworkValidator =
         NetworkValidator(application)
 }
