@@ -1,5 +1,7 @@
 package com.me.daggersample.ui.SourcesListing
 
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.me.daggersample.R
@@ -10,7 +12,6 @@ import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.internal.operators.completable.CompletableAmb
 
 class SourcesListingViewModel(private val sourcesListingRepository: SourcesListingRepository) :
     BaseViewModel() {
@@ -20,7 +21,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     private var cashedSourcesList: ArrayList<Sources>? = null
 
     fun getNewsListing(forceRefresh: Boolean = false): Completable {
-        return if (cashedSourcesList.isNullOrEmpty())
+        return if (cashedSourcesList.isNullOrEmpty() || forceRefresh)
             sourcesListingRepository.getListingTeams()
                 .map { mapTeamsListing(it, forceRefresh) }
                 .ignoreElements()
@@ -82,14 +83,15 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
         if (sourcesList != null) {
             if (sourcesList.isNotEmpty()) {// data received successfully
                 updateCashedTeamsList(sourcesList)
-                _hideErrorLayout.value = null
+                _errorLayoutVisibility.value = ErrorModel(visibility = GONE)
             } else {// no data found
                 updateCashedTeamsList(ArrayList())
-                _showErrorLayout.value =
+                _errorLayoutVisibility.value =
                     ErrorModel(
                         message = R.string.no_data,
                         subMessage = R.string.please_try_again,
-                        errorIcon = R.drawable.like
+                        errorIcon = R.drawable.like,
+                        visibility = VISIBLE
                     )
             }
             _sourcesListing.value = cashedSourcesList
@@ -99,11 +101,12 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
              *else fire error message*/
             if (cashedSourcesList.isNullOrEmpty()) {
                 // error layout
-                _showErrorLayout.value =
+                _errorLayoutVisibility.value =
                     ErrorModel(
                         message = R.string.something_went_wrong,
                         subMessage = R.string.please_try_again,
-                        errorIcon = R.drawable.like
+                        errorIcon = R.drawable.like,
+                        visibility = VISIBLE
                     )
             } else {
                 _sourcesListing.value = cashedSourcesList // update list with cashed data
@@ -116,7 +119,8 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     // check cashed data if should show error layout or show toast
     private fun validateCashedData(errorModel: ErrorModel) {
         if (cashedSourcesList.isNullOrEmpty()) {// show error model
-            _showErrorLayout.postValue(errorModel)
+            errorModel.visibility = VISIBLE
+            _errorLayoutVisibility.postValue(errorModel)
         } else {
             _errorMessage.postValue(errorModel)
         }

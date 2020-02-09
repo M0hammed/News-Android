@@ -66,14 +66,11 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
         viewModel.sourcesListing.observe(viewLifecycleOwner, Observer {
             newsListingAdapter.insertAll(it)
         })
-        viewModel.showErrorLayout.observe(viewLifecycleOwner, Observer {
-            layoutError.visibility = VISIBLE
-            tvErrorMessage.text = it.serverMessage ?: getString(it.message)
-            tvErrorSubMessage.text = getString(it.subMessage)
-            imgErrorIcon.setImageResource(it.errorIcon)
-        })
-        viewModel.hideErrorLayout.observe(viewLifecycleOwner, Observer {
-            layoutError.visibility = GONE
+        viewModel.errorLayoutVisibility.observe(viewLifecycleOwner, Observer {
+            layoutError.visibility = it.visibility
+                tvErrorMessage.text = it.serverMessage ?: getString(it.message)
+                tvErrorSubMessage.text = getString(it.subMessage)
+                imgErrorIcon.setImageResource(it.errorIcon)
         })
     }
 
