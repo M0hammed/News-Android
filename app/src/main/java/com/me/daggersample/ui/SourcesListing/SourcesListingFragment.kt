@@ -79,7 +79,7 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
 
     override fun setListeners() {
         swipeRefresh.setOnRefreshListener {
-            viewModel.getNewsListing()
+            viewModel.getNewsListing(true)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({}, { Log.e("xxx", "error message ${it.message}") })

@@ -9,21 +9,28 @@ import com.me.daggersample.model.networkData.ErrorModel
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.internal.operators.completable.CompletableAmb
 
 class SourcesListingViewModel(private val sourcesListingRepository: SourcesListingRepository) :
     BaseViewModel() {
-    private val _teamsListing = MutableLiveData<ArrayList<Sources>>()
+    private val _sourcesListing = MutableLiveData<ArrayList<Sources>>()
     val sourcesListing: LiveData<ArrayList<Sources>>
-        get() = _teamsListing
+        get() = _sourcesListing
     private var cashedSourcesList: ArrayList<Sources>? = null
 
-    fun getNewsListing(): Completable {
-        return sourcesListingRepository.getListingTeams()
-            .map { mapTeamsListing(it) }
-            .ignoreElements()
+    fun getNewsListing(forceRefresh: Boolean = false): Completable {
+        return if (cashedSourcesList.isNullOrEmpty())
+            sourcesListingRepository.getListingTeams()
+                .map { mapTeamsListing(it, forceRefresh) }
+                .ignoreElements()
+        else
+            Single.just(cashedSourcesList).ignoreElement()
     }
 
-    private fun mapTeamsListing(it: ResponseStatus<ApiResponse<ArrayList<Sources>>>): ResponseStatus<ApiResponse<ArrayList<Sources>>> {
+    private fun mapTeamsListing(
+        it: ResponseStatus<ApiResponse<ArrayList<Sources>>>, forceRefresh: Boolean
+    ): ResponseStatus<ApiResponse<ArrayList<Sources>>> {
         when (it) {
             is ResponseStatus.Success -> {
                 validateTeamsListing(it.data?.result)
@@ -58,7 +65,13 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                 )
             }
             is ResponseStatus.Error -> {
-
+                validateCashedData(
+                    ErrorModel(
+                        message = R.string.something_went_wrong,
+                        subMessage = R.string.please_try_again,
+                        errorIcon = R.drawable.like
+                    )
+                )
             }
         }
         return it
@@ -79,7 +92,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                         errorIcon = R.drawable.like
                     )
             }
-            _teamsListing.value = cashedSourcesList
+            _sourcesListing.value = cashedSourcesList
         } else {
             /*data error
              *so check cashed data if null or empty fire error layout
@@ -93,7 +106,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                         errorIcon = R.drawable.like
                     )
             } else {
-                _teamsListing.value = cashedSourcesList // update list with cashed data
+                _sourcesListing.value = cashedSourcesList // update list with cashed data
                 _errorMessage.value =
                     ErrorModel(message = R.string.something_went_wrong) // error message
             }
