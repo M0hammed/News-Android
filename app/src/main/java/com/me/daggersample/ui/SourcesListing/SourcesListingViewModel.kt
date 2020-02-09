@@ -2,8 +2,10 @@ package com.me.daggersample.ui.SourcesListing
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.me.daggersample.R
 import com.me.daggersample.base.BaseViewModel
 import com.me.daggersample.model.base.ApiResponse
+import com.me.daggersample.model.networkData.ErrorModel
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.Completable
@@ -16,7 +18,8 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     private var cashedSourcesList: ArrayList<Sources>? = null
 
     fun getNewsListing(): Completable {
-        return sourcesListingRepository.getListingTeams().map { mapTeamsListing(it) }
+        return sourcesListingRepository.getListingTeams()
+            .map { mapTeamsListing(it) }
             .ignoreElements()
     }
 
@@ -26,10 +29,36 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                 validateTeamsListing(it.data?.result)
             }
             is ResponseStatus.NoNetwork -> {
+                validateCashedData(
+                    ErrorModel(
+                        message = it.message,
+                        subMessage = it.subMessage,
+                        errorIcon = R.drawable.like
+                    )
+                )
             }
             is ResponseStatus.ServerError -> {
+                validateCashedData(
+                    ErrorModel(
+                        serverMessage = it.serverMessage,
+                        message = R.string.something_went_wrong,
+                        subMessage = R.string.please_try_again,
+                        errorIcon = R.drawable.like
+                    )
+                )
             }
             is ResponseStatus.ApiFailed -> {
+                // handle api failure
+                validateCashedData(
+                    ErrorModel(
+                        serverMessage = it.errorResponse.message,
+                        subMessage = R.string.please_try_again,
+                        errorIcon = R.drawable.like
+                    )
+                )
+            }
+            is ResponseStatus.Error -> {
+
             }
         }
         return it
@@ -39,24 +68,57 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     private fun validateTeamsListing(sourcesList: ArrayList<Sources>?) {
         if (sourcesList != null) {
             if (sourcesList.isNotEmpty()) {// data received successfully
-                _teamsListing.value = sourcesList
                 updateCashedTeamsList(sourcesList)
+                _hideErrorLayout.value = null
             } else {// no data found
                 updateCashedTeamsList(ArrayList())
+                _showErrorLayout.value =
+                    ErrorModel(
+                        message = R.string.no_data,
+                        subMessage = R.string.please_try_again,
+                        errorIcon = R.drawable.like
+                    )
             }
+            _teamsListing.value = cashedSourcesList
         } else {
             /*data error
              *so check cashed data if null or empty fire error layout
              *else fire error message*/
+            if (cashedSourcesList.isNullOrEmpty()) {
+                // error layout
+                _showErrorLayout.value =
+                    ErrorModel(
+                        message = R.string.something_went_wrong,
+                        subMessage = R.string.please_try_again,
+                        errorIcon = R.drawable.like
+                    )
+            } else {
+                _teamsListing.value = cashedSourcesList // update list with cashed data
+                _errorMessage.value =
+                    ErrorModel(message = R.string.something_went_wrong) // error message
+            }
+        }
+    }
+
+    // check cashed data if should show error layout or show toast
+    private fun validateCashedData(errorModel: ErrorModel) {
+        if (cashedSourcesList.isNullOrEmpty()) {// show error model
+            _showErrorLayout.postValue(errorModel)
+        } else {
+            _errorMessage.postValue(errorModel)
         }
     }
 
     // update cashed data with given new values
     private fun updateCashedTeamsList(sourcesList: ArrayList<Sources>) {
-        this.cashedSourcesList = sourcesList
+        if (cashedSourcesList == null)
+            this.cashedSourcesList = sourcesList
+        else
+            this.cashedSourcesList?.addAll(sourcesList)
     }
 
-    fun cancelApiCall() {
+    override fun onCleared() {
+        super.onCleared()
         sourcesListingRepository.cancelApiCall()
     }
 }

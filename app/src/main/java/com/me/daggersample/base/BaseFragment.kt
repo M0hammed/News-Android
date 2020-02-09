@@ -7,15 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.me.daggersample.messageHandler.ErrorMessageHandler
-import com.me.daggersample.model.networkData.ErrorResponse
+import androidx.lifecycle.Observer
+import com.me.daggersample.extentions.makeErrorMessage
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseFragment<V : BaseViewModel> : Fragment() {
 
     protected lateinit var viewModel: V
     protected var disposable = CompositeDisposable()
-    private var errorMessageHandler: ErrorMessageHandler? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +27,6 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initDependencyInjection()
         initViews(view)
-        errorMessageHandler = ErrorMessageHandler(requireContext())
         setListeners()
     }
 
@@ -39,26 +37,12 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
         handleObservers()
     }
 
-    private fun handleObservers() { // handle error messages and progress loading
-        disposable.add(viewModel.handleProgress.subscribe {
-            if (it) showProgressDialog()
-            else hideProgressDialog()
+    private fun handleObservers() {
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            Toast(requireContext()).makeErrorMessage(
+                requireContext(), it?.serverMessage ?: getString(it.message)
+            )
         })
-
-        disposable.add(viewModel.handleErrorMessage.subscribe {
-            if (it != null) showErrorMessage(it)
-        })
-    }
-
-    private fun showErrorMessage(errorModel: ErrorResponse) { // show error message
-        val errorMessage = errorMessageHandler?.getErrorMessage(errorModel) ?: ""
-        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun showProgressDialog() { // show loading dialog
-    }
-
-    private fun hideProgressDialog() { // hide loading dialog
     }
 
     override fun onDestroy() { // for disposing when destroy

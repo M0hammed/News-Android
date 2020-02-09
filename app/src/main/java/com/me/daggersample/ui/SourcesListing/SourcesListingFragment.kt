@@ -2,6 +2,8 @@ package com.me.daggersample.ui.SourcesListing
 
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +17,7 @@ import com.me.daggersample.model.source.Sources
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.app_recycler_layout.*
+import kotlinx.android.synthetic.main.error_layout.*
 import javax.inject.Inject
 
 
@@ -23,7 +26,8 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
 
     @Inject
     lateinit var newsListingViewModelFactory: SourcesListingViewModelFactory
-    @Inject lateinit var newsListingAdapter: SourcesListingAdapter
+    @Inject
+    lateinit var newsListingAdapter: SourcesListingAdapter
 
     companion object {
         const val TAG: String = "NewsListingFragmentTag"
@@ -35,7 +39,6 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
 
     override fun initViews(view: View) {
         rvApp.layoutManager = LinearLayoutManager(requireContext())
-//        newsListingAdapter = SourcesListingAdapter(requireContext(), this)
         rvApp.adapter = newsListingAdapter
 
     }
@@ -43,7 +46,7 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
     override fun initDependencyInjection() {
         (activity?.application as DaggerSampleApplication).appComponent
             .getNewsListingComponentBuilder()
-            .create(requireContext(),this)
+            .create(requireContext(), this)
             .inject(this)
     }
 
@@ -60,8 +63,17 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({}, { Log.e("xxx", "error message ${it.message}") })
         )
-        viewModel.sourcesListing.observe(this, Observer {
+        viewModel.sourcesListing.observe(viewLifecycleOwner, Observer {
             newsListingAdapter.insertAll(it)
+        })
+        viewModel.showErrorLayout.observe(viewLifecycleOwner, Observer {
+            layoutError.visibility = VISIBLE
+            tvErrorMessage.text = it.serverMessage ?: getString(it.message)
+            tvErrorSubMessage.text = getString(it.subMessage)
+            imgErrorIcon.setImageResource(it.errorIcon)
+        })
+        viewModel.hideErrorLayout.observe(viewLifecycleOwner, Observer {
+            layoutError.visibility = GONE
         })
     }
 
@@ -76,13 +88,7 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
 
     override fun onItemClicked(view: View?, model: Sources) {
         model.name?.apply {
-            Toast(requireContext())
-                .makeSuccessMessage(requireContext(), this)
+            Toast(requireContext()).makeSuccessMessage(requireContext(), this)
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.cancelApiCall()
-        super.onDestroyView()
     }
 }

@@ -1,10 +1,14 @@
 package com.me.daggersample.source.remote.handler
 
+import android.util.JsonReader
 import android.util.Log
+import com.google.gson.Gson
 import com.me.daggersample.model.base.ApiResponse
+import com.me.daggersample.model.networkData.ErrorResponse
 import com.me.daggersample.source.remote.handler.networkStatusCodes.SUCCESS_STATUS
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,13 +23,18 @@ fun <T> Call<T>.getNetworkResponse(): Observable<ResponseStatus<T>> {
                     if (apiResponse.status == SUCCESS_STATUS) {
                         networkOutcome.onNext(ResponseStatus.Success(data = response.body()))
                     } else {
-                        networkOutcome.onNext(ResponseStatus.ServerError() as ResponseStatus<T>)
+                        networkOutcome.onNext(ResponseStatus.ServerError(serverMessage = apiResponse.message) as ResponseStatus<T>)
                     }
                 } else {
-                    networkOutcome.onNext(ResponseStatus.ApiFailed(response.code()) as ResponseStatus<T>)
+                    networkOutcome.onNext(ResponseStatus.Error() as ResponseStatus<T>)
                 }
             } else {
-                networkOutcome.onNext(ResponseStatus.Error() as ResponseStatus<T>)
+                val errorResponse = Gson().fromJson(
+                    response.errorBody()?.string(), ErrorResponse::class.java
+                )
+                networkOutcome.onNext(
+                    ResponseStatus.ApiFailed(response.code(), errorResponse) as ResponseStatus<T>
+                )
             }
         }
 

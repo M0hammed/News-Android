@@ -1,6 +1,12 @@
 package com.me.daggersample.model.networkData
 
-data class ErrorResponse(var code: String = "",
-                         var devDetails: String = "",
-                         var stackTraceId: Long = 0,
-                         var args: Map<String, Any> = HashMap())
+import com.google.gson.annotations.SerializedName
+
+data class ErrorResponse(
+    @SerializedName("status")
+    val status: String,
+    @SerializedName("code")
+    val code: String,
+    @SerializedName("message")
+    val message: String
+)

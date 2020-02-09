@@ -12,5 +12,6 @@
     <string name="new_message_notification_title_template">New message: %1$s</string>
     <string name="no_network">No Network</string>
     <string name="please_try_again">Please try again</string>
+    <string name="something_went_wrong">Something went wrong</string>
 
 </resources>
