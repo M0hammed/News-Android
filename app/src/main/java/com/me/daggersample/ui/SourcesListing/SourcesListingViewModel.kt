@@ -11,6 +11,7 @@ import com.me.daggersample.model.networkData.ErrorModel
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 
 class SourcesListingViewModel(private val sourcesListingRepository: SourcesListingRepository) :
@@ -20,13 +21,34 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
         get() = _sourcesListing
     private var cashedSourcesList: ArrayList<Sources>? = null
 
-    fun getNewsListing(forceRefresh: Boolean = false): Completable {
+    fun getNewsListing(forceRefresh: Boolean = false, loadMore: Boolean = false): Completable {
         return if (cashedSourcesList.isNullOrEmpty() || forceRefresh)
             sourcesListingRepository.getListingTeams()
+                .doOnSubscribe { handleSubscribeOn(forceRefresh, loadMore) }
+                .doOnError { handleDoOnError(forceRefresh, loadMore) }
+                .doOnNext { handleDoOnNext(forceRefresh, loadMore) }
                 .map { mapTeamsListing(it, forceRefresh) }
                 .ignoreElements()
         else
             Single.just(cashedSourcesList).ignoreElement()
+    }
+
+    // handle subscribe on
+    private fun handleSubscribeOn(forceRefresh: Boolean, loadMore: Boolean) {
+        handleProgressVisibility(VISIBLE, forceRefresh, loadMore)
+        _errorLayoutVisibility.postValue(ErrorModel(visibility = GONE))
+    }
+
+    // handle do on error
+    private fun handleDoOnError(forceRefresh: Boolean, loadMore: Boolean) {// need to handle throws
+        handleProgressVisibility(GONE, forceRefresh, loadMore)
+        validateCashedData(ErrorModel(visibility = VISIBLE))
+    }
+
+    // handle on complete
+    private fun handleDoOnNext(forceRefresh: Boolean, loadMore: Boolean) {
+        handleProgressVisibility(GONE, forceRefresh, loadMore)
+        _errorLayoutVisibility.postValue(ErrorModel(visibility = GONE))
     }
 
     private fun mapTeamsListing(
@@ -41,7 +63,8 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                     ErrorModel(
                         message = it.message,
                         subMessage = it.subMessage,
-                        errorIcon = R.drawable.like
+                        errorIcon = R.drawable.like,
+                        visibility = VISIBLE
                     )
                 )
             }
@@ -51,7 +74,8 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                         serverMessage = it.serverMessage,
                         message = R.string.something_went_wrong,
                         subMessage = R.string.please_try_again,
-                        errorIcon = R.drawable.like
+                        errorIcon = R.drawable.like,
+                        visibility = VISIBLE
                     )
                 )
             }
@@ -61,7 +85,8 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                     ErrorModel(
                         serverMessage = it.errorResponse.message,
                         subMessage = R.string.please_try_again,
-                        errorIcon = R.drawable.like
+                        errorIcon = R.drawable.like,
+                        visibility = VISIBLE
                     )
                 )
             }
@@ -70,7 +95,8 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                     ErrorModel(
                         message = R.string.something_went_wrong,
                         subMessage = R.string.please_try_again,
-                        errorIcon = R.drawable.like
+                        errorIcon = R.drawable.like,
+                        visibility = VISIBLE
                     )
                 )
             }
@@ -119,7 +145,6 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     // check cashed data if should show error layout or show toast
     private fun validateCashedData(errorModel: ErrorModel) {
         if (cashedSourcesList.isNullOrEmpty()) {// show error model
-            errorModel.visibility = VISIBLE
             _errorLayoutVisibility.postValue(errorModel)
         } else {
             _errorMessage.postValue(errorModel)

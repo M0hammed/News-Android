@@ -13,4 +13,19 @@ open class BaseViewModel : ViewModel() {
     protected val _errorLayoutVisibility by lazy { SingleLiveEvent<ErrorModel>() }
     val errorLayoutVisibility: LiveData<ErrorModel>
         get() = _errorLayoutVisibility
+
+    private val _mainProgress by lazy { SingleLiveEvent<Int>() }
+    val mainProgress: LiveData<Int>
+        get() = _mainProgress
+
+    protected fun handleProgressVisibility(
+        visibility: Int,
+        isForceRefresh: Boolean,
+        isLoadMore: Boolean
+    ) {
+        when {
+            !isForceRefresh && !isLoadMore -> _mainProgress.postValue(visibility)
+
+        }
+    }
 }

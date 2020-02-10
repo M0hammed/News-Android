@@ -9,7 +9,10 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.me.daggersample.extentions.makeErrorMessage
+import com.me.daggersample.model.networkData.ErrorModel
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.error_layout.*
+import kotlinx.android.synthetic.main.error_layout.view.*
 
 abstract class BaseFragment<V : BaseViewModel> : Fragment() {
 
@@ -43,6 +46,14 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
                 requireContext(), it?.serverMessage ?: getString(it.message)
             )
         })
+    }
+
+    protected fun bindErrorLayout(errorLayout: View, errorModel: ErrorModel) {
+        errorLayout.visibility = errorModel.visibility
+        errorLayout.tvErrorMessage.text =
+            errorModel.serverMessage ?: getString(errorModel.message)
+        errorLayout.tvErrorSubMessage.text = getString(errorModel.subMessage)
+        imgErrorIcon.setImageResource(errorModel.errorIcon)
     }
 
     override fun onDestroy() { // for disposing when destroy

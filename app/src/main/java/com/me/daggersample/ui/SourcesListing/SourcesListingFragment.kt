@@ -18,6 +18,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.app_recycler_layout.*
 import kotlinx.android.synthetic.main.error_layout.*
+import kotlinx.android.synthetic.main.main_progress_bar.*
 import javax.inject.Inject
 
 
@@ -63,14 +64,17 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({}, { Log.e("xxx", "error message ${it.message}") })
         )
+
         viewModel.sourcesListing.observe(viewLifecycleOwner, Observer {
             newsListingAdapter.insertAll(it)
         })
+
         viewModel.errorLayoutVisibility.observe(viewLifecycleOwner, Observer {
-            layoutError.visibility = it.visibility
-                tvErrorMessage.text = it.serverMessage ?: getString(it.message)
-                tvErrorSubMessage.text = getString(it.subMessage)
-                imgErrorIcon.setImageResource(it.errorIcon)
+            bindErrorLayout(layoutError, it)
+        })
+
+        viewModel.mainProgress.observe(viewLifecycleOwner, Observer {
+            pbMainProgress.visibility = it
         })
     }
 
