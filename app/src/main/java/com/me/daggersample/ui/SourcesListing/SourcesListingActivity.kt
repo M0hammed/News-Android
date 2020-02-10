@@ -17,11 +17,12 @@ class SourcesListingActivity : BaseActivity() {
     }
 
     override fun initialize(savedInstanceState: Bundle?) {
-        supportFragmentManager.replaceFragment(
-            R.id.contentMainLayout,
-            SourcesListingFragment.newInstance(),
-            SourcesListingFragment.TAG
-        )
+        if (savedInstanceState == null)
+            supportFragmentManager.replaceFragment(
+                R.id.contentMainLayout,
+                SourcesListingFragment.newInstance(),
+                SourcesListingFragment.TAG
+            )
 
     }
 

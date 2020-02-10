@@ -11,7 +11,7 @@ import com.me.daggersample.model.networkData.ErrorModel
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.Observable
 
 class SourcesListingViewModel(private val sourcesListingRepository: SourcesListingRepository) :
     BaseViewModel() {
@@ -26,10 +26,15 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                 .doOnSubscribe { handleSubscribeOn(forceRefresh, loadMore) }
                 .doOnError { handleDoOnError(forceRefresh, loadMore) }
                 .doOnNext { handleDoOnNext(forceRefresh, loadMore) }
-                .map { mapTeamsListing(it) }
+                .map { mapTeamsListing(it, forceRefresh) }
                 .ignoreElements()
-        else
-            Single.just(cashedSourcesList).ignoreElement()
+        else {
+            val apiResponse = ApiResponse<ArrayList<Sources>>()
+            apiResponse.result = cashedSourcesList
+            val cashedStatus = ResponseStatus.Success(apiResponse)
+            Observable.just(cashedSourcesList).map { mapTeamsListing(cashedStatus, forceRefresh) }
+                .ignoreElements()
+        }
     }
 
     // handle subscribe on
@@ -51,11 +56,11 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     }
 
     private fun mapTeamsListing(
-        it: ResponseStatus<ApiResponse<ArrayList<Sources>>>
+        it: ResponseStatus<ApiResponse<ArrayList<Sources>>>, forceRefresh: Boolean
     ): ResponseStatus<ApiResponse<ArrayList<Sources>>> {
         when (it) {
             is ResponseStatus.Success -> {
-                validateTeamsListing(it.data?.result)
+                validateTeamsListing(it.data?.result, forceRefresh)
             }
             is ResponseStatus.NoNetwork -> {
                 validateCashedData(
@@ -104,9 +109,12 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     }
 
     // validate list Size and nullability
-    private fun validateTeamsListing(sourcesList: ArrayList<Sources>?) {
+    private fun validateTeamsListing(
+        sourcesList: ArrayList<Sources>?, forceRefresh: Boolean
+    ) {
         if (sourcesList != null) {
-            updateCashedTeamsList(sourcesList) // update cashed list with remote data with size or empty
+            // update cashed list with remote data with size or empty
+            updateCashedTeamsList(sourcesList, forceRefresh)
             if (sourcesList.isNotEmpty()) {
                 _errorLayoutVisibility.value = ErrorModel(visibility = GONE)
             } else {
@@ -150,11 +158,15 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     }
 
     // update cashed data with given new values
-    private fun updateCashedTeamsList(sourcesList: ArrayList<Sources>) {
+    private fun updateCashedTeamsList(
+        sourcesList: ArrayList<Sources>, forceRefresh: Boolean
+    ) {
         if (cashedSourcesList == null)
             this.cashedSourcesList = sourcesList
-        else {
+        else if (forceRefresh) {
             this.cashedSourcesList?.clear()
+            this.cashedSourcesList?.addAll(sourcesList)
+        } else {
             this.cashedSourcesList?.addAll(sourcesList)
         }
     }
