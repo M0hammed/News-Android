@@ -55,6 +55,4 @@ abstract class BaseAdapter<item>(val context: Context, val onListItemClickListen
         data.removeAt(position)
         notifyItemRemoved(position)
     }
-
-    override fun getItemCount(): Int = data.size
 }

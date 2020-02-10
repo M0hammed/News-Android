@@ -76,6 +76,10 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
         viewModel.mainProgress.observe(viewLifecycleOwner, Observer {
             pbMainProgress.visibility = it
         })
+
+        viewModel.refreshProgress.observe(viewLifecycleOwner, Observer {
+            swipeRefresh.isRefreshing = it == VISIBLE
+        })
     }
 
     override fun setListeners() {

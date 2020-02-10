@@ -18,6 +18,10 @@ open class BaseViewModel : ViewModel() {
     val mainProgress: LiveData<Int>
         get() = _mainProgress
 
+    private val _refreshProgress by lazy { SingleLiveEvent<Int>() }
+    val refreshProgress: LiveData<Int>
+        get() = _refreshProgress
+
     protected fun handleProgressVisibility(
         visibility: Int,
         isForceRefresh: Boolean,
@@ -25,7 +29,8 @@ open class BaseViewModel : ViewModel() {
     ) {
         when {
             !isForceRefresh && !isLoadMore -> _mainProgress.postValue(visibility)
-
+            isForceRefresh && !isLoadMore -> _refreshProgress.postValue(visibility)
+            else -> _mainProgress.postValue(visibility)
         }
     }
 }

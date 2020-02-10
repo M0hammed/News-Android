@@ -11,7 +11,6 @@ import com.me.daggersample.model.networkData.ErrorModel
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.Single
 
 class SourcesListingViewModel(private val sourcesListingRepository: SourcesListingRepository) :
@@ -27,7 +26,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                 .doOnSubscribe { handleSubscribeOn(forceRefresh, loadMore) }
                 .doOnError { handleDoOnError(forceRefresh, loadMore) }
                 .doOnNext { handleDoOnNext(forceRefresh, loadMore) }
-                .map { mapTeamsListing(it, forceRefresh) }
+                .map { mapTeamsListing(it) }
                 .ignoreElements()
         else
             Single.just(cashedSourcesList).ignoreElement()
@@ -52,7 +51,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     }
 
     private fun mapTeamsListing(
-        it: ResponseStatus<ApiResponse<ArrayList<Sources>>>, forceRefresh: Boolean
+        it: ResponseStatus<ApiResponse<ArrayList<Sources>>>
     ): ResponseStatus<ApiResponse<ArrayList<Sources>>> {
         when (it) {
             is ResponseStatus.Success -> {
@@ -107,11 +106,10 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     // validate list Size and nullability
     private fun validateTeamsListing(sourcesList: ArrayList<Sources>?) {
         if (sourcesList != null) {
-            if (sourcesList.isNotEmpty()) {// data received successfully
-                updateCashedTeamsList(sourcesList)
+            updateCashedTeamsList(sourcesList) // update cashed list with remote data with size or empty
+            if (sourcesList.isNotEmpty()) {
                 _errorLayoutVisibility.value = ErrorModel(visibility = GONE)
-            } else {// no data found
-                updateCashedTeamsList(ArrayList())
+            } else {
                 _errorLayoutVisibility.value =
                     ErrorModel(
                         message = R.string.no_data,
@@ -155,8 +153,10 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     private fun updateCashedTeamsList(sourcesList: ArrayList<Sources>) {
         if (cashedSourcesList == null)
             this.cashedSourcesList = sourcesList
-        else
+        else {
+            this.cashedSourcesList?.clear()
             this.cashedSourcesList?.addAll(sourcesList)
+        }
     }
 
     override fun onCleared() {
