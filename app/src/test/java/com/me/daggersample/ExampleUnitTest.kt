@@ -1,6 +1,7 @@
 package com.me.daggersample
 
 import android.view.View.GONE
+import io.reactivex.schedulers.TestScheduler
 import org.junit.Test
 
 import org.junit.Assert.*
