@@ -19,6 +19,8 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     val sourcesListing: LiveData<ArrayList<Sources>>
         get() = _sourcesListing
     private var cashedSourcesList: ArrayList<Sources>? = null
+    val testingCashedSourcesList: ArrayList<Sources>?
+        get() = cashedSourcesList
 
     fun getNewsListing(forceRefresh: Boolean = false, loadMore: Boolean = false): Completable {
         return if (cashedSourcesList.isNullOrEmpty() || forceRefresh)
