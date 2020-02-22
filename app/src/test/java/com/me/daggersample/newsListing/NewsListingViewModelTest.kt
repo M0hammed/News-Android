@@ -7,6 +7,7 @@ import com.google.common.truth.Truth
 import com.me.daggersample.R
 import com.me.daggersample.model.base.ApiResponse
 import com.me.daggersample.model.networkData.ErrorModel
+import com.me.daggersample.model.networkData.ErrorResponse
 import com.me.daggersample.source.remote.data_source.IRemoteDataSource
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import com.me.daggersample.ui.SourcesListing.SourcesListingRepository
@@ -40,8 +41,6 @@ class NewsListingViewModelTest {
         sourceListingViewModel.getNewsListing()
             .doOnSubscribe { `test do on subscribe first call to api`() }
             .doOnError { `test do on error first call to api`() }
-            .subscribeOn(RxSchedulerRule.SCHEDULER_INSTANCE)
-            .observeOn(RxSchedulerRule.SCHEDULER_INSTANCE)
             .subscribe({}, {})
         val value = sourceListingViewModel.errorLayoutVisibility.value
         val expected = ErrorModel(
@@ -68,6 +67,52 @@ class NewsListingViewModelTest {
 
         val value = sourceListingViewModel.errorLayoutVisibility.value
         val expected = ErrorModel(serverMessage = "Hi iam in error mode now", visibility = VISIBLE)
+        Truth.assertThat(value).isEqualTo(expected)
+        Truth.assertThat(sourceListingViewModel.testingCashedSourcesList).isNull()
+        Truth.assertThat(sourceListingViewModel.mainProgress.value).isEqualTo(GONE)
+    }
+
+    @Test
+    fun `test api failed when call sources list`() {
+        Mockito.`when`(validator.isConnected()).then { true }
+        Mockito.`when`(remoteDataSource.getTeamsList()).then {
+            Observable.just(ResponseStatus.ApiFailed(500, ErrorResponse()))
+        }
+
+        sourceListingViewModel.getNewsListing()
+            .doOnSubscribe { `test do on subscribe first call to api`() }
+            .doOnError { `test do on error first call to api`() }
+            .subscribe({}, {})
+
+        val value = sourceListingViewModel.errorLayoutVisibility.value
+        val expected = ErrorModel(visibility = VISIBLE)
+        Truth.assertThat(value).isEqualTo(expected)
+        Truth.assertThat(sourceListingViewModel.testingCashedSourcesList).isNull()
+        Truth.assertThat(sourceListingViewModel.mainProgress.value).isEqualTo(GONE)
+    }
+
+    @Test
+    fun `test genera error when call sources list`() {
+        Mockito.`when`(validator.isConnected()).then { true }
+        Mockito.`when`(remoteDataSource.getTeamsList()).then {
+            Observable.just(
+                ResponseStatus.Error(
+                    message = R.string.something_went_wrong, subMessage = R.string.please_try_again
+                )
+            )
+        }
+
+        sourceListingViewModel.getNewsListing()
+            .doOnSubscribe { `test do on subscribe first call to api`() }
+            .doOnError { `test do on error first call to api`() }
+            .subscribe({}, {})
+
+        val value = sourceListingViewModel.errorLayoutVisibility.value
+        val expected = ErrorModel(
+            message = R.string.something_went_wrong,
+            subMessage = R.string.please_try_again,
+            visibility = VISIBLE
+        )
         Truth.assertThat(value).isEqualTo(expected)
         Truth.assertThat(sourceListingViewModel.testingCashedSourcesList).isNull()
         Truth.assertThat(sourceListingViewModel.mainProgress.value).isEqualTo(GONE)
