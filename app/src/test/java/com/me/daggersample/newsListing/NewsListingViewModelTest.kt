@@ -163,7 +163,32 @@ class NewsListingViewModelTest {
         sourceListingViewModel.getNewsListing().subscribe({}, {})
         Truth.assertThat(sourceListingViewModel.mainProgress.value).isEqualTo(GONE)
         Truth.assertThat(sourceListingViewModel.refreshProgress.value).isEqualTo(null)
-        Mockito.verify(remoteDataSource,Mockito.times(1)).getTeamsList()
+        Mockito.verify(remoteDataSource, Mockito.times(1)).getTeamsList()
+    }
+
+    @Test
+    fun `test data issue at first time api called`() {
+        val dataIssueJsonReader =
+            `generate json reader`("src/test/res/data_issue_sources_json_file")
+        val sources =
+            Gson().fromJson<ApiResponse<ArrayList<Sources>>>(
+                dataIssueJsonReader,
+                ApiResponse::class.java
+            )
+        Mockito.`when`(validator.isConnected()).then { true }
+        Mockito.`when`(remoteDataSource.getTeamsList()).then {
+            Observable.just(ResponseStatus.Success(data = sources))
+        }
+        sourceListingViewModel.getNewsListing()
+            .doOnSubscribe { `test do on subscribe first call to api`() }
+            .doOnError { `test do on error first call to api`() }
+            .subscribe({}, {})
+
+        Truth.assertThat(sourceListingViewModel.mainProgress.value).isEqualTo(GONE)
+        Truth.assertThat(sourceListingViewModel.errorLayoutVisibility.value)
+            .isEqualTo(ErrorModel(message = R.string.something_went_wrong, visibility = VISIBLE))
+        Truth.assertThat(sourceListingViewModel.testingCashedSourcesList).isNull()
+        Mockito.verify(remoteDataSource, Mockito.times(1)).getTeamsList()
     }
 
     @Test
@@ -272,6 +297,43 @@ class NewsListingViewModelTest {
         val errorMessageExpectedValue =
             ErrorModel(serverMessage = "Shit Server Failed :(", visibility = VISIBLE)
         Truth.assertThat(errorMessageActualValue).isEqualTo(errorMessageExpectedValue)
+        Mockito.verify(remoteDataSource, Mockito.times(2)).getTeamsList()
+    }
+
+    @Test
+    fun `test data issue at first time api called and force refresh`() {
+        val jsonReader = `generate json reader`("src/test/res/sources_json_file")
+        val sources =
+            Gson().fromJson<ApiResponse<ArrayList<Sources>>>(jsonReader, ApiResponse::class.java)
+        Mockito.`when`(validator.isConnected()).then { true }
+        Mockito.`when`(remoteDataSource.getTeamsList()).then {
+            Observable.just(ResponseStatus.Success(data = sources))
+        }
+        sourceListingViewModel.getNewsListing()
+            .doOnSubscribe { `test do on subscribe first call to api`() }
+            .doOnError { `test do on error first call to api`() }
+            .subscribe({}, {})
+
+        val dataIssueJsonReader =
+            `generate json reader`("src/test/res/data_issue_sources_json_file")
+        val sourcesDataIssues =
+            Gson().fromJson<ApiResponse<ArrayList<Sources>>>(
+                dataIssueJsonReader, ApiResponse::class.java
+            )
+        Mockito.`when`(validator.isConnected()).then { true }
+        Mockito.`when`(remoteDataSource.getTeamsList()).then {
+            Observable.just(ResponseStatus.Success(data = sourcesDataIssues))
+        }
+        sourceListingViewModel.getNewsListing(forceRefresh = true)
+            .doOnSubscribe { `test do on subscribe force refresh with cashed data`() }
+            .doOnError { `test do on error force refresh with cashed data`() }
+            .subscribe({}, {})
+
+        Truth.assertThat(sourceListingViewModel.refreshProgress.value).isEqualTo(GONE)
+        Truth.assertThat(sourceListingViewModel.testingCashedSourcesList).isNotNull()
+        Truth.assertThat(sourceListingViewModel.testingCashedSourcesList).isNotEmpty()
+        Truth.assertThat(sourceListingViewModel.errorMessage.value)
+            .isEqualTo(ErrorModel(message = R.string.something_went_wrong))
         Mockito.verify(remoteDataSource, Mockito.times(2)).getTeamsList()
     }
 
