@@ -23,6 +23,7 @@ import org.junit.Test
 import org.mockito.Mockito
 import java.io.File
 import java.io.FileReader
+import kotlin.NullPointerException
 
 
 class NewsListingViewModelTest {
@@ -370,6 +371,21 @@ class NewsListingViewModelTest {
         val errorLayoutExpectedValue = ErrorModel(message = R.string.no_data, visibility = VISIBLE)
         Truth.assertThat(errorLayoutActualValue).isEqualTo(errorLayoutExpectedValue)
         Mockito.verify(remoteDataSource, Mockito.times(2)).getTeamsList()
+    }
+
+    @Test
+    fun `test do on error`() {
+        Mockito.`when`(validator.isConnected()).then { true }
+        Mockito.`when`(remoteDataSource.getTeamsList())
+            .then { Observable.error<ApiResponse<ArrayList<Sources>>>(NullPointerException()) }
+        sourceListingViewModel.getNewsListing()
+            .doOnSubscribe { `test do on subscribe first call to api`() }
+            .doOnError { `test do on error first call to api`() }
+            .subscribe({}, {})
+
+        Truth.assertThat(sourceListingViewModel.mainProgress.value).isEqualTo(GONE)
+        Truth.assertThat(sourceListingViewModel.errorLayoutVisibility.value)
+            .isEqualTo(ErrorModel(visibility = VISIBLE))
     }
 
     private fun `test do on subscribe force refresh with cashed data`() {
