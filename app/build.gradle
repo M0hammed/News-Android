@@ -52,6 +52,7 @@ android {
             debuggable true
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
+            testCoverageEnabled = true
         }
     }
 }
