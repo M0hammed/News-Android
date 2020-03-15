@@ -13,5 +13,6 @@
     <string name="no_network">No Network</string>
     <string name="please_try_again">Please try again</string>
     <string name="something_went_wrong">Something went wrong</string>
+    <string name="head_lines">Head Lines</string>
 
 </resources>

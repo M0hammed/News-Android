@@ -11,8 +11,8 @@ class RetrofitInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val url = chain.request().url
             .newBuilder()
-            .addQueryParameter(ConstantsKeys.API_KEY, BuildConfig.API_KEY)
-            .addQueryParameter(ConstantsKeys.COUNTRY, ConstantsKeys.EGYPT)
+            .addQueryParameter(ConstantsKeys.ApiKeys.API_KEY, BuildConfig.API_KEY)
+//            .addQueryParameter(ConstantsKeys.COUNTRY, ConstantsKeys.EGYPT)
             .build()
         val request = chain.request().newBuilder().url(url).build()
         return chain.proceed(request)

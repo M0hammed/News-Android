@@ -14,6 +14,7 @@ import com.me.daggersample.base.BaseFragment
 import com.me.daggersample.base.OnListItemClickListener
 import com.me.daggersample.extentions.makeSuccessMessage
 import com.me.daggersample.model.source.Sources
+import com.me.daggersample.ui.HeadLines.HeadLinesActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.app_recycler_layout.*
@@ -92,8 +93,8 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
     }
 
     override fun onItemClicked(view: View?, model: Sources) {
-        model.name?.apply {
-            Toast(requireContext()).makeSuccessMessage(requireContext(), this)
+        model.id?.let {
+            HeadLinesActivity.startActivity(requireContext(), it)
         }
     }
 }

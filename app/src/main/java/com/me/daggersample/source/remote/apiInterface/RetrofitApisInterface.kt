@@ -6,6 +6,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface RetrofitApisInterface {
-    @GET(ConstantsKeys.SOURCES)
+    @GET(ConstantsKeys.ApiKeys.SOURCES)
     fun getTeams(): Call<ApiResponse<ArrayList<Sources>>>
 }
