@@ -193,6 +193,39 @@ class NewsListingViewModelTest {
     }
 
     @Test
+    fun `test no data`() {
+        val dataIssueJsonReader =
+            `generate json reader`("src/test/res/empty_sources_json_file")
+        val emptySources =
+            Gson().fromJson<ApiResponse<ArrayList<Sources>>>(
+                dataIssueJsonReader,
+                ApiResponse::class.java
+            )
+        Mockito.`when`(validator.isConnected()).then { true }
+        Mockito.`when`(remoteDataSource.getTeamsList()).then {
+            Observable.just(ResponseStatus.Success(data = emptySources))
+        }
+        sourceListingViewModel.getNewsListing()
+            .doOnSubscribe { `test do on subscribe first call to api`() }
+            .doOnError { `test do on error first call to api`() }
+            .subscribe({}, {})
+
+        Truth.assertThat(sourceListingViewModel.mainProgress.value).isEqualTo(GONE)
+        Truth.assertThat(sourceListingViewModel.errorLayoutVisibility.value)
+            .isEqualTo(
+                ErrorModel(
+                    message = R.string.no_data,
+                    subMessage = R.string.please_try_again,
+                    errorIcon = R.drawable.like,
+                    visibility = VISIBLE
+                )
+            )
+        Truth.assertThat(sourceListingViewModel.testingCashedSourcesList).isNotNull()
+        Truth.assertThat(sourceListingViewModel.testingCashedSourcesList).isEmpty()
+        Mockito.verify(remoteDataSource, Mockito.times(1)).getTeamsList()
+    }
+
+    @Test
     fun `test no internet when api return data first time and force refresh`() {
         val jsonReader = `generate json reader`("src/test/res/sources_json_file")
         val sources =

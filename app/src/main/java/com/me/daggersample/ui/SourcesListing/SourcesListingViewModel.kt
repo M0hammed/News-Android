@@ -54,7 +54,6 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     // handle on complete
     private fun handleDoOnNext(forceRefresh: Boolean, loadMore: Boolean) {
         handleProgressVisibility(GONE, forceRefresh, loadMore)
-        _errorLayoutVisibility.postValue(ErrorModel(visibility = GONE))
     }
 
     private fun mapTeamsListing(
