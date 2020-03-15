@@ -13,6 +13,9 @@ open class ApiResponse<T> {
     @SerializedName("sources")
     @Expose
     var result: T? = null
+    @SerializedName("articles")
+    @Expose
+    var articles: T? = null
     @SerializedName("totalcount")
     @Expose
     var totalcount: Int = 0

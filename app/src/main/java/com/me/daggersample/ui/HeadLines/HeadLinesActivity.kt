@@ -31,7 +31,7 @@ class HeadLinesActivity : BaseActivity() {
                 R.id.headLinesContainer,
                 HeadLinesFragment.newInstance(intent.getStringExtra(ConstantsKeys.BundleKeys.SOURCES_KEY)),
                 HeadLinesFragment.TAG
-            )
+            ).commit()
     }
 
     override fun setListeners() {

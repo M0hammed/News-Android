@@ -12,4 +12,8 @@ object ConstantsKeys {
     object BundleKeys {
         const val SOURCES_KEY = "SOURCES_KEY"
     }
+
+    object DaggerNames {
+        const val SOURCE_NAME = "SOURCE_NAME"
+    }
 }
