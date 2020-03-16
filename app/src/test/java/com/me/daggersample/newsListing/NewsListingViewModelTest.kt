@@ -15,6 +15,7 @@ import com.me.daggersample.source.remote.data_source.IRemoteDataSource
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import com.me.daggersample.ui.SourcesListing.SourcesListingRepository
 import com.me.daggersample.ui.SourcesListing.SourcesListingViewModel
+import com.me.daggersample.utils.Utils.`generate json reader`
 import com.me.daggersample.validator.INetworkValidator
 import io.reactivex.Observable
 import org.junit.Before
@@ -449,10 +450,5 @@ class NewsListingViewModelTest {
         Truth.assertThat(sourceListingViewModel.mainProgress.value).isEqualTo(GONE)
         Truth.assertThat(sourceListingViewModel.errorLayoutVisibility.value)
             .isEqualTo(ErrorModel(visibility = VISIBLE))
-    }
-
-    private fun `generate json reader`(fileName: String): JsonReader {
-        val file = File(fileName)
-        return JsonReader(FileReader(file))
     }
 }
