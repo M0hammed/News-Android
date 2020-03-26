@@ -10,8 +10,9 @@ import com.me.daggersample.base.BaseViewHolder
 import com.me.daggersample.base.OnListItemClickListener
 import com.me.daggersample.model.source.Sources
 import kotlinx.android.synthetic.main.item_source.view.*
+import javax.inject.Inject
 
-class SourcesListingAdapter(
+class SourcesListingAdapter @Inject constructor(
     context: Context,
     onListItemClickListener: OnListItemClickListener<Sources>
 ) : BaseAdapter<Sources>(context, onListItemClickListener) {
