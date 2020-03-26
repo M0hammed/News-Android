@@ -11,7 +11,6 @@ import com.me.daggersample.model.networkData.ErrorModel
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.Completable
-import io.reactivex.Observable
 
 class SourcesListingViewModel(private val sourcesListingRepository: SourcesListingRepository) :
     BaseViewModel() {
@@ -31,11 +30,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                 .map { mapTeamsListing(it, forceRefresh) }
                 .ignoreElements()
         else {
-            val apiResponse = ApiResponse<ArrayList<Sources>>()
-            apiResponse.result = cashedSourcesList
-            val cashedStatus = ResponseStatus.Success(apiResponse)
-            Observable.just(cashedSourcesList).map { mapTeamsListing(cashedStatus, forceRefresh) }
-                .ignoreElements()
+            Completable.complete()
         }
     }
 
