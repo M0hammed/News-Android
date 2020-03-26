@@ -1,6 +1,5 @@
 package com.me.daggersample.ui.SourcesListing
 
-import android.content.Context
 import dagger.BindsInstance
 import dagger.Subcomponent
 
@@ -10,7 +9,7 @@ interface SourcesListingComponent {
     fun inject(newsListingFragment: SourcesListingFragment)
 
     @Subcomponent.Factory
-    interface Builder {
+    interface Factory {
         fun create(@BindsInstance sourcesListingFragment: SourcesListingFragment): SourcesListingComponent
     }
 }

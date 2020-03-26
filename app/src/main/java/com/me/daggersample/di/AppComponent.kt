@@ -9,10 +9,10 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [NetworkModule::class])
+@Component(modules = [NetworkModule::class, AppSubComponentModule::class])
 interface AppComponent {
 
-    fun getNewsListingComponentBuilder(): SourcesListingComponent.Builder
+    fun getNewsListingComponentFactory(): SourcesListingComponent.Factory
     fun getHeadLinesComponentFactory(): HeadLinesComponent.Factory
 
     @Component.Factory

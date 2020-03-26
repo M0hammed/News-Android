@@ -2,9 +2,7 @@ package com.me.daggersample.ui.SourcesListing
 
 import android.util.Log
 import android.view.View
-import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +10,6 @@ import com.me.daggersample.R
 import com.me.daggersample.app.DaggerSampleApplication
 import com.me.daggersample.base.BaseFragment
 import com.me.daggersample.base.OnListItemClickListener
-import com.me.daggersample.extentions.makeSuccessMessage
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.ui.HeadLines.HeadLinesActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -47,7 +44,7 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
 
     override fun initDependencyInjection() {
         (activity?.application as DaggerSampleApplication).appComponent
-            .getNewsListingComponentBuilder()
+            .getNewsListingComponentFactory()
             .create(this)
             .inject(this)
     }
