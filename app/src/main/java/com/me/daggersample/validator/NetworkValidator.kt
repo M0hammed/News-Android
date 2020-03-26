@@ -1,15 +1,13 @@
 package com.me.daggersample.validator
 
-import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
 import com.me.daggersample.utils.Platform
 
-class NetworkValidator(private val application: Application) : INetworkValidator {
+class NetworkValidator(private val context: Context) : INetworkValidator {
     override fun isConnected(): Boolean {
-        val connectivityManager = (application
+        val connectivityManager = (context
             .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
 
         if (Platform.isAndroidM()) {

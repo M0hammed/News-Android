@@ -1,6 +1,6 @@
 package com.me.daggersample.source.remote.apiClient
 
-import android.app.Application
+import android.content.Context
 import com.me.daggersample.BuildConfig
 import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
 import com.me.daggersample.source.remote.data_source.IRemoteDataSource
@@ -119,6 +119,6 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    internal fun provideNetworkValidator(application: Application): INetworkValidator =
-        NetworkValidator(application)
+    internal fun provideNetworkValidator(context: Context): INetworkValidator =
+        NetworkValidator(context)
 }

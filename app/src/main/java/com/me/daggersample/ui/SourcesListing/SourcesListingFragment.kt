@@ -48,7 +48,7 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
     override fun initDependencyInjection() {
         (activity?.application as DaggerSampleApplication).appComponent
             .getNewsListingComponentBuilder()
-            .create(requireContext(), this)
+            .create(this)
             .inject(this)
     }
 

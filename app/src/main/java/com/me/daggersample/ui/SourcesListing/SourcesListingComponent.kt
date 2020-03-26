@@ -11,8 +11,6 @@ interface SourcesListingComponent {
 
     @Subcomponent.Factory
     interface Builder {
-        fun create(
-            @BindsInstance context: Context,@BindsInstance sourcesListingFragment: SourcesListingFragment
-        ): SourcesListingComponent
+        fun create(@BindsInstance sourcesListingFragment: SourcesListingFragment): SourcesListingComponent
     }
 }
