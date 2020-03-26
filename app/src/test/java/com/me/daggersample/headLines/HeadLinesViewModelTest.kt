@@ -76,29 +76,7 @@ class HeadLinesViewModelTest {
     }
 
     @Test
-    fun `test api response with wrong source id`() {
-        val headLinesWithEmptyList =
-            Utils.`generate json reader`("src/test/res/empty_headlines_json_file")
-        val headLines =
-            Gson().fromJson<ApiResponse<ArrayList<Sources>>>(
-                headLinesWithEmptyList, ApiResponse::class.java
-            )
-        Mockito.`when`(remoteDataSource.getHeadLinesList(wrongTestingSourceId))
-            .then { Observable.just(ResponseStatus.Success(data = headLines)) }
-
-        headLinesViewModelWithWrongSourceID.getHeadLines()
-            .subscribe({}, {})
-
-        val errorLayoutActualValue = headLinesViewModelWithWrongSourceID.errorLayoutVisibility.value
-        val errorLayoutExpectedValue = ErrorModel(
-            message = R.string.no_data,
-            subMessage = R.string.please_try_again,
-            visibility = VISIBLE
-        )
-        Truth.assertThat(errorLayoutActualValue).isEqualTo(errorLayoutExpectedValue)
-        val actualHeadListValue = headLinesViewModelWithWrongSourceID.healLinesList.value
-        Truth.assertThat(actualHeadListValue).isEmpty()
-        Mockito.verify(remoteDataSource, Mockito.times(1))
-            .getHeadLinesList(wrongTestingSourceId)
+    fun `test data response is correct and show data`() {
+        Mockito.`when`(remoteDataSource.getHeadLinesList(testingSourceId))
     }
 }

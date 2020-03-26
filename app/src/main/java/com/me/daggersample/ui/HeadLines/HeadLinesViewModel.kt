@@ -26,7 +26,7 @@ class HeadLinesViewModel(
                 .map { mapApiResponse(it) }
                 .ignoreElements()
         } else {
-            headLinesRepository.getHeadLinesList("sdasdasd")
+            headLinesRepository.getHeadLinesList(sourceId)
                 .map { mapApiResponse(it) }
                 .ignoreElements()
         }
@@ -35,7 +35,7 @@ class HeadLinesViewModel(
     private fun mapApiResponse(it: ResponseStatus<ApiResponse<ArrayList<HeadLineModel>>>): ResponseStatus<ApiResponse<ArrayList<HeadLineModel>>> {
         when (it) {
             is ResponseStatus.Success -> {
-                validateHeadLinesList(it.data)
+                validateHeadLinesList(it.data!!)
             }
             is ResponseStatus.NoNetwork -> {
                 _errorLayoutVisibility.value = ErrorModel(
@@ -56,24 +56,7 @@ class HeadLinesViewModel(
     }
 
     // validate data and headlines list
-    private fun validateHeadLinesList(data: ApiResponse<ArrayList<HeadLineModel>>?) {
-        if (data != null) {
-            if (data.articles != null) {
-                if (data.articles!!.isNotEmpty()) {
+    private fun validateHeadLinesList(data: ApiResponse<ArrayList<HeadLineModel>>) {
 
-                } else {
-                    _healLinesList.value = data.articles
-                    _errorLayoutVisibility.value = ErrorModel(
-                        message = R.string.no_data,
-                        subMessage = R.string.please_try_again,
-                        visibility = VISIBLE
-                    )
-                }
-            } else {
-
-            }
-        } else {
-
-        }
     }
 }
