@@ -1,0 +1,135 @@
+{
+  "status": "ok",
+  "articles": [
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Trump 'considering quarantine on New York'",
+      "description": "President Trump says he is considering quarantining New York as coronavirus cases there increase to more than 52,000.",
+      "url": "http://www.bbc.co.uk/news/world-us-canada-52079121",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/7A23/production/_97176213_breaking_news_bigger.png",
+      "publishedAt": "2020-03-28T16:55:31Z",
+      "content": "US President Donald Trump has said he is considering imposing a quarantine on New York in a bid to slow the spread of the coronavirus.\r\n\"We'd like to see [it] quarantined because it's a hotspot,\" he told reporters on Saturday. \"I'm thinking about that.\" \r\nHe … [+449 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Number of UK coronavirus deaths rises above 1,000",
+      "description": "The number of people to have died with the coronavirus in the UK has reached 1,019, latest figures show.",
+      "url": "http://www.bbc.co.uk/news/uk-52077997",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/1C1B/production/_111459170_hi060842426.jpg",
+      "publishedAt": "2020-03-28T14:29:01Z",
+      "content": "Image copyrightReuters\r\nThe number of people to have died with the coronavirus in the UK has reached 1,019.\r\nThe latest government figures on Saturday showed there were another 260 deaths in the UK in a day, up from 759 on Friday.\r\nThere are now 17,089 confir… [+796 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "India defiant as millions struggle under lockdown",
+      "description": "The government defends strict lockdown measures that have left millions stranded and without food.",
+      "url": "http://www.bbc.co.uk/news/world-asia-india-52077395",
+      "urlToImage": "https://ichef.bbci.co.uk/images/ic/1024x576/p087x6zs.jpg",
+      "publishedAt": "2020-03-28T13:45:43Z",
+      "content": "Media captionMillions of people in India are struggling for food during the country's coronavirus lockdown\r\nThe Indian government has defended its handling of the coronavirus outbreak after a strict lockdown - introduced with little warning - left millions st… [+3217 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Locked down India struggles as workers flee cities",
+      "description": "With millions of migrant labourers and homeless people left without income, officials are struggling to help.",
+      "url": "http://www.bbc.co.uk/news/world-asia-india-52065968",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/A0FF/production/_111451214_p087x6zs.jpg",
+      "publishedAt": "2020-03-28T12:57:45Z",
+      "content": null
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Coronavirus ship in race to transfer passengers",
+      "description": "A vessel carrying more than 1,800 people off Panama is moving healthy passengers to a sister ship.",
+      "url": "http://www.bbc.co.uk/news/world-latin-america-52072703",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/B0C7/production/_111455254_hi060838095.jpg",
+      "publishedAt": "2020-03-28T10:22:57Z",
+      "content": "Image copyrightReutersImage caption\r\n Canadian passengers on the Zaandam, Chris and Anna Joiner, ask their government for help\r\nA cruise ship carrying more than 1,800 people off Panama is in a race to transfer healthy passengers to another ship after four peo… [+2949 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Wuhan partly reopens after coronavirus lockdown",
+      "description": "People enter the Chinese city where the coronavirus outbreak began for the first time in months.",
+      "url": "http://www.bbc.co.uk/news/world-asia-china-52075022",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/8449/production/_111456833_060839921-1.jpg",
+      "publishedAt": "2020-03-28T08:40:52Z",
+      "content": "Image copyrightAFPImage caption\r\n Many of those arriving in Wuhan on Saturday pulled suitcases behind them as they returned to their families\r\nThe city in China where the coronavirus pandemic began, Wuhan, has partially re-opened after more than two months of… [+16614 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Coronavirus: Wuhan easing lockdown as World battles virus",
+      "description": "The city where the pandemic began partially re-opens, but across the world nations are tightening curbs on movement.",
+      "url": "http://www.bbc.co.uk/news/live/52075063",
+      "urlToImage": "https://m.files.bbci.co.uk/modules/bbc-morph-news-waf-page-meta/4.1.2/bbc_news_logo.png",
+      "publishedAt": "2020-03-28T08:38:28.0856327Z",
+      "content": "Wuhan, the Chinese city where the coronavirus first emerged last year, has partly reopened after more than two months in isolation.\r\nPeople are now allowed to enter Wuhan, but not leave. \r\nThe city in Hubei province was placed under lockdown back in January, … [+547 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Veteran civil rights leader Joseph Lowery dies",
+      "description": "Joseph Lowery, a former \"dear friend\" of Martin Luther King Jr, was a champion for civil rights.",
+      "url": "http://www.bbc.co.uk/news/world-us-canada-52074587",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/4371/production/_111456271_hi060839698.jpg",
+      "publishedAt": "2020-03-28T06:06:07Z",
+      "content": "Image copyrightReutersImage caption\r\n Reverend Lowery (centre) with US Senator Barack Obama during a march in Selma in 2007\r\nJoseph Lowery, a veteran US civil rights leader and former \"dear friend\" of Martin Luther King Jr, has died aged 98, US media report. … [+1411 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Lack of medical supplies: 'A national shame'",
+      "description": "Doctors in the United States share the difficulty of obtaining gear to treat patients with Covid-19.",
+      "url": "http://www.bbc.co.uk/news/world-us-canada-52072238",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/4CC7/production/_111455691_p087yt40.jpg",
+      "publishedAt": "2020-03-28T01:57:02Z",
+      "content": null
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Clubbing in the time of coronavirus",
+      "description": "With the coronavirus lockdown bringing normal nightlife to an end, some enterprising DJs are going online.",
+      "url": "http://www.bbc.co.uk/news/business-52055789",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/C931/production/_111450515_p087t3t9.jpg",
+      "publishedAt": "2020-03-28T00:16:25Z",
+      "content": null
+    }
+  ]
+}

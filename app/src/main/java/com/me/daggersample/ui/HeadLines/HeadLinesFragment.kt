@@ -1,7 +1,6 @@
 package com.me.daggersample.ui.HeadLines
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,7 +52,7 @@ class HeadLinesFragment : BaseFragment<HeadLinesViewModel>(),
     }
 
     override fun initialize() {
-
+        viewModel.getHeadLines().subscribe()
     }
 
     override fun setListeners() {

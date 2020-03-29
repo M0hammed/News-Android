@@ -24,8 +24,8 @@ open class BaseViewModel : ViewModel() {
 
     protected fun handleProgressVisibility(
         visibility: Int,
-        isForceRefresh: Boolean,
-        isLoadMore: Boolean
+        isForceRefresh: Boolean = false,
+        isLoadMore: Boolean = false
     ) {
         when {
             !isForceRefresh && !isLoadMore -> _mainProgress.postValue(visibility)
