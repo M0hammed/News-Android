@@ -70,13 +70,19 @@ class HeadLinesViewModel(
             is ResponseStatus.Error -> onStatusError(it)
 
             is ResponseStatus.ServerError -> onStatusServerError(it)
+
+            is ResponseStatus.ApiFailed -> onApiFailed(it)
         }
         return it
     }
 
+    // handle api failed and error layout visibility
+    private fun onApiFailed(it: ResponseStatus.ApiFailed) {
+        _errorLayoutVisibility.postValue(ErrorModel(visibility = VISIBLE))
+    }
+
     // handle when server respond with error messages
     private fun onStatusServerError(it: ResponseStatus.ServerError) {
-        handleProgressVisibility(GONE)
         _errorLayoutVisibility.postValue(
             ErrorModel(serverMessage = it.serverMessage, visibility = VISIBLE)
         )

@@ -10,6 +10,7 @@ import com.me.daggersample.R
 import com.me.daggersample.model.base.ApiResponse
 import com.me.daggersample.model.headLine.HeadLineModel
 import com.me.daggersample.model.networkData.ErrorModel
+import com.me.daggersample.model.networkData.ErrorResponse
 import com.me.daggersample.source.remote.data_source.IRemoteDataSource
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import com.me.daggersample.ui.HeadLines.HeadLinesRepository
@@ -127,7 +128,7 @@ class HeadLinesViewModelTest {
         headLinesViewModel.mainProgress.observeForever(mainProgressObserver)
         headLinesViewModel.errorLayoutVisibility.observeForever(errorLayoutObserver)
         headLinesViewModel.getHeadLines().subscribe()
-        Mockito.verify(mainProgressObserver, Mockito.times(3)).onChanged(any())
+        Mockito.verify(mainProgressObserver, Mockito.times(2)).onChanged(any())
         Mockito.verify(errorLayoutObserver, Mockito.times(3)).onChanged(any())
         Truth.assertThat(headLinesViewModel.mainProgress.value).isNotNull()
         Truth.assertThat(headLinesViewModel.errorLayoutVisibility.value).isNotNull()
@@ -140,6 +141,31 @@ class HeadLinesViewModelTest {
                     subMessage = R.string.please_try_again
                 )
             )
+    }
+
+    @Test
+    fun `call getHeadLines() and then return api failed`() {
+        Mockito.`when`(validator.isConnected()).then { true }
+        Mockito.`when`(remoteDataSource.getHeadLinesList(testingSourceId))
+            .then { Observable.just(ResponseStatus.ApiFailed(500, ErrorResponse())) }
+
+        headLinesViewModel.mainProgress.observeForever(mainProgressObserver)
+        headLinesViewModel.errorLayoutVisibility.observeForever(errorLayoutObserver)
+
+        headLinesViewModel.getHeadLines().subscribe()
+
+        Mockito.verify(mainProgressObserver, Mockito.times(2)).onChanged(any())
+        Mockito.verify(errorLayoutObserver, Mockito.times(3)).onChanged(any())
+
+        Truth.assertThat(headLinesViewModel.errorLayoutVisibility.value)
+            .isEqualTo(
+                ErrorModel(
+                    message = R.string.something_went_wrong,
+                    subMessage = R.string.please_try_again,
+                    visibility = VISIBLE
+                )
+            )
+        Truth.assertThat(headLinesViewModel.headLinesList.value).isNull()
     }
 
     @Test
