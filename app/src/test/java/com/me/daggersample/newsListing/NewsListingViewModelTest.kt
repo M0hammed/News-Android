@@ -5,7 +5,6 @@ import android.view.View.VISIBLE
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
 import com.google.gson.Gson
-import com.google.gson.stream.JsonReader
 import com.me.daggersample.R
 import com.me.daggersample.model.base.ApiResponse
 import com.me.daggersample.model.networkData.ErrorModel
@@ -15,6 +14,7 @@ import com.me.daggersample.source.remote.data_source.IRemoteDataSource
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import com.me.daggersample.ui.SourcesListing.SourcesListingRepository
 import com.me.daggersample.ui.SourcesListing.SourcesListingViewModel
+import com.me.daggersample.utils.RxTestRules
 import com.me.daggersample.utils.Utils.`generate json reader`
 import com.me.daggersample.validator.INetworkValidator
 import io.reactivex.Observable
@@ -22,14 +22,14 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
-import java.io.File
-import java.io.FileReader
-import kotlin.NullPointerException
 
 
 class NewsListingViewModelTest {
     @get:Rule
-    val taskExecutorRule = InstantTaskExecutorRule() // swap to background
+    val taskExecutorRule = InstantTaskExecutorRule() // executes each task synchronously.
+
+    @get:Rule
+    val rxJavaRules = RxTestRules()
 
     private val validator = Mockito.mock(INetworkValidator::class.java)
     private val remoteDataSource = Mockito.mock(IRemoteDataSource::class.java)
