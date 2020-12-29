@@ -29,7 +29,9 @@ class HeadLinesActivity : BaseActivity() {
         if (savedInstanceState == null)
             supportFragmentManager.beginTransaction().replace(
                 R.id.headLinesContainer,
-                HeadLinesFragment.newInstance(intent.getStringExtra(ConstantsKeys.BundleKeys.SOURCES_KEY)),
+                HeadLinesFragment.newInstance(
+                    intent.getStringExtra(ConstantsKeys.BundleKeys.SOURCES_KEY) ?: ""
+                ),
                 HeadLinesFragment.TAG
             ).commit()
     }
