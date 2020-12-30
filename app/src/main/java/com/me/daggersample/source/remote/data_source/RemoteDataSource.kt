@@ -6,7 +6,6 @@ import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import com.me.daggersample.source.remote.handler.getNetworkResponse
-import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
 
@@ -14,18 +13,11 @@ class RemoteDataSource(private val retrofitApisInterface: RetrofitApisInterface)
     IRemoteDataSource {
     private val apiCallMap = HashMap<String, Call<*>>()
 
-    /*private fun <R> executeApiCall(
-        call: Call<ApiResponse<R>>, tag: String
-    ): Observable<ResponseStatus<ApiResponse<R>>> {
-        apiCallMap[tag] = call
-        return call.getNetworkResponse()
-    }*/
-
     private fun <R> executeApiCall(
         call: Call<ApiResponse<R>>, tag: String
     ): Flow<ResponseStatus<ApiResponse<R>>> {
         apiCallMap[tag] = call
-        return call.getNetworkResponse(0)
+        return call.getNetworkResponse()
     }
 
     override fun cancelApiCall(tag: String) {

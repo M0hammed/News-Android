@@ -2,11 +2,12 @@ package com.me.daggersample.base
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
-import android.R.attr.data
-import java.nio.file.Files.size
 
 
-abstract class BaseAdapter<item>(val context: Context, val onListItemClickListener: OnListItemClickListener<item>) :
+abstract class BaseAdapter<item>(
+    val context: Context,
+    val onListItemClickListener: OnListItemClickListener<item>
+) :
     RecyclerView.Adapter<BaseViewHolder>() {
     var data: ArrayList<item>
     protected var isLoadingAdded = false

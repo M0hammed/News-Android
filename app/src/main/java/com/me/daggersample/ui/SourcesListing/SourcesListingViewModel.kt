@@ -1,6 +1,5 @@
 package com.me.daggersample.ui.SourcesListing
 
-import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.lifecycle.LiveData
@@ -12,11 +11,10 @@ import com.me.daggersample.model.base.ApiResponse
 import com.me.daggersample.model.networkData.ErrorModel
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.handler.ResponseStatus
-import io.reactivex.Completable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 
 class SourcesListingViewModel(private val sourcesListingRepository: SourcesListingRepository) :
     BaseViewModel() {
@@ -26,19 +24,6 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     private var cashedSourcesList: ArrayList<Sources>? = null
     val testingCashedSourcesList: ArrayList<Sources>?
         get() = cashedSourcesList
-
-    /*fun getNewsListing(forceRefresh: Boolean = false, loadMore: Boolean = false): Completable {
-        return if (cashedSourcesList.isNullOrEmpty() || forceRefresh)
-            sourcesListingRepository.getListingTeams()
-                .doOnSubscribe { handleSubscribeOn(forceRefresh, loadMore) }
-                .doOnError { handleDoOnError(forceRefresh, loadMore) }
-                .doOnNext { handleDoOnNext(forceRefresh, loadMore) }
-                .map { mapTeamsListing(it, forceRefresh) }
-                .ignoreElements()
-        else {
-            Completable.complete()
-        }
-    }*/
 
     fun getNewsListing(
         forceRefresh: Boolean = false,

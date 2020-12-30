@@ -1,6 +1,5 @@
 package com.me.daggersample.ui.SourcesListing
 
-import android.util.Log
 import android.view.View
 import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
@@ -12,14 +11,9 @@ import com.me.daggersample.app.DaggerSampleApplication
 import com.me.daggersample.base.BaseFragment
 import com.me.daggersample.base.OnListItemClickListener
 import com.me.daggersample.model.source.Sources
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.app_recycler_layout.*
 import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.main_progress_bar.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -61,13 +55,6 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
     }
 
     override fun initialize() {
-        /*disposable.add(
-            viewModel.getNewsListing()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({}, { Log.e("xxx", "error message ${it.message}") })
-        )*/
-
         viewModel.getNewsListing()
 
         viewModel.sourcesListing.observe(viewLifecycleOwner, Observer {
