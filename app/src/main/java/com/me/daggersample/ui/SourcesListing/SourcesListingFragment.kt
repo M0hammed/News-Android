@@ -5,18 +5,22 @@ import android.view.View
 import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.me.daggersample.R
 import com.me.daggersample.app.DaggerSampleApplication
 import com.me.daggersample.base.BaseFragment
 import com.me.daggersample.base.OnListItemClickListener
 import com.me.daggersample.model.source.Sources
-import com.me.daggersample.ui.HeadLines.HeadLinesActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.app_recycler_layout.*
 import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.main_progress_bar.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -25,6 +29,7 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
 
     @Inject
     lateinit var newsListingViewModelFactory: SourcesListingViewModelFactory
+
     @Inject
     lateinit var newsListingAdapter: SourcesListingAdapter
 
@@ -56,12 +61,14 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
     }
 
     override fun initialize() {
-        disposable.add(
+        /*disposable.add(
             viewModel.getNewsListing()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({}, { Log.e("xxx", "error message ${it.message}") })
-        )
+        )*/
+
+        viewModel.getNewsListing()
 
         viewModel.sourcesListing.observe(viewLifecycleOwner, Observer {
             newsListingAdapter.insertAll(it)
@@ -82,16 +89,10 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
 
     override fun setListeners() {
         swipeRefresh.setOnRefreshListener {
-            viewModel.getNewsListing(true)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({}, { Log.e("xxx", "error message ${it.message}") })
+            lifecycleScope.launch { viewModel.getNewsListing(true) }
         }
     }
 
     override fun onItemClicked(view: View?, model: Sources) {
-        model.id?.let {
-            HeadLinesActivity.startActivity(requireContext(), it)
-        }
     }
 }

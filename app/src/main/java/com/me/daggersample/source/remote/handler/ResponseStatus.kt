@@ -19,7 +19,8 @@ sealed class ResponseStatus<out T> {
 
     data class Error(
         @StringRes val message: Int = STATUS_NO_MESSAGE,
-        @StringRes val subMessage: Int = STATUS_NO_MESSAGE
+        @StringRes val subMessage: Int = STATUS_NO_MESSAGE,
+        val cause: Throwable? = null
     ) : ResponseStatus<Nothing>()
 
     data class NoNetwork(

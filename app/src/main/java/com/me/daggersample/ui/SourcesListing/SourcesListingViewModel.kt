@@ -1,9 +1,11 @@
 package com.me.daggersample.ui.SourcesListing
 
+import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.me.daggersample.R
 import com.me.daggersample.base.BaseViewModel
 import com.me.daggersample.model.base.ApiResponse
@@ -11,6 +13,10 @@ import com.me.daggersample.model.networkData.ErrorModel
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import io.reactivex.Completable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class SourcesListingViewModel(private val sourcesListingRepository: SourcesListingRepository) :
     BaseViewModel() {
@@ -21,7 +27,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     val testingCashedSourcesList: ArrayList<Sources>?
         get() = cashedSourcesList
 
-    fun getNewsListing(forceRefresh: Boolean = false, loadMore: Boolean = false): Completable {
+    /*fun getNewsListing(forceRefresh: Boolean = false, loadMore: Boolean = false): Completable {
         return if (cashedSourcesList.isNullOrEmpty() || forceRefresh)
             sourcesListingRepository.getListingTeams()
                 .doOnSubscribe { handleSubscribeOn(forceRefresh, loadMore) }
@@ -32,12 +38,23 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
         else {
             Completable.complete()
         }
+    }*/
+
+    fun getNewsListing(
+        forceRefresh: Boolean = false,
+        loadMore: Boolean = false
+    ) {
+        sourcesListingRepository.getListingTeams()
+            .onStart { handleSubscribeOn(forceRefresh, loadMore) }
+            .onCompletion { handleDoOnNext(forceRefresh, loadMore) }
+            .map { mapTeamsListing(it, forceRefresh) }
+            .launchIn(viewModelScope)
     }
 
     // handle subscribe on
     private fun handleSubscribeOn(forceRefresh: Boolean, loadMore: Boolean) {
         handleProgressVisibility(VISIBLE, forceRefresh, loadMore)
-        _errorLayoutVisibility.postValue(ErrorModel(visibility = GONE))
+        _errorLayoutVisibility.value = ErrorModel(visibility = GONE)
     }
 
     // handle do on error
@@ -147,9 +164,9 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     // check cashed data if should show error layout or show toast
     private fun validateCashedData(errorModel: ErrorModel) {
         if (cashedSourcesList.isNullOrEmpty()) {// show error model
-            _errorLayoutVisibility.postValue(errorModel)
+            _errorLayoutVisibility.value = errorModel
         } else {
-            _errorMessage.postValue(errorModel)
+            _errorMessage.value = errorModel
         }
     }
 
@@ -157,13 +174,15 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     private fun updateCashedTeamsList(
         sourcesList: ArrayList<Sources>, forceRefresh: Boolean
     ) {
-        if (cashedSourcesList == null)
-            this.cashedSourcesList = sourcesList
-        else if (forceRefresh) {
-            this.cashedSourcesList?.clear()
-            this.cashedSourcesList?.addAll(sourcesList)
-        } else {
-            this.cashedSourcesList?.addAll(sourcesList)
+        when {
+            cashedSourcesList == null -> this.cashedSourcesList = sourcesList
+            forceRefresh -> {
+                this.cashedSourcesList?.clear()
+                this.cashedSourcesList?.addAll(sourcesList)
+            }
+            else -> {
+                this.cashedSourcesList?.addAll(sourcesList)
+            }
         }
     }
 
