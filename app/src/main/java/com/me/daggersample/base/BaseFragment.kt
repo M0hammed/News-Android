@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.asLiveData
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.me.daggersample.extentions.makeErrorMessage
 import com.me.daggersample.model.base.Progress
@@ -40,12 +41,12 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initViewModel()
-        initialize()
         handleObservers()
+        initialize()
     }
 
     private fun handleObservers() {
-        viewModel.errorMessage.observe(viewLifecycleOwner) {
+        viewModel.messageState.asLiveData().observe(viewLifecycleOwner) {
             Toast(requireContext()).makeErrorMessage(
                 requireContext(), it?.serverMessage ?: getString(it.message)
             )
@@ -55,7 +56,7 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
     protected fun handleProgressVisibility(progress: Progress, progressView: View) {
         when (progressView) {
             is ProgressBar -> if (progress.isLoading) progressView.visibility =
-                    View.VISIBLE else progressView.visibility = View.GONE
+                View.VISIBLE else progressView.visibility = View.GONE
             is SwipeRefreshLayout ->
                 progressView.isRefreshing = progress.isLoading
         }

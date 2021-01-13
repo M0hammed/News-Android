@@ -145,8 +145,9 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                     )
             } else {
                 _sourcesListing.value = cashedSourcesList // update list with cashed data
-                _errorMessage.value =
-                    ErrorModel(message = R.string.something_went_wrong) // error message
+                _messageState.tryEmit(
+                    ErrorModel(message = R.string.something_went_wrong)
+                )
             }
         }
     }
@@ -156,7 +157,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
         if (cashedSourcesList.isNullOrEmpty()) {// show error model
             _errorLayoutVisibility.value = errorModel
         } else {
-            _errorMessage.value = errorModel
+            _messageState.tryEmit(errorModel)
         }
     }
 

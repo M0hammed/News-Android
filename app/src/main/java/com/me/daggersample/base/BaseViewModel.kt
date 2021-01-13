@@ -9,9 +9,9 @@ import com.me.daggersample.utils.SingleLiveEvent
 import kotlinx.coroutines.flow.*
 
 open class BaseViewModel : ViewModel() {
-    protected val _errorMessage by lazy { SingleLiveEvent<ErrorModel>() }
-    val errorMessage: LiveData<ErrorModel>
-        get() = _errorMessage
+    protected val _messageState by lazy { MutableStateFlow<ErrorModel?>(null) }
+    val messageState: Flow<ErrorModel>
+        get() = _messageState.filterNotNull()
 
     protected val _errorLayoutVisibility by lazy { SingleLiveEvent<ErrorModel>() }
     val errorLayoutVisibility: LiveData<ErrorModel>
