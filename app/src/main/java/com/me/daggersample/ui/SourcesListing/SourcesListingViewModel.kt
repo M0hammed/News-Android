@@ -2,8 +2,6 @@ package com.me.daggersample.ui.SourcesListing
 
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.me.daggersample.R
 import com.me.daggersample.base.BaseViewModel
@@ -11,46 +9,53 @@ import com.me.daggersample.model.base.ApiResponse
 import com.me.daggersample.model.networkData.ErrorModel
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.handler.ResponseStatus
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 
 class SourcesListingViewModel(private val sourcesListingRepository: SourcesListingRepository) :
     BaseViewModel() {
-    private val _sourcesListing = MutableLiveData<ArrayList<Sources>>()
-    val sourcesListing: LiveData<ArrayList<Sources>>
+    private val _sourcesListing = MutableStateFlow<ArrayList<Sources>?>(null)
+    val sourcesListing: StateFlow<ArrayList<Sources>?>
         get() = _sourcesListing
     private var cashedSourcesList: ArrayList<Sources>? = null
     val testingCashedSourcesList: ArrayList<Sources>?
         get() = cashedSourcesList
 
-    fun getNewsListing(
+    fun refreshNewsListing() {
+        getNewsListing(true, loadMore = false)
+    }
+
+    fun getNewsListing() {
+        getNewsListing(forceRefresh = false, loadMore = false)
+    }
+
+    private fun getNewsListing(
         forceRefresh: Boolean = false,
         loadMore: Boolean = false
     ) {
-        sourcesListingRepository.getListingTeams()
-            .onStart { handleSubscribeOn(forceRefresh, loadMore) }
-            .onCompletion { handleDoOnNext(forceRefresh, loadMore) }
-            .map { mapTeamsListing(it, forceRefresh) }
-            .launchIn(viewModelScope)
+        if (cashedSourcesList.isNullOrEmpty() || forceRefresh)
+            sourcesListingRepository.getNews()
+                .onStart { doOnStart(forceRefresh, loadMore) }
+                .onCompletion { doOnCompletion(forceRefresh, loadMore) }
+                .map { mapTeamsListing(it, forceRefresh) }
+                .catch { doOnError(forceRefresh, loadMore) }
+                .launchIn(viewModelScope)
     }
 
-    // handle subscribe on
-    private fun handleSubscribeOn(forceRefresh: Boolean, loadMore: Boolean) {
-        handleProgressVisibility(VISIBLE, forceRefresh, loadMore)
+    // show progress and hide error layout
+    private fun doOnStart(forceRefresh: Boolean, loadMore: Boolean) {
+        handleProgressVisibility(true, forceRefresh, loadMore)
         _errorLayoutVisibility.value = ErrorModel(visibility = GONE)
     }
 
-    // handle do on error
-    private fun handleDoOnError(forceRefresh: Boolean, loadMore: Boolean) {// need to handle throws
-        handleProgressVisibility(GONE, forceRefresh, loadMore)
-        validateCashedData(ErrorModel(visibility = VISIBLE))
+    // hide progress layout
+    private fun doOnCompletion(forceRefresh: Boolean, loadMore: Boolean) {
+        handleProgressVisibility(false, forceRefresh, loadMore)
     }
 
-    // handle on complete
-    private fun handleDoOnNext(forceRefresh: Boolean, loadMore: Boolean) {
-        handleProgressVisibility(GONE, forceRefresh, loadMore)
+    // hide progress layout and validate if should show error layout
+    private fun doOnError(forceRefresh: Boolean, loadMore: Boolean) {// need to handle throws
+        handleProgressVisibility(false, forceRefresh, loadMore)
+        validateCachedData(ErrorModel(visibility = VISIBLE))
     }
 
     private fun mapTeamsListing(
@@ -61,7 +66,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                 validateTeamsListing(it.data?.result, forceRefresh)
             }
             is ResponseStatus.NoNetwork -> {
-                validateCashedData(
+                validateCachedData(
                     ErrorModel(
                         message = it.message,
                         subMessage = it.subMessage,
@@ -71,7 +76,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                 )
             }
             is ResponseStatus.ServerError -> {
-                validateCashedData(
+                validateCachedData(
                     ErrorModel(
                         serverMessage = it.serverMessage,
                         message = R.string.something_went_wrong,
@@ -83,7 +88,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
             }
             is ResponseStatus.ApiFailed -> {
                 // handle api failure
-                validateCashedData(
+                validateCachedData(
                     ErrorModel(
                         serverMessage = it.errorResponse.message,
                         subMessage = R.string.please_try_again,
@@ -93,7 +98,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                 )
             }
             is ResponseStatus.Error -> {
-                validateCashedData(
+                validateCachedData(
                     ErrorModel(
                         message = R.string.something_went_wrong,
                         subMessage = R.string.please_try_again,
@@ -112,7 +117,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     ) {
         if (sourcesList != null) {
             // update cashed list with remote data with size or empty
-            updateCashedTeamsList(sourcesList, forceRefresh)
+            updateCachedNewsList(sourcesList, forceRefresh)
             if (sourcesList.isNotEmpty()) {
                 _errorLayoutVisibility.value = ErrorModel(visibility = GONE)
             } else {
@@ -147,7 +152,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     }
 
     // check cashed data if should show error layout or show toast
-    private fun validateCashedData(errorModel: ErrorModel) {
+    private fun validateCachedData(errorModel: ErrorModel) {
         if (cashedSourcesList.isNullOrEmpty()) {// show error model
             _errorLayoutVisibility.value = errorModel
         } else {
@@ -156,7 +161,7 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     }
 
     // update cashed data with given new values
-    private fun updateCashedTeamsList(
+    private fun updateCachedNewsList(
         sourcesList: ArrayList<Sources>, forceRefresh: Boolean
     ) {
         when {
@@ -169,10 +174,5 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
                 this.cashedSourcesList?.addAll(sourcesList)
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        sourcesListingRepository.cancelApiCall()
     }
 }

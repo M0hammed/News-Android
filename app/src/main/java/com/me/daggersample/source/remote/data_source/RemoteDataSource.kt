@@ -32,13 +32,8 @@ class RemoteDataSource(private val retrofitApisInterface: RetrofitApisInterface)
         }
     }
 
-    override fun getTeamsList(): Flow<ResponseStatus<ApiResponse<ArrayList<Sources>>>> {
-        val teamsCall = retrofitApisInterface.getTeams()
+    override fun getNews(): Flow<ResponseStatus<ApiResponse<ArrayList<Sources>>>> {
+        val teamsCall = retrofitApisInterface.getNews()
         return executeApiCall(teamsCall, "teamsTag")
-    }
-
-    override fun getHeadLinesList(sourceId: String): Flow<ResponseStatus<ApiResponse<ArrayList<HeadLineModel>>>> {
-        val headLineListCall = retrofitApisInterface.getHeadLineList(sourceId)
-        return executeApiCall(headLineListCall, "headLines")
     }
 }

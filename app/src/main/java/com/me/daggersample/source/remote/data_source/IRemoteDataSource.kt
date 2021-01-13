@@ -9,6 +9,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface IRemoteDataSource {
     fun cancelApiCall(tag: String)
-    fun getTeamsList(): Flow<ResponseStatus<ApiResponse<ArrayList<Sources>>>>
-    fun getHeadLinesList(sourceId: String): Flow<ResponseStatus<ApiResponse<ArrayList<HeadLineModel>>>>
+    fun getNews(): Flow<ResponseStatus<ApiResponse<ArrayList<Sources>>>>
 }

@@ -15,9 +15,9 @@ class SourcesListingRepository @Inject constructor(
     private val networkValidator: INetworkValidator
 ) : BaseRepository() {
 
-    fun getListingTeams(): Flow<ResponseStatus<ApiResponse<ArrayList<Sources>>>> {
+    fun getNews(): Flow<ResponseStatus<ApiResponse<ArrayList<Sources>>>> {
         return if (networkValidator.isConnected())
-            iRemoteDataSource.getTeamsList()
+            iRemoteDataSource.getNews()
         else
             flowOf(ResponseStatus.NoNetwork())
     }

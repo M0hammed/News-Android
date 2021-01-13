@@ -8,8 +8,8 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "29.0.2"
-    flavorDimensions "default"
+    buildToolsVersion "30.0.2"
+    
     defaultConfig {
         applicationId "com.me.daggersample"
         minSdkVersion 17
@@ -27,6 +27,8 @@ android {
             keyPassword '123456789'
         }
     }
+
+    flavorDimensions "default"
     productFlavors {
         dev {
             buildConfigField("String", "BASE_URL", '"https://newsapi.org/v2/"')

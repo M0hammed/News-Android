@@ -5,18 +5,13 @@ import com.google.gson.annotations.SerializedName
 
 open class ApiResponse<T> {
     @SerializedName("status")
-    @Expose
     var status: String? = null
     @SerializedName("message")
-    @Expose
     var message: String? = null
     @SerializedName("sources")
-    @Expose
     var result: T? = null
     @SerializedName("articles")
-    @Expose
     var articles: T? = null
     @SerializedName("totalcount")
-    @Expose
     var totalcount: Int = 0
 }
