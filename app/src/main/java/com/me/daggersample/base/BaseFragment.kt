@@ -16,10 +16,17 @@ import com.me.daggersample.model.base.Progress
 import com.me.daggersample.model.networkData.ErrorModel
 import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.error_layout.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.filterNotNull
 
 abstract class BaseFragment<V : BaseViewModel> : Fragment() {
 
     protected lateinit var viewModel: V
+    private lateinit var stateJob: Job
+    protected lateinit var uiStateScope: CoroutineScope
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -41,8 +48,18 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initViewModel()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initStateScope()
         handleObservers()
         initialize()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        stateJob.cancel()
     }
 
     private fun handleObservers() {
@@ -68,6 +85,11 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
             errorModel.serverMessage ?: getString(errorModel.message)
         errorLayout.tvErrorSubMessage.text = getString(errorModel.subMessage)
         imgErrorIcon.setImageResource(errorModel.errorIcon)
+    }
+
+    private fun initStateScope() {
+        stateJob = SupervisorJob()
+        uiStateScope = CoroutineScope(stateJob + Dispatchers.Main)
     }
 
     @get:LayoutRes

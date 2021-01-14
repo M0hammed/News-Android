@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.*
 class SourcesListingViewModel(private val sourcesListingRepository: SourcesListingRepository) :
     BaseViewModel() {
     private val _sourcesListing = MutableStateFlow<ArrayList<Sources>?>(null)
-    val sourcesListing: StateFlow<ArrayList<Sources>?>
-        get() = _sourcesListing
+    val sourcesListing: Flow<ArrayList<Sources>>
+        get() = _sourcesListing.filterNotNull()
     private var cashedSourcesList: ArrayList<Sources>? = null
     val testingCashedSourcesList: ArrayList<Sources>?
         get() = cashedSourcesList

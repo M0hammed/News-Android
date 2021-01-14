@@ -2,11 +2,9 @@ package com.me.daggersample.ui.SourcesListing
 
 import android.util.Log
 import android.view.View
-import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.me.daggersample.R
 import com.me.daggersample.app.DaggerSampleApplication
@@ -14,12 +12,10 @@ import com.me.daggersample.base.BaseFragment
 import com.me.daggersample.base.OnListItemClickListener
 import com.me.daggersample.model.base.Progress
 import com.me.daggersample.model.source.Sources
-import com.me.daggersample.source.remote.handler.ResponseStatus
 import kotlinx.android.synthetic.main.app_recycler_layout.*
 import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.main_progress_bar.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -61,18 +57,22 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
     }
 
     override fun initialize() {
-        viewModel.sourcesListing.filterNotNull().asLiveData().observe(viewLifecycleOwner, Observer {
-            newsListingAdapter.insertAll(it)
-        })
-
-        viewModel.errorLayoutVisibility.observe(viewLifecycleOwner, Observer {
+        uiStateScope.launch {
+            viewModel.sourcesListing.collect {
+                newsListingAdapter.insertAll(it)
+            }
+        }
+        viewModel.errorLayoutVisibility.observe(viewLifecycleOwner, {
             bindErrorLayout(layoutError, it)
         })
 
-        viewModel.progressState.asLiveData().observe(viewLifecycleOwner) {
-            when (it) {
-                is Progress.Main -> handleProgressVisibility(it, mainProgress)
-                is Progress.Refresh -> handleProgressVisibility(it, swipeRefresh)
+        uiStateScope.launch {
+            viewModel.progressState.collect {
+                Log.e(TAG, "initialize: $it")
+                when (it) {
+                    is Progress.Main -> handleProgressVisibility(it, mainProgress)
+                    is Progress.Refresh -> handleProgressVisibility(it, swipeRefresh)
+                }
             }
         }
 
