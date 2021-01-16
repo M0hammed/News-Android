@@ -17,19 +17,19 @@ open class BaseViewModel : ViewModel() {
     val errorLayoutVisibility: LiveData<ErrorModel>
         get() = _errorLayoutVisibility
 
-    private val _progressState by lazy { MutableStateFlow<Progress?>(null) }
-    val progressState: Flow<Progress>
-        get() = _progressState.filterNotNull()
+    private val _progressState by lazy { MutableSharedFlow<Progress>() }
+    val progressState: SharedFlow<Progress>
+        get() = _progressState
 
-    protected fun handleProgressVisibility(
+    protected suspend fun handleProgressVisibility(
         visibility: Boolean,
         isForceRefresh: Boolean = false,
         isLoadMore: Boolean = false
     ) {
         when {
-            !isForceRefresh && !isLoadMore -> _progressState.tryEmit(Main(visibility))
-            isForceRefresh && !isLoadMore -> _progressState.tryEmit(Refresh(visibility))
-            else -> _progressState.tryEmit(Paging(visibility))
+            !isForceRefresh && !isLoadMore -> _progressState.emit(Main(visibility))
+            isForceRefresh && !isLoadMore -> _progressState.emit(Refresh(visibility))
+            else -> _progressState.emit(Paging(visibility))
         }
     }
 }

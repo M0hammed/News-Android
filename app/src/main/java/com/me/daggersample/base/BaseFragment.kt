@@ -89,7 +89,7 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
 
     private fun initStateScope() {
         stateJob = SupervisorJob()
-        uiStateScope = CoroutineScope(stateJob + Dispatchers.Main)
+        uiStateScope = CoroutineScope(stateJob + Dispatchers.Main.immediate)
     }
 
     @get:LayoutRes

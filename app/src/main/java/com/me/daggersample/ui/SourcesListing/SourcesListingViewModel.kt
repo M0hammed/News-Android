@@ -10,6 +10,7 @@ import com.me.daggersample.model.networkData.ErrorModel
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.handler.ResponseStatus
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class SourcesListingViewModel(private val sourcesListingRepository: SourcesListingRepository) :
     BaseViewModel() {
@@ -17,8 +18,6 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     val sourcesListing: Flow<ArrayList<Sources>>
         get() = _sourcesListing.filterNotNull()
     private var cashedSourcesList: ArrayList<Sources>? = null
-    val testingCashedSourcesList: ArrayList<Sources>?
-        get() = cashedSourcesList
 
     fun refreshNewsListing() {
         getNewsListing(true, loadMore = false)
@@ -42,18 +41,18 @@ class SourcesListingViewModel(private val sourcesListingRepository: SourcesListi
     }
 
     // show progress and hide error layout
-    private fun doOnStart(forceRefresh: Boolean, loadMore: Boolean) {
+    private suspend fun doOnStart(forceRefresh: Boolean, loadMore: Boolean) {
         handleProgressVisibility(true, forceRefresh, loadMore)
         _errorLayoutVisibility.value = ErrorModel(visibility = GONE)
     }
 
     // hide progress layout
-    private fun doOnCompletion(forceRefresh: Boolean, loadMore: Boolean) {
+    private suspend fun doOnCompletion(forceRefresh: Boolean, loadMore: Boolean) {
         handleProgressVisibility(false, forceRefresh, loadMore)
     }
 
     // hide progress layout and validate if should show error layout
-    private fun doOnError(forceRefresh: Boolean, loadMore: Boolean) {// need to handle throws
+    private suspend fun doOnError(forceRefresh: Boolean, loadMore: Boolean) {
         handleProgressVisibility(false, forceRefresh, loadMore)
         validateCachedData(ErrorModel(visibility = VISIBLE))
     }
