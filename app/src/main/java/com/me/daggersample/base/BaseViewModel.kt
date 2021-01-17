@@ -9,9 +9,9 @@ import com.me.daggersample.utils.SingleLiveEvent
 import kotlinx.coroutines.flow.*
 
 open class BaseViewModel : ViewModel() {
-    protected val _messageState by lazy { MutableStateFlow<ErrorModel?>(null) }
-    val messageState: Flow<ErrorModel>
-        get() = _messageState.filterNotNull()
+    private val _messageState by lazy { MutableSharedFlow<ErrorModel>() }
+    val messageState: SharedFlow<ErrorModel>
+        get() = _messageState
 
     protected val _errorLayoutVisibility by lazy { SingleLiveEvent<ErrorModel>() }
     val errorLayoutVisibility: LiveData<ErrorModel>
@@ -20,6 +20,10 @@ open class BaseViewModel : ViewModel() {
     private val _progressState by lazy { MutableSharedFlow<Progress>() }
     val progressState: SharedFlow<Progress>
         get() = _progressState
+
+    protected suspend fun emitMessage(errorModel: ErrorModel) {
+        _messageState.emit(errorModel)
+    }
 
     protected suspend fun handleProgressVisibility(
         visibility: Boolean,

@@ -10,8 +10,6 @@ open class ApiResponse<T> {
     var message: String? = null
     @SerializedName("sources")
     var result: T? = null
-    @SerializedName("articles")
-    var articles: T? = null
     @SerializedName("totalcount")
     var totalcount: Int = 0
 }

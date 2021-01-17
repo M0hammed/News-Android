@@ -58,8 +58,8 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
 
     override fun initialize() {
         uiStateScope.launch {
-            viewModel.sourcesListing.collect {
-                newsListingAdapter.insertAll(it)
+            viewModel.sourcesListingState.collect {
+                Log.e(TAG, "initialize: Status is $it")
             }
         }
         viewModel.errorLayoutVisibility.observe(viewLifecycleOwner, {
