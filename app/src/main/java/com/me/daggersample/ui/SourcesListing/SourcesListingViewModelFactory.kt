@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
 
 class SourcesListingViewModelFactory @Inject constructor(
-    private val newsListingRepository: SourcesListingRepository
+    private val newsListingRepository: ISourcesListingRepository
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

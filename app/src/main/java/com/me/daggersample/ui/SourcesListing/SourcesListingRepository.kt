@@ -14,9 +14,13 @@ import javax.inject.Inject
 class SourcesListingRepository @Inject constructor(
     private val iRemoteDataSource: IRemoteDataSource,
     private val networkValidator: INetworkValidator
-) : BaseRepository() {
+) : BaseRepository(), ISourcesListingRepository {
 
-    fun getNews(): Flow<Status<ApiResponse<ArrayList<Sources>>>> {
+    override fun printMessage() {
+        println("Production Repository")
+    }
+
+    override fun getNews(): Flow<Status<ApiResponse<ArrayList<Sources>>>> {
         return if (networkValidator.isConnected())
             iRemoteDataSource.getNews()
         else
