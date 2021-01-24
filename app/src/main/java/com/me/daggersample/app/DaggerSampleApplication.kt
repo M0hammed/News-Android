@@ -4,18 +4,12 @@ import android.app.Application
 import com.me.daggersample.di.AppComponent
 import com.me.daggersample.di.DaggerAppComponent
 
-class DaggerSampleApplication : Application() {
-    private lateinit var _appComponent: AppComponent
-    val appComponent
-        get() = _appComponent
-
-    override fun onCreate() {
-        super.onCreate()
+open class DaggerSampleApplication : Application() {
+    val appComponent by lazy {
         initAppComponent()
     }
 
-    private fun initAppComponent() {
-        _appComponent = DaggerAppComponent.factory().create(this)
-
+    protected open fun initAppComponent(): AppComponent {
+        return DaggerAppComponent.factory().create(this)
     }
 }
