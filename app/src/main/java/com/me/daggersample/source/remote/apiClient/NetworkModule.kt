@@ -17,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 import javax.net.ssl.*
 
@@ -26,12 +27,11 @@ class NetworkModule {
     @Singleton
     @Provides
     internal fun provideHttpInterceptor(): HttpLoggingInterceptor {
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
-        return httpLoggingInterceptor.apply {
+        return HttpLoggingInterceptor().apply {
             if (BuildConfig.DEBUG)
-                httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+                this.level = HttpLoggingInterceptor.Level.BODY
             else
-                httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
+                this.level = HttpLoggingInterceptor.Level.NONE
         }
     }
 
@@ -95,10 +95,13 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    internal fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    internal fun provideRetrofit(
+        okHttpClient: OkHttpClient,
+        @Named("baseUrl") baseUrl: String
+    ): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

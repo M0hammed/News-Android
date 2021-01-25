@@ -10,6 +10,6 @@ interface SourcesListingComponent {
 
     @Subcomponent.Factory
     interface Factory {
-        fun create(@BindsInstance sourcesListingFragment: SourcesListingFragment): SourcesListingComponent
+        fun create(): SourcesListingComponent
     }
 }
