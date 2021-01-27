@@ -2,7 +2,6 @@ package com.me.daggersample.ui.di
 
 import dagger.Module
 import dagger.Provides
-import okhttp3.mockwebserver.MockWebServer
 import javax.inject.Named
 import javax.inject.Singleton
 

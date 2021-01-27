@@ -13,27 +13,31 @@ open class BaseViewModel : ViewModel() {
     val messageState: SharedFlow<ErrorModel>
         get() = _messageState
 
-    protected val _errorLayoutVisibility by lazy { SingleLiveEvent<ErrorModel>() }
-    val errorLayoutVisibility: LiveData<ErrorModel>
-        get() = _errorLayoutVisibility
-
-    private val _progressState by lazy { MutableSharedFlow<Progress>() }
-    val progressState: SharedFlow<Progress>
+    private val _progressState by lazy { MutableStateFlow<Progress>(Main(false)) }
+    val progressState: StateFlow<Progress>
         get() = _progressState
+
+    private val _errorState by lazy { MutableStateFlow(false) }
+    val errorState: StateFlow<Boolean>
+        get() = _errorState
 
     protected suspend fun emitMessage(errorModel: ErrorModel) {
         _messageState.emit(errorModel)
     }
 
-    protected suspend fun handleProgressVisibility(
+    protected fun emitProgress(
         visibility: Boolean,
         isForceRefresh: Boolean = false,
         isLoadMore: Boolean = false
     ) {
         when {
-            !isForceRefresh && !isLoadMore -> _progressState.emit(Main(visibility))
-            isForceRefresh && !isLoadMore -> _progressState.emit(Refresh(visibility))
-            else -> _progressState.emit(Paging(visibility))
+            !isForceRefresh && !isLoadMore -> _progressState.value = Main(visibility)
+            isForceRefresh && !isLoadMore -> _progressState.value = Refresh(visibility)
+            else -> _progressState.value = Paging(visibility)
         }
+    }
+
+    protected fun emitErrorState(shouldShowError: Boolean) {
+        _errorState.value = shouldShowError
     }
 }
