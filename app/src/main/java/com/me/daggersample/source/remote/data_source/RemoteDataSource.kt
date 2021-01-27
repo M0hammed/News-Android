@@ -13,8 +13,8 @@ class RemoteDataSource(private val retrofitApisInterface: RetrofitApisInterface)
     private val apiCallMap = HashMap<String, Call<*>>()
 
     private fun <R> executeApiCall(
-        call: Call<ApiResponse<R>>, tag: String
-    ): Flow<Status<ApiResponse<R>>> {
+        call: Call<R>, tag: String
+    ): Flow<Status<R>> {
         apiCallMap[tag] = call
         return call.getNetworkResponse()
     }
