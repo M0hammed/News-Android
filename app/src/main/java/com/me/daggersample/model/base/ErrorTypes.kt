@@ -5,9 +5,12 @@ sealed class ErrorTypes(
     val errorSubTitle: String? = null,
     val errorIcon: Int? = null,
 ) {
-    object NoData : ErrorTypes("No Data")
-    object ServerError : ErrorTypes("Server Error")
+    object NoData : ErrorTypes("No data found")
+
+    data class ServerError(val apiErrorResponse: ApiErrorResponse?) :
+        ErrorTypes(errorTitle = apiErrorResponse?.message)
+
     object NoNetwork : ErrorTypes()
-    data class GeneralError(val cause: Throwable? = null) : ErrorTypes("Something Wrong")
-    object ApiFail : ErrorTypes("Api Failed")
+
+    data class UnknownError(val cause: Throwable? = null) : ErrorTypes("Something Wrong")
 }

@@ -2,7 +2,7 @@ package com.me.daggersample.source.remote.data_source
 
 import com.me.daggersample.model.base.ApiResponse
 import com.me.daggersample.model.source.Sources
-import com.me.daggersample.source.remote.handler.Status
+import com.me.daggersample.model.base.Status
 import kotlinx.coroutines.flow.Flow
 
 

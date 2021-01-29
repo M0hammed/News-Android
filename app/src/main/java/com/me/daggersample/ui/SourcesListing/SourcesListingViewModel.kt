@@ -1,7 +1,5 @@
 package com.me.daggersample.ui.SourcesListing
 
-import android.util.Log
-import android.view.View.VISIBLE
 import androidx.lifecycle.viewModelScope
 import com.me.daggersample.R
 import com.me.daggersample.base.BaseViewModel
@@ -9,7 +7,7 @@ import com.me.daggersample.model.base.ApiResponse
 import com.me.daggersample.model.base.ErrorTypes
 import com.me.daggersample.model.networkData.ErrorModel
 import com.me.daggersample.model.source.Sources
-import com.me.daggersample.source.remote.handler.Status
+import com.me.daggersample.model.base.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlin.coroutines.CoroutineContext
@@ -45,8 +43,8 @@ class SourcesListingViewModel(
                 .onCompletion { doOnCompletion(forceRefresh, loadMore) }
                 .map { mapTeamsListing(it, forceRefresh) }
                 .onEach { emitStatus(it) }
-                .catch {
-                    doOnError(forceRefresh, loadMore)
+                .catch { cause: Throwable ->
+                    doOnError(forceRefresh, loadMore, cause)
                 }
                 .launchIn(viewModelScope)
     }
@@ -63,9 +61,9 @@ class SourcesListingViewModel(
     }
 
     // hide progress layout and validate if should show error layout
-    private suspend fun doOnError(forceRefresh: Boolean, loadMore: Boolean) {
+    private suspend fun doOnError(forceRefresh: Boolean, loadMore: Boolean, cause: Throwable) {
         emitProgress(false, forceRefresh, loadMore)
-        validateCachedData(ErrorModel(visibility = VISIBLE))
+        validateCachedData(ErrorTypes.UnknownError(cause))
     }
 
     private suspend fun mapTeamsListing(
@@ -73,7 +71,7 @@ class SourcesListingViewModel(
     ): Status<ArrayList<Sources>> {
         return when (it) {
             is Status.Success -> validateSourcesList(it.data?.result, forceRefresh)
-            is Status.Error -> validateCachedData(ErrorModel())
+            is Status.Error -> validateCachedData(it.errorTypes)
             else -> Status.Idle
         }
     }
@@ -87,7 +85,7 @@ class SourcesListingViewModel(
             Status.Success(sourcesList)
         } else {
             if (cashedSourcesList.isNullOrEmpty()) {
-                validateCachedData(ErrorModel())
+                validateCachedData(ErrorTypes.NoData)
             } else {
                 emitMessage(ErrorModel(message = R.string.something_went_wrong))
                 Status.Idle
@@ -96,12 +94,12 @@ class SourcesListingViewModel(
     }
 
     // check cashed data if should show error layout or show toast
-    private suspend fun validateCachedData(errorModel: ErrorModel): Status<ArrayList<Sources>> {
+    private suspend fun validateCachedData(errorType: ErrorTypes): Status<ArrayList<Sources>> {
         return if (cashedSourcesList.isNullOrEmpty()) {
             emitErrorState(true)
-            Status.Error(ErrorTypes.NoData)
+            Status.Error(errorType)
         } else {
-            emitMessage(errorModel)
+            errorType.errorTitle?.let { emitMessage(ErrorModel(it)) }
             Status.Idle
         }
     }

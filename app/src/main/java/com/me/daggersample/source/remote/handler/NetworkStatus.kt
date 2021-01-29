@@ -1,6 +1,11 @@
 package com.me.daggersample.source.remote.handler
 
-sealed class NetworkStatus {
-    data class SUCCESS<T>(val data: T) : NetworkStatus()
-    data class Error<T>(val error: T? = null) : NetworkStatus()
+import okhttp3.ResponseBody
+
+sealed class NetworkStatus<out T> {
+    data class Success<T>(val data: T) : NetworkStatus<T>()
+    data class Error(val responseError: ResponseError?, val cause: Throwable?) :
+        NetworkStatus<Nothing>()
 }
+
+data class ResponseError(val statusCode: Int, val errorBody: ResponseBody?)

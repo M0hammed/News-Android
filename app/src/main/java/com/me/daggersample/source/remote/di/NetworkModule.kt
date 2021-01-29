@@ -1,7 +1,8 @@
-package com.me.daggersample.source.remote.apiClient
+package com.me.daggersample.source.remote.di
 
 import android.content.Context
 import com.me.daggersample.BuildConfig
+import com.me.daggersample.source.remote.apiInterface.ConstantsKeys
 import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
 import com.me.daggersample.source.remote.data_source.IRemoteDataSource
 import com.me.daggersample.source.remote.data_source.RemoteDataSource
@@ -37,54 +38,22 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    internal fun providerRequestInterceptor(): Interceptor = RetrofitInterceptor()
+    internal fun providerRequestInterceptor(): Interceptor = Interceptor { chain ->
+        val url = chain.request().url
+            .newBuilder()
+            .addQueryParameter(ConstantsKeys.ApiKeys.API_KEY, BuildConfig.API_KEY)
+            .build()
+        val request = chain.request().newBuilder().url(url).build()
+        chain.proceed(request)
+    }
 
     @Singleton
     @Provides
     internal fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor, interceptor: Interceptor
     ): OkHttpClient {
-        val okHttpClient = OkHttpClient.Builder()
-        try {
-            // Create a trust manager that does not validate certificate chains
-            val trustAllCerts: Array<TrustManager> = arrayOf(object : X509TrustManager {
-                override fun checkClientTrusted(
-                    chain: Array<out X509Certificate>?,
-                    authType: String?
-                ) {
-                }
 
-                override fun checkServerTrusted(
-                    chain: Array<out X509Certificate>?,
-                    authType: String?
-                ) {
-                }
-
-                override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
-            })
-
-            // Install the all-trusting trust manager
-            val sslContext = SSLContext.getInstance("SSL")
-            sslContext.init(null, trustAllCerts, SecureRandom())
-
-            // Create an ssl socket factory with our all-trusting manager
-            val sslSocketFactory = sslContext.socketFactory
-            if (trustAllCerts.isNotEmpty() && trustAllCerts.first() is X509TrustManager) {
-                okHttpClient.sslSocketFactory(
-                    sslSocketFactory,
-                    trustAllCerts.first() as X509TrustManager
-                )
-                okHttpClient.hostnameVerifier(object : HostnameVerifier {
-                    override fun verify(p0: String?, p1: SSLSession?): Boolean {
-                        return true
-                    }
-                })
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return okHttpClient
+        return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(interceptor)
             .readTimeout(60, TimeUnit.SECONDS)

@@ -1,4 +1,4 @@
-package com.me.daggersample.source.remote.apiClient
+package com.me.daggersample.source.remote.di
 
 import com.me.daggersample.BuildConfig
 import dagger.Module

@@ -1,11 +1,17 @@
 package com.me.daggersample.source.remote.data_source
 
+import com.google.gson.Gson
+import com.me.daggersample.model.base.ApiErrorResponse
 import com.me.daggersample.model.base.ApiResponse
+import com.me.daggersample.model.base.ErrorTypes
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
-import com.me.daggersample.source.remote.handler.Status
+import com.me.daggersample.source.remote.handler.NetworkStatus
+import com.me.daggersample.source.remote.handler.ResponseError
+import com.me.daggersample.model.base.Status
 import com.me.daggersample.source.remote.handler.getNetworkResponse
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import retrofit2.Call
 
 class RemoteDataSource(private val retrofitApisInterface: RetrofitApisInterface) :
@@ -16,7 +22,12 @@ class RemoteDataSource(private val retrofitApisInterface: RetrofitApisInterface)
         call: Call<R>, tag: String
     ): Flow<Status<R>> {
         apiCallMap[tag] = call
-        return call.getNetworkResponse()
+        return call.getNetworkResponse().map {
+            when (it) {
+                is NetworkStatus.Success -> Status.Success(it.data)
+                is NetworkStatus.Error -> Status.Error(mapErrorResponse(it.responseError, it.cause))
+            }
+        }
     }
 
     override fun cancelApiCall(tag: String) {
@@ -34,5 +45,19 @@ class RemoteDataSource(private val retrofitApisInterface: RetrofitApisInterface)
     override fun getNews(): Flow<Status<ApiResponse<ArrayList<Sources>>>> {
         val teamsCall = retrofitApisInterface.getNews()
         return executeApiCall(teamsCall, "teamsTag")
+    }
+
+    private fun mapErrorResponse(
+        errorResponseError: ResponseError?,
+        cause: Throwable?
+    ): ErrorTypes {
+        return if (cause != null) {
+            ErrorTypes.UnknownError(cause)
+        } else {
+            val apiErrorResponse = errorResponseError?.errorBody?.let {
+                Gson().fromJson(it.string(), ApiErrorResponse::class.java)
+            } ?: ApiErrorResponse(code = errorResponseError?.statusCode?.toString())
+            ErrorTypes.ServerError(apiErrorResponse)
+        }
     }
 }

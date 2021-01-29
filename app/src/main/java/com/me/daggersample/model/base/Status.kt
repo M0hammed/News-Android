@@ -1,14 +1,12 @@
-package com.me.daggersample.source.remote.handler
+package com.me.daggersample.model.base
 
 import androidx.annotation.StringRes
-import com.me.daggersample.model.base.ErrorTypes
 
 sealed class Status<out T> {
     data class Success<T>(
         val data: T? = null,
         @StringRes val message: Int = STATUS_NO_MESSAGE,
-        val serverMessage: String = STATUS_NO_SERVER_MESSAGE,
-        @StringRes val subMessage: Int = STATUS_NO_MESSAGE
+        val serverMessage: String = STATUS_NO_SERVER_MESSAGE
     ) : Status<T>()
 
     data class Error(val errorTypes: ErrorTypes) : Status<Nothing>()

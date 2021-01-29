@@ -5,7 +5,7 @@ import com.me.daggersample.model.base.ApiResponse
 import com.me.daggersample.model.base.ErrorTypes
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.data_source.IRemoteDataSource
-import com.me.daggersample.source.remote.handler.Status
+import com.me.daggersample.model.base.Status
 import com.me.daggersample.validator.INetworkValidator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf

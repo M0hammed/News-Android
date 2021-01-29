@@ -12,7 +12,7 @@ import com.me.daggersample.base.OnListItemClickListener
 import com.me.daggersample.model.base.ErrorTypes
 import com.me.daggersample.model.base.Progress
 import com.me.daggersample.model.source.Sources
-import com.me.daggersample.source.remote.handler.Status
+import com.me.daggersample.model.base.Status
 import kotlinx.android.synthetic.main.app_recycler_layout.*
 import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.main_progress_bar.*

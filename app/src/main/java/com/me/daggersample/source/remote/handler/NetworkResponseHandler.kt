@@ -5,24 +5,25 @@ import com.me.daggersample.model.base.ErrorTypes
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 
 @WorkerThread
-fun <T> Call<T>.getNetworkResponse(retry: Long = 1): Flow<Status<T>> = flow {
+fun <T> Call<T>.getNetworkResponse(): Flow<NetworkStatus<T>> = flow {
     val response = this@getNetworkResponse.execute()
     val responseStatus = getResponseStatus(response)
     emit(responseStatus)
 }.catch { cause: Throwable ->
     cause.printStackTrace()
-    emit(Status.Error(ErrorTypes.GeneralError(cause = cause)))
+    emit(NetworkStatus.Error(null, cause))
 }
 
-private fun <T> getResponseStatus(response: Response<T>): Status<T> {
+private fun <T> getResponseStatus(response: Response<T>): NetworkStatus<T> {
 
     return if (response.isSuccessful && response.body() != null) {
-        Status.Success(data = response.body())
+        NetworkStatus.Success(data = response.body()!!)
     } else {
-        Status.Error(ErrorTypes.ApiFail)
+        NetworkStatus.Error(ResponseError(response.code(), response.errorBody()), null)
     }
 }
