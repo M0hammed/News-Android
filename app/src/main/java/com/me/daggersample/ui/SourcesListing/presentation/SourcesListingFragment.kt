@@ -2,6 +2,7 @@ package com.me.daggersample.ui.SourcesListing.presentation
 
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,6 +10,7 @@ import com.me.daggersample.R
 import com.me.daggersample.app.DaggerSampleApplication
 import com.me.daggersample.base.BaseFragment
 import com.me.daggersample.base.OnListItemClickListener
+import com.me.daggersample.extentions.makeErrorMessage
 import com.me.daggersample.model.base.ErrorTypes
 import com.me.daggersample.model.base.Progress
 import com.me.daggersample.model.source.Sources
@@ -21,12 +23,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
+class SourcesListingFragment : BaseFragment(),
     OnListItemClickListener<Sources> {
 
     @Inject
     lateinit var newsListingViewModelFactory: SourcesListingViewModelFactory
 
+    private lateinit var viewModel: SourcesListingViewModel
     private lateinit var newsListingAdapter: SourcesListingAdapter
 
     companion object {
@@ -58,6 +61,14 @@ class SourcesListingFragment : BaseFragment<SourcesListingViewModel>(),
     }
 
     override fun initialize() {
+        uiStateScope.launch {
+            viewModel.messageState.collect {
+                Toast(requireContext()).makeErrorMessage(
+                    requireContext(), it.serverMessage ?: getString(it.message)
+                )
+            }
+        }
+
         uiStateScope.launch {
             viewModel.sourcesListingState.collect(::onSourceListingStatusRetrieved)
         }

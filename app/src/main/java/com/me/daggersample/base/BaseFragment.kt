@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.asLiveData
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.me.daggersample.extentions.makeErrorMessage
 import com.me.daggersample.model.base.Progress
 import com.me.daggersample.model.base.ErrorModel
 import kotlinx.android.synthetic.main.error_layout.*
@@ -21,9 +18,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 
-abstract class BaseFragment<V : BaseViewModel> : Fragment() {
+abstract class BaseFragment : Fragment() {
 
-    protected lateinit var viewModel: V
     private lateinit var stateJob: Job
     protected lateinit var uiStateScope: CoroutineScope
 
@@ -52,21 +48,12 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment() {
     override fun onStart() {
         super.onStart()
         initStateScope()
-        handleObservers()
         initialize()
     }
 
     override fun onStop() {
         super.onStop()
         stateJob.cancel()
-    }
-
-    private fun handleObservers() {
-        viewModel.messageState.asLiveData().observe(viewLifecycleOwner) {
-            Toast(requireContext()).makeErrorMessage(
-                requireContext(), it?.serverMessage ?: getString(it.message)
-            )
-        }
     }
 
     protected fun handleProgressVisibility(progress: Progress, progressView: View) {
