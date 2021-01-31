@@ -7,13 +7,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdkVersion rootProject.compileSdkVersion
 
     defaultConfig {
         applicationId "com.me.daggersample"
-        minSdkVersion 17
-        targetSdkVersion 30
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "com.me.daggersample.CustomTestRunner"
@@ -78,41 +77,42 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
 
     // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
-    // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
 
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
     // coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
 
-    // dependency injection
-    implementation 'com.google.dagger:dagger:2.30.1'
-    kapt 'com.google.dagger:dagger-compiler:2.30.1'
-    kaptAndroidTest 'com.google.dagger:dagger-compiler:2.30.1'
-    //retrofit networking library
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    // Dagger
+    implementation "com.google.dagger:dagger:$dagger"
+    kapt "com.google.dagger:dagger-compiler:$dagger"
+    // dagger testing
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger"
 
-    /*unit test */
-    testImplementation 'org.mockito:mockito-core:3.6.28'
-    androidTestImplementation 'org.mockito:mockito-android:3.6.28'
+    //retrofit networking library
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp3"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3"
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    /* Unit test */
     testImplementation 'junit:junit:4.13.1'
-    testImplementation 'com.google.truth:truth:1.1'
     testImplementation "android.arch.core:core-testing:1.1.1"
 
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation "androidx.test:rules:1.3.0"
-    androidTestImplementation 'junit:junit:4.12'
-    implementation "androidx.test.espresso:espresso-idling-resource:3.3.0"
-    debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
-    implementation 'androidx.test:core:1.3.0'
+    /* UI test */
+    androidTestImplementation "androidx.test:runner:$androidxTest"
+    implementation "androidx.test:rules:$androidxTest"
 
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
-    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:4.9.0'
+    // espresso
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"
+
+    // fragment test
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
+
+    // okhttp3
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttp3"
 }
