@@ -1,5 +1,6 @@
-package com.me.daggersample.ui.SourcesListing.presentation
+package com.me.daggersample.ui.HeadLines.presentation
 
+import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -13,8 +14,8 @@ import com.me.daggersample.extentions.makeErrorMessage
 import com.me.daggersample.model.base.ErrorTypes
 import com.me.daggersample.model.base.Progress
 import com.me.daggersample.model.base.Status
-import com.me.daggersample.model.source.Sources
-import com.me.daggersample.ui.HeadLines.presentation.HeadLinesActivity
+import com.me.daggersample.model.headLine.HeadLineModel
+import com.me.daggersample.source.remote.apiInterface.ConstantsKeys
 import kotlinx.android.synthetic.main.app_recycler_layout.*
 import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.main_progress_bar.*
@@ -22,42 +23,44 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-class SourcesListingFragment : BaseFragment(),
-    OnListItemClickListener<Sources> {
-
+class HeadLinesFragment : BaseFragment(), OnListItemClickListener<HeadLineModel> {
     @Inject
-    lateinit var newsListingViewModelFactory: SourcesListingViewModelFactory
+    lateinit var headLinesViewModelFactory: HeadLinesViewModelFactory
+    private lateinit var viewModel: HeadLinesViewModel
 
-    private lateinit var viewModel: SourcesListingViewModel
-    private lateinit var newsListingAdapter: SourcesListingAdapter
+    private lateinit var headLinesAdapter: HeadLinesAdapter
 
     companion object {
-        const val TAG: String = "NewsListingFragmentTag"
-        fun newInstance(): SourcesListingFragment = SourcesListingFragment()
+        const val TAG = "HeadLinesFragment"
+        fun newInstance(sourceTag: String): HeadLinesFragment = HeadLinesFragment().apply {
+            arguments =
+                Bundle().apply {
+                    putString(ConstantsKeys.BundleKeys.SOURCES_KEY, sourceTag)
+                }
+        }
     }
 
     override val getLayoutResource: Int
-        get() = R.layout.fragment_source_listing
+        get() = R.layout.fragment_head_lines
 
     override fun initViews(view: View) {
-        newsListingAdapter = SourcesListingAdapter(requireContext(), this)
+        headLinesAdapter = HeadLinesAdapter(requireContext(), this)
         rvApp.layoutManager = LinearLayoutManager(requireContext())
-        rvApp.adapter = newsListingAdapter
+        rvApp.adapter = headLinesAdapter
 
     }
 
     override fun initDependencyInjection() {
+        val sourceId = arguments?.getString(ConstantsKeys.BundleKeys.SOURCES_KEY, null)
         (activity?.application as DaggerSampleApplication).appComponent
-            .getNewsListingComponentFactory()
-            .create()
+            .getHeadLinesComponentFactory()
+            .create(sourceId)
             .inject(this)
     }
 
     override fun initViewModel() {
-        viewModel = ViewModelProvider(
-            this, newsListingViewModelFactory
-        ).get(SourcesListingViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, headLinesViewModelFactory).get(HeadLinesViewModel::class.java)
     }
 
     override fun initialize() {
@@ -70,7 +73,7 @@ class SourcesListingFragment : BaseFragment(),
         }
 
         uiStateScope.launch {
-            viewModel.sourcesListingState.collect(::onSourceListingStatusRetrieved)
+            viewModel.headLinesListingState.collect(::onHeadLinesListingStatusRetrieved)
         }
 
         uiStateScope.launch {
@@ -88,20 +91,20 @@ class SourcesListingFragment : BaseFragment(),
             }
         }
 
-        viewModel.getNewsListing()
+        viewModel.getHeadLinesListing()
     }
 
-    private fun onSourceListingStatusRetrieved(sourceListingStatus: Status<ArrayList<Sources>>) {
-        when (sourceListingStatus) {
-            is Status.Success -> onSourceListingRetrievedSuccessfully(sourceListingStatus.data!!)
-            is Status.Error -> onErrorRetrieved(sourceListingStatus.errorTypes)
+    private fun onHeadLinesListingStatusRetrieved(headLinesListingStatus: Status<ArrayList<HeadLineModel>>) {
+        when (headLinesListingStatus) {
+            is Status.Success -> onSourceListingRetrievedSuccessfully(headLinesListingStatus.data!!)
+            is Status.Error -> onErrorRetrieved(headLinesListingStatus.errorTypes)
             else -> {
             }
         }
     }
 
-    private fun onSourceListingRetrievedSuccessfully(sourceListing: ArrayList<Sources>) {
-        newsListingAdapter.insertAll(sourceListing)
+    private fun onSourceListingRetrievedSuccessfully(headLinesListing: ArrayList<HeadLineModel>) {
+        headLinesAdapter.insertAll(headLinesListing)
     }
 
     private fun onErrorRetrieved(error: ErrorTypes) {
@@ -111,10 +114,10 @@ class SourcesListingFragment : BaseFragment(),
     }
 
     override fun setListeners() {
-        swipeRefresh.setOnRefreshListener { viewModel.refreshNewsListing() }
+
     }
 
-    override fun onItemClicked(view: View?, model: Sources) {
-        model.id?.let { HeadLinesActivity.startActivity(requireContext(), it.toString()) }
+    override fun onItemClicked(view: View?, model: HeadLineModel) {
+        viewModel.refreshHeadLinesListing()
     }
 }

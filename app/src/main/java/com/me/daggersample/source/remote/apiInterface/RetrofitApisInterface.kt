@@ -10,4 +10,8 @@ import retrofit2.http.Query
 interface RetrofitApisInterface {
     @GET(ConstantsKeys.ApiKeys.SOURCES)
     fun getNews(): Call<ApiResponse<ArrayList<Sources>>>
+
+    @GET(ConstantsKeys.ApiKeys.HEADLINE)
+    fun getHeadLineList(@Query(ConstantsKeys.ApiKeys.SOURCES) sourcesId: String):
+            Call<ApiResponse<ArrayList<HeadLineModel>>>
 }

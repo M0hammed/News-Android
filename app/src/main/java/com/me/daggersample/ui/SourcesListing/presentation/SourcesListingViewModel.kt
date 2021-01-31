@@ -39,7 +39,7 @@ class SourcesListingViewModel(
                 .flowOn(backgroundDispatcher)
                 .onStart { doOnStart(forceRefresh, loadMore) }
                 .onCompletion { doOnCompletion(forceRefresh, loadMore) }
-                .map { mapTeamsListing(it, forceRefresh) }
+                .map { mapNewsListing(it, forceRefresh) }
                 .onEach { emitStatus(it) }
                 .catch { cause: Throwable ->
                     doOnError(forceRefresh, loadMore, cause)
@@ -64,7 +64,7 @@ class SourcesListingViewModel(
         validateCachedData(ErrorTypes.UnknownError(cause))
     }
 
-    private suspend fun mapTeamsListing(
+    private suspend fun mapNewsListing(
         it: Status<ApiResponse<ArrayList<Sources>>>, forceRefresh: Boolean
     ): Status<ArrayList<Sources>> {
         return when (it) {

@@ -11,4 +11,7 @@ open class ApiResponse<T> {
 
     @SerializedName("sources")
     var result: T? = null
+
+    @SerializedName("articles")
+    var articles: T? = null
 }

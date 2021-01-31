@@ -9,6 +9,7 @@ import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
 import com.me.daggersample.source.remote.handler.NetworkStatus
 import com.me.daggersample.source.remote.handler.ResponseError
 import com.me.daggersample.model.base.Status
+import com.me.daggersample.model.headLine.HeadLineModel
 import com.me.daggersample.source.remote.handler.getNetworkResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -43,8 +44,13 @@ class RemoteDataSource(private val retrofitApisInterface: RetrofitApisInterface)
     }
 
     override fun getNews(): Flow<Status<ApiResponse<ArrayList<Sources>>>> {
-        val teamsCall = retrofitApisInterface.getNews()
-        return executeApiCall(teamsCall, "teamsTag")
+        val newsCall = retrofitApisInterface.getNews()
+        return executeApiCall(newsCall, "sourcesTag")
+    }
+
+    override fun getHeadLinesList(sourceId: String): Flow<Status<ApiResponse<ArrayList<HeadLineModel>>>> {
+        val headLineList = retrofitApisInterface.getHeadLineList(sourceId)
+        return executeApiCall(headLineList, "headLinesTag")
     }
 
     private fun mapErrorResponse(
