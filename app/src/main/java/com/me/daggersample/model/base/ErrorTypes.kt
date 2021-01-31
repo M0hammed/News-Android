@@ -10,7 +10,7 @@ sealed class ErrorTypes(
     data class ServerError(val apiErrorResponse: ApiErrorResponse?) :
         ErrorTypes(errorTitle = apiErrorResponse?.message)
 
-    object NoNetwork : ErrorTypes()
+    object NoNetwork : ErrorTypes("No network")
 
     data class UnknownError(val cause: Throwable? = null) : ErrorTypes("Something Wrong")
 }
