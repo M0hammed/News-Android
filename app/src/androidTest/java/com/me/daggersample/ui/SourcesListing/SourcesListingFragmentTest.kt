@@ -107,4 +107,32 @@ class SourcesListingFragmentTest {
             .check(matches(RecyclerViewChecker.atPosition(0, hasDescendant(withText("ABC News")))))
 
     }
+
+    @Test
+    fun refreshSourcesListAfterApiFailed() {
+        // GIVEN - list of source items
+        mockWebServer.dispatcher = SourcesMockServer.getUnauthorizedError()
+
+        // WHEN - launch sources listing fragment
+        launchFragmentInContainer<SourcesListingFragment>(Bundle(), R.style.AppTheme)
+
+        // THEN - show the list items and hide loading progress
+
+        Thread.sleep(1000)
+
+        onView(withId(R.id.layoutError)).check(matches(isDisplayed()))
+
+        onView(withId(R.id.tvErrorMessage)).check(matches(withText("Your API key is missing. Append this to the URL with the apiKey param, or use the x-api-key HTTP header.")))
+
+        mockWebServer.dispatcher = SourcesMockServer.getSuccessSourcesList()
+
+        onView(withId(R.id.swipeRefresh)).perform(swipeDown())
+
+        onView(withId(R.id.layoutError)).check(matches(not(isDisplayed())))
+
+        onView(withId(R.id.rvApp))
+            .check(matches(isDisplayed()))
+            .check(matches(RecyclerViewChecker.atPosition(0, hasDescendant(withText("ABC News")))))
+
+    }
 }

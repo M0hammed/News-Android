@@ -65,14 +65,6 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    protected fun bindErrorLayout(errorLayout: View, errorModel: ErrorModel) {
-        errorLayout.visibility = errorModel.visibility
-        errorLayout.tvErrorMessage.text =
-            errorModel.serverMessage ?: getString(errorModel.message)
-        errorLayout.tvErrorSubMessage.text = getString(errorModel.subMessage)
-        imgErrorIcon.setImageResource(errorModel.errorIcon)
-    }
-
     private fun initStateScope() {
         stateJob = SupervisorJob()
         uiStateScope = CoroutineScope(stateJob + Dispatchers.Main.immediate)
