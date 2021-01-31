@@ -1,4 +1,4 @@
-package com.me.daggersample.ui.SourcesListing
+package com.me.daggersample.ui.SourcesListing.data
 
 import com.me.daggersample.base.BaseRepository
 import com.me.daggersample.model.base.ApiResponse
@@ -15,10 +15,6 @@ class SourcesListingRepository @Inject constructor(
     private val iRemoteDataSource: IRemoteDataSource,
     private val networkValidator: INetworkValidator
 ) : BaseRepository(), ISourcesListingRepository {
-
-    override fun printMessage() {
-        println("Production Repository")
-    }
 
     override fun getNews(): Flow<Status<ApiResponse<ArrayList<Sources>>>> {
         return if (networkValidator.isConnected())

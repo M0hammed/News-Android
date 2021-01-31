@@ -1,6 +1,6 @@
-package com.me.daggersample.ui.SourcesListing
+package com.me.daggersample.ui.SourcesListing.di
 
-import dagger.BindsInstance
+import com.me.daggersample.ui.SourcesListing.presentation.SourcesListingFragment
 import dagger.Subcomponent
 
 @Subcomponent(modules = [SourcesListingModule::class])

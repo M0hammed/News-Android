@@ -3,7 +3,7 @@ package com.me.daggersample.di
 import android.content.Context
 import com.me.daggersample.source.remote.di.NetworkModule
 import com.me.daggersample.source.remote.di.UrlModule
-import com.me.daggersample.ui.SourcesListing.SourcesListingComponent
+import com.me.daggersample.ui.SourcesListing.di.SourcesListingComponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton

@@ -13,14 +13,13 @@ import androidx.lifecycle.asLiveData
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.me.daggersample.extentions.makeErrorMessage
 import com.me.daggersample.model.base.Progress
-import com.me.daggersample.model.networkData.ErrorModel
+import com.me.daggersample.model.base.ErrorModel
 import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.error_layout.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.filterNotNull
 
 abstract class BaseFragment<V : BaseViewModel> : Fragment() {
 

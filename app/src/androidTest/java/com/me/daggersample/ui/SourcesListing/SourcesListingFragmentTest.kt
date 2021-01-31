@@ -2,17 +2,21 @@ package com.me.daggersample.ui.SourcesListing
 
 import android.os.Bundle
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.MediumTest
 import com.me.daggersample.R
+import com.me.daggersample.ui.SourcesListing.presentation.SourcesListingActivity
+import com.me.daggersample.ui.SourcesListing.presentation.SourcesListingFragment
 import com.me.daggersample.utils.checker.RecyclerViewChecker
 import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.core.IsNot.not
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 
@@ -27,6 +31,7 @@ class SourcesListingFragmentTest {
         IdlingRegistry.getInstance().register()
         mockWebServer = MockWebServer()
         mockWebServer.start(8080)
+        //ActivityScenario.launch(SourcesListingActivity::class.java)
     }
 
     @After

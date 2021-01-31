@@ -1,4 +1,4 @@
-package com.me.daggersample.ui.SourcesListing
+package com.me.daggersample.ui.SourcesListing.presentation
 
 import android.content.Context
 import android.view.LayoutInflater

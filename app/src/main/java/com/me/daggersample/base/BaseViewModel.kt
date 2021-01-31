@@ -1,11 +1,9 @@
 package com.me.daggersample.base
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.me.daggersample.model.base.Progress
 import com.me.daggersample.model.base.Progress.*
-import com.me.daggersample.model.networkData.ErrorModel
-import com.me.daggersample.utils.SingleLiveEvent
+import com.me.daggersample.model.base.ErrorModel
 import kotlinx.coroutines.flow.*
 
 open class BaseViewModel : ViewModel() {

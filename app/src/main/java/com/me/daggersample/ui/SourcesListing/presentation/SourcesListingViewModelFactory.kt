@@ -1,7 +1,8 @@
-package com.me.daggersample.ui.SourcesListing
+package com.me.daggersample.ui.SourcesListing.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.me.daggersample.ui.SourcesListing.data.ISourcesListingRepository
 import javax.inject.Inject
 
 class SourcesListingViewModelFactory @Inject constructor(

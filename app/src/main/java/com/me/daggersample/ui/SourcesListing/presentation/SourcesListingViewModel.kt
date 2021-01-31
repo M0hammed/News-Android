@@ -1,13 +1,14 @@
-package com.me.daggersample.ui.SourcesListing
+package com.me.daggersample.ui.SourcesListing.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.me.daggersample.R
 import com.me.daggersample.base.BaseViewModel
 import com.me.daggersample.model.base.ApiResponse
 import com.me.daggersample.model.base.ErrorTypes
-import com.me.daggersample.model.networkData.ErrorModel
+import com.me.daggersample.model.base.ErrorModel
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.model.base.Status
+import com.me.daggersample.ui.SourcesListing.data.ISourcesListingRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlin.coroutines.CoroutineContext

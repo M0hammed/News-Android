@@ -1,4 +1,4 @@
-package com.me.daggersample.model.networkData
+package com.me.daggersample.model.base
 
 import android.view.View.GONE
 import com.me.daggersample.R

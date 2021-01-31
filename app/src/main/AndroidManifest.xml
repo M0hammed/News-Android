@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         package="com.me.daggersample"
         android:installLocation="auto">
 
@@ -22,7 +21,7 @@
                 android:name="org.apache.http.legacy"
                 android:required="false" />
 
-        <activity android:name=".ui.SourcesListing.SourcesListingActivity">
+        <activity android:name=".ui.SourcesListing.presentation.SourcesListingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
