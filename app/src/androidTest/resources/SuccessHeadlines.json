@@ -1,0 +1,136 @@
+{
+  "status": "ok",
+  "totalResults": 10,
+  "articles": [
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Covid: 'Lessons to be learnt' from NI vaccine row - Irish PM",
+      "description": "We need to \"calm down\" after the EU reverses a plan to put checks on the Irish border, Micheál Martin says.",
+      "url": "http://www.bbc.co.uk/news/uk-55876176",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/7F66/production/_116741623_065433753.jpg",
+      "publishedAt": "2021-01-31T11:22:22.5142105Z",
+      "content": "media captionTaoiseach Micheál Martin told the BBC's Andrew Marr that the EU was \"blindsided\" by the AstraZeneca vaccine row\r\n\"There are a lot of lessons to be learnt,\" Irish Prime Minister Micheál M… [+5210 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Covid-19: 'Too soon' to discuss donating UK vaccines to other countries",
+      "description": "Ministers say it is too soon to talk about donating some of its coronavirus vaccines to other countries, as UK-EU relations are \"reset\".",
+      "url": "http://www.bbc.co.uk/news/live/uk-55876866",
+      "urlToImage": "https://m.files.bbci.co.uk/modules/bbc-morph-news-waf-page-meta/5.1.0/bbc_news_logo.png",
+      "publishedAt": "2021-01-31T09:22:38.8734342Z",
+      "content": "Supplies of the coronavirus vaccine will not be disrupted by a row over supply in the EU, the UK international trade secretary says.\r\n\"We can absolutely guarantee our supply of the vaccine,\" Liz Trus… [+988 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Covid: Australian city of Perth goes into snap lockdown after guard tests positive",
+      "description": "The Australian city goes into lockdown after a security guard at a quarantine hotel tests positive for coronavirus.",
+      "url": "http://www.bbc.co.uk/news/world-australia-55877150",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/1C38/production/_116742270_065449650-1.jpg",
+      "publishedAt": "2021-01-31T08:37:20.5456037Z",
+      "content": "image captionPeople queue outside a Perth supermarket ahead of the lockdown\r\nThe Australian city of Perth is entering a snap five-day lockdown after a security guard working at a quarantine hotel tes… [+2743 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Covid vaccination: Los Angeles' Dodger Stadium 'closed by protests'",
+      "description": "Protests by anti-vaccine and far-right groups forced the closure of Dodger Stadium, local media report.",
+      "url": "http://www.bbc.co.uk/news/world-us-canada-55875263",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/C8D6/production/_116741415_gettyimages-1296712342.jpg",
+      "publishedAt": "2021-01-31T07:52:17.0307472Z",
+      "content": "image copyrightGetty Images\r\nimage captionThe stadium is one of the biggest vaccination centres in the country\r\nA Covid-19 vaccination centre at the Dodger Stadium in Los Angeles was forced to close … [+2145 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Donald Trump 'parts with lawyers' before impeachment trial",
+      "description": "Donald Trump has reportedly parted ways with lawyers representing him in his impeachment trial.",
+      "url": "http://www.bbc.co.uk/news/world-us-canada-55876035",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/16642/production/_116741719_29b1dce7-7a82-46fc-85c8-1bfb55980fa9.jpg",
+      "publishedAt": "2021-01-31T06:07:21.3735988Z",
+      "content": "image copyrightGetty Images\r\nimage captionDonald Trump is the first president in history to be impeached twice\r\nFormer US President Donald Trump has parted ways with lawyers representing him in his i… [+1711 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Russia braces for latest Navalny protests",
+      "description": "Metro stations are closed and movement is restricted ahead of rallies in support of Alexei Navalny.",
+      "url": "http://www.bbc.co.uk/news/world-europe-55876033",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/307E/production/_116741421_mediaitem116741417.jpg",
+      "publishedAt": "2021-01-31T04:52:25.2377178Z",
+      "content": "image captionMore than 4,000 people were arrested during rallies in support of Alexei Navalny last week\r\nRussian authorities have closed metro stations and are restricting movement in Moscow ahead of… [+2418 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Hilton Valentine, guitarist with the Animals, dies aged 77",
+      "description": "The British musician's riff on The House of The Rising Sun is one of the most famous in pop history.",
+      "url": "http://www.bbc.co.uk/news/entertainment-arts-55875914",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/8ABA/production/_116741553_mediaitem116741552.jpg",
+      "publishedAt": "2021-01-31T03:37:20.9255227Z",
+      "content": "The Animals guitarist Hilton Valentine, who created one of the most famous riffs in pop music in the 1960s, has died at the age of 77.\r\nThe British band's version of blues standard The House of The R… [+1540 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "'Hospitals can't take our Covid patients'",
+      "description": "Lebanon's hospitals are turning away patients as the country buckles under Covid and economic collapse.",
+      "url": "http://www.bbc.co.uk/news/world-middle-east-55861948",
+      "urlToImage": "https://ichef.bbci.co.uk/images/ic/400xn/p095k34j.jpg",
+      "publishedAt": "2021-01-31T00:52:20.3639639Z",
+      "content": "First it was an economic collapse, then the Beirut blast, and now coronavirus.\r\nLebanon has seen a record number of infections and deaths in recent weeks after the authorities relaxed restrictions ov… [+215 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Central African Republic's capital in 'apocalyptic situation' as rebels close in",
+      "description": "A former prime minister says there is daily fighting as rebel forces encircle Bangui.",
+      "url": "http://www.bbc.co.uk/news/world-africa-55872485",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/CEA8/production/_116740925_gettyimages-1230751392.jpg",
+      "publishedAt": "2021-01-30T22:52:27.3480524Z",
+      "content": "image copyrightGetty Images\r\nimage captionUN peacekeepers from Rwanda are manning checkpoints on roads around Bangui\r\nThe situation in the Central African Republic's (CAR) capital of Bangui is \"apoca… [+2634 chars]"
+    },
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "'They're coming for us' - right-wing media on Biden's week",
+      "description": "After four years of cheerleading, conservative pundits have switched tack with Biden in their sights.",
+      "url": "http://www.bbc.co.uk/news/world-us-canada-55845763",
+      "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/17254/production/_116740849_foxnews.jpg",
+      "publishedAt": "2021-01-30T22:52:24.6281688Z",
+      "content": "By Tara McKelveyBBC White House reporter\r\nimage copyrightGetty Images\r\nPresident Biden may have called for unity but he's also trying to quickly dismantle Trump's legacy. How has his busy first full … [+7752 chars]"
+    }
+  ]
+}
