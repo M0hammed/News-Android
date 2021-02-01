@@ -4,18 +4,25 @@ import android.os.Bundle
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.MediumTest
 import com.me.daggersample.R
 import com.me.daggersample.network.ErrorMockServer
 import com.me.daggersample.network.SourcesMockServer
+import com.me.daggersample.ui.HeadLines.presentation.HeadLinesActivity
 import com.me.daggersample.utils.checker.RecyclerViewChecker
 import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.core.IsNot.not
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 
@@ -24,6 +31,10 @@ class SourcesListingFragmentTest {
 
 
     lateinit var mockWebServer: MockWebServer
+
+    @Rule
+    @JvmField
+    val mainActivityRule = IntentsTestRule(SourcesListingActivity::class.java)
 
     @Before
     fun setup() {
@@ -135,5 +146,25 @@ class SourcesListingFragmentTest {
             .check(matches(isDisplayed()))
             .check(matches(RecyclerViewChecker.atPosition(0, hasDescendant(withText("ABC News")))))
 
+    }
+
+    @Test
+    fun testNavigateToHeadlinesList() {
+        // GIVEN - list of source items
+        mockWebServer.dispatcher = SourcesMockServer.getSuccessSourcesList()
+
+        // WHEN - click on first item in source list
+        launchFragmentInContainer<SourcesListingFragment>(Bundle(), R.style.AppTheme)
+        Thread.sleep(500)
+        onView(withId(R.id.rvApp))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<SourcesListingAdapter.SourcesListingViewHolder>(
+                    0,
+                    click()
+                )
+            )
+
+        // THEN - verify successfully navigate to headline
+        intended(hasComponent(HeadLinesActivity::class.java.name))
     }
 }
