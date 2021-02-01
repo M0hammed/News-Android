@@ -12,5 +12,9 @@ sealed class ErrorTypes(
 
     object NoNetwork : ErrorTypes("No network")
 
-    data class UnknownError(val cause: Throwable? = null) : ErrorTypes("Something Wrong")
+    data class UnknownError(val cause: Throwable? = null) :
+        ErrorTypes(cause?.message ?: "Something wrong")
+
+    object GeneralError :
+        ErrorTypes("Something wrong")
 }

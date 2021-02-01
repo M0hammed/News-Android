@@ -1,4 +1,4 @@
-package com.me.daggersample.ui.SourcesListing
+package com.me.daggersample.ui.SourcesListing.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.testing.launchFragmentInContainer
@@ -9,7 +9,8 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.MediumTest
 import com.me.daggersample.R
-import com.me.daggersample.ui.SourcesListing.presentation.SourcesListingFragment
+import com.me.daggersample.network.ErrorMockServer
+import com.me.daggersample.network.SourcesMockServer
 import com.me.daggersample.utils.checker.RecyclerViewChecker
 import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.core.IsNot.not
@@ -74,7 +75,7 @@ class SourcesListingFragmentTest {
     @Test
     fun showErrorLayoutWithMessageWhenApiFail() {
         // GIVEN - Unauthorized error
-        mockWebServer.dispatcher = SourcesMockServer.getUnauthorizedError()
+        mockWebServer.dispatcher = ErrorMockServer.getUnauthorizedError()
 
         // WHEN - launch sources listing fragment
         launchFragmentInContainer<SourcesListingFragment>(Bundle(), R.style.AppTheme)
@@ -111,7 +112,7 @@ class SourcesListingFragmentTest {
     @Test
     fun refreshSourcesListAfterApiFailed() {
         // GIVEN - list of source items
-        mockWebServer.dispatcher = SourcesMockServer.getUnauthorizedError()
+        mockWebServer.dispatcher = ErrorMockServer.getUnauthorizedError()
 
         // WHEN - launch sources listing fragment
         launchFragmentInContainer<SourcesListingFragment>(Bundle(), R.style.AppTheme)

@@ -39,7 +39,7 @@ class HeadLinesViewModel(
         loadMore: Boolean = false
     ) {
         if (cachedHeadLinesList.isNullOrEmpty() || forceRefresh)
-            sourceId?.let { sourceId ->
+            if (sourceId != null) {
                 headLinesRepository.getHeadLinesList(sourceId)
                     .flowOn(backgroundDispatcher)
                     .onStart { doOnStart(forceRefresh, loadMore) }
@@ -48,6 +48,9 @@ class HeadLinesViewModel(
                     .onEach { emitStatus(it) }
                     .catch { cause: Throwable -> doOnError(forceRefresh, loadMore, cause) }
                     .launchIn(viewModelScope)
+            } else {
+                emitErrorState(true)
+                emitStatus(Status.Error(ErrorTypes.UnknownError()))
             }
     }
 

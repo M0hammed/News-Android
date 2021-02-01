@@ -114,7 +114,7 @@ class HeadLinesFragment : BaseFragment(), OnListItemClickListener<HeadLineModel>
     }
 
     override fun setListeners() {
-
+        swipeRefresh.setOnRefreshListener { viewModel.refreshHeadLinesListing() }
     }
 
     override fun onItemClicked(view: View?, model: HeadLineModel) {
