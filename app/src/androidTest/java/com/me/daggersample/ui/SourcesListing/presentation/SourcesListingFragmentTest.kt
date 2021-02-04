@@ -32,10 +32,6 @@ class SourcesListingFragmentTest {
 
     lateinit var mockWebServer: MockWebServer
 
-    @Rule
-    @JvmField
-    val mainActivityRule = IntentsTestRule(SourcesListingActivity::class.java)
-
     @Before
     fun setup() {
         IdlingRegistry.getInstance().register()
@@ -165,6 +161,7 @@ class SourcesListingFragmentTest {
             )
 
         // THEN - verify successfully navigate to headline
+        onView(withId(R.id.layoutHeadLines)).check(matches(isDisplayed()))
         intended(hasComponent(HeadLinesActivity::class.java.name))
     }
 }
