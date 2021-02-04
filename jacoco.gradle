@@ -1,0 +1,49 @@
+// 1- apply jacoco plugin
+apply plugin: 'jacoco'
+
+
+// 2- setup tool version
+jacoco {
+    toolVersion = "$jacocoVersion"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugAndroidTestCoverageReport']) {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+
+
+    def mainSrc = "$project.projectDir/src/main/java"
+
+    getSourceDirectories().from(files([mainSrc]))
+    getClassDirectories().from(files([debugTree]))
+    getExecutionData().from(fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/*coverage.ec'
+    ]))
+}
+
+task jacocoVerificationTask(type: JacocoCoverageVerification, dependsOn: 'jacocoTestReport') {
+
+    violationRules {
+        setFailOnViolation(true)
+        rule {
+            limit {
+                counter = 'LINE'
+                minimum = 0.0
+            }
+        }
+    }
+}
+
+task getCoverage(type: Exec, dependsOn: 'jacocoTestReport') {
+    group = "Reporting"
+    commandLine "open", "$buildDir/reports/jacoco/jacocoTestReport/html/index.html"
+}
