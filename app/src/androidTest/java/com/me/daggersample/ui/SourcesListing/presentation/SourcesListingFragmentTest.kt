@@ -162,6 +162,5 @@ class SourcesListingFragmentTest {
 
         // THEN - verify successfully navigate to headline
         onView(withId(R.id.layoutHeadLines)).check(matches(isDisplayed()))
-        intended(hasComponent(HeadLinesActivity::class.java.name))
     }
 }

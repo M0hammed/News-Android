@@ -31,7 +31,7 @@ android {
         }
     }
 
-    /*flavorDimensions "default"
+    flavorDimensions "default"
     productFlavors {
         dev {
             buildConfigField("String", "BASE_URL", '"https://newsapi.org/v2/"')
@@ -42,7 +42,7 @@ android {
             buildConfigField("String", "BASE_URL", '"https://newsapi.org/v2/"')
             buildConfigField("String", "API_KEY", '"1af829535010448596f98890f16c7f9d"')
         }
-    }*/
+    }
 
     buildTypes {
 
@@ -58,8 +58,8 @@ android {
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
             testCoverageEnabled = true
-            buildConfigField("String", "BASE_URL", '"https://newsapi.org/v2/"')
-            buildConfigField("String", "API_KEY", '"1af829535010448596f98890f16c7f9d"')
+//            buildConfigField("String", "BASE_URL", '"https://newsapi.org/v2/"')
+//            buildConfigField("String", "API_KEY", '"1af829535010448596f98890f16c7f9d"')
         }
     }
 
