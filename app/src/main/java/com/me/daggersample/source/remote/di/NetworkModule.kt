@@ -1,13 +1,8 @@
 package com.me.daggersample.source.remote.di
 
-import android.content.Context
 import com.me.daggersample.BuildConfig
 import com.me.daggersample.source.remote.apiInterface.ConstantsKeys
 import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
-import com.me.daggersample.source.remote.data_source.IRemoteDataSource
-import com.me.daggersample.source.remote.data_source.RemoteDataSource
-import com.me.daggersample.validator.INetworkValidator
-import com.me.daggersample.validator.NetworkValidator
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -15,12 +10,9 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.security.SecureRandom
-import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
-import javax.net.ssl.*
 
 @Module
 class NetworkModule {
@@ -80,15 +72,4 @@ class NetworkModule {
     internal fun provideRetrofitApisInterface(retrofit: Retrofit): RetrofitApisInterface {
         return retrofit.create(RetrofitApisInterface::class.java)
     }
-
-    @Singleton
-    @Provides
-    internal fun provideRemoteDataSource(retrofitApisInterface: RetrofitApisInterface): IRemoteDataSource {
-        return RemoteDataSource(retrofitApisInterface)
-    }
-
-    @Singleton
-    @Provides
-    internal fun provideNetworkValidator(context: Context): INetworkValidator =
-        NetworkValidator(context)
 }
