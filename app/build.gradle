@@ -58,8 +58,6 @@ android {
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
             testCoverageEnabled = true
-//            buildConfigField("String", "BASE_URL", '"https://newsapi.org/v2/"')
-//            buildConfigField("String", "API_KEY", '"1af829535010448596f98890f16c7f9d"')
         }
     }
 
@@ -113,6 +111,7 @@ dependencies {
     /* Unit test */
     testImplementation 'junit:junit:4.13.1'
     testImplementation "android.arch.core:core-testing:1.1.1"
+    testImplementation "io.mockk:mockk:1.10.5"
 
     /* UI test */
     androidTestImplementation "androidx.test:runner:$androidxTest"
