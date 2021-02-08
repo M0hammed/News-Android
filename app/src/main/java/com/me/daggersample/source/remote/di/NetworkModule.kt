@@ -3,6 +3,7 @@ package com.me.daggersample.source.remote.di
 import com.me.daggersample.BuildConfig
 import com.me.daggersample.source.remote.apiInterface.ConstantsKeys
 import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
+import com.me.daggersample.utils.Platform
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -21,7 +22,7 @@ class NetworkModule {
     @Provides
     internal fun provideHttpInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
-            if (BuildConfig.DEBUG)
+            if (Platform.isBuildConfigDebug())
                 this.level = HttpLoggingInterceptor.Level.BODY
             else
                 this.level = HttpLoggingInterceptor.Level.NONE
