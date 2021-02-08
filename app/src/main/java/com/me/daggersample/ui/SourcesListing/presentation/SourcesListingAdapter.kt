@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class SourcesListingAdapter @Inject constructor(
     context: Context,
-    onListItemClickListener: OnListItemClickListener<Sources>
+    onListItemClickListener: OnListItemClickListener<Sources>?
 ) : BaseAdapter<Sources>(context, onListItemClickListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -42,7 +42,7 @@ class SourcesListingAdapter @Inject constructor(
         }
 
         override fun onClick(view: View?) {
-            onListItemClickListener.onItemClicked(view, data[adapterPosition])
+            onListItemClickListener?.onItemClicked(view, data[adapterPosition])
         }
     }
 }

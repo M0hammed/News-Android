@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class HeadLinesFragment : BaseFragment(), OnListItemClickListener<HeadLineModel> {
+class HeadLinesFragment : BaseFragment() {
     @Inject
     lateinit var headLinesViewModelFactory: HeadLinesViewModelFactory
     private lateinit var viewModel: HeadLinesViewModel
@@ -44,7 +44,7 @@ class HeadLinesFragment : BaseFragment(), OnListItemClickListener<HeadLineModel>
         get() = R.layout.fragment_head_lines
 
     override fun initViews(view: View) {
-        headLinesAdapter = HeadLinesAdapter(requireContext(), this)
+        headLinesAdapter = HeadLinesAdapter(requireContext(), null)
         rvApp.layoutManager = LinearLayoutManager(requireContext())
         rvApp.adapter = headLinesAdapter
 
@@ -115,9 +115,5 @@ class HeadLinesFragment : BaseFragment(), OnListItemClickListener<HeadLineModel>
 
     override fun setListeners() {
         swipeRefresh.setOnRefreshListener { viewModel.refreshHeadLinesListing() }
-    }
-
-    override fun onItemClicked(view: View?, model: HeadLineModel) {
-        viewModel.refreshHeadLinesListing()
     }
 }

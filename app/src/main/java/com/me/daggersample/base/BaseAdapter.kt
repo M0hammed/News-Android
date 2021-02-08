@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<item>(
     val context: Context,
-    val onListItemClickListener: OnListItemClickListener<item>
+    val onListItemClickListener: OnListItemClickListener<item>?
 ) :
     RecyclerView.Adapter<BaseViewHolder>() {
     var data: ArrayList<item>
@@ -40,7 +40,7 @@ abstract class BaseAdapter<item>(
     }
 
     fun deleteItem(item: item) {
-        val remove = data.remove(item)
+        data.remove(item)
         notifyDataSetChanged()
     }
 

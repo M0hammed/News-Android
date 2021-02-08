@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_head_line.view.*
 
 class HeadLinesAdapter(
     context: Context,
-    onListItemClickListener: OnListItemClickListener<HeadLineModel>
+    onListItemClickListener: OnListItemClickListener<HeadLineModel>?
 ) : BaseAdapter<HeadLineModel>(context, onListItemClickListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
