@@ -3,9 +3,15 @@
 buildscript {
     ext.kotlin_version = '1.4.10'
     ext.jacocoVersion = '0.8.4'
+    // TODO current ktlint version has issue to work with [.editorconfig] file
+    ext.ktlint = '9.2.1'
+
     repositories {
         google()
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
 
     dependencies {
@@ -13,13 +19,10 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.5'
         classpath "org.jacoco:org.jacoco.core:$jacocoVersion"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlint"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
-}
-
-plugins {
-    id "org.jlleitschuh.gradle.ktlint" version "10.0.0"
 }
 
 allprojects {
@@ -27,10 +30,18 @@ allprojects {
         google()
         jcenter()
     }
+    // apply ktlint plugin for sub-projects
     apply plugin: "org.jlleitschuh.gradle.ktlint"
 
+    // add ktlint config
     ktlint {
         debug = true
+        android = true
+        verbose = true
+        outputToConsole = true
+        filter {
+            exclude("**/generated/**")
+        }
     }
 }
 
