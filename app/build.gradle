@@ -86,7 +86,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
 
     // coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
 
     // Dagger
     implementation "com.google.dagger:dagger:$dagger"
@@ -112,6 +112,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     testImplementation "android.arch.core:core-testing:1.1.1"
     testImplementation "io.mockk:mockk:1.10.5"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
 
     /* UI test */
     androidTestImplementation "androidx.test:runner:$androidxTest"
