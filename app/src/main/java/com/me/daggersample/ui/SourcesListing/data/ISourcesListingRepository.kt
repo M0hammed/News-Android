@@ -1,8 +1,8 @@
 package com.me.daggersample.ui.SourcesListing.data
 
 import com.me.daggersample.model.base.ApiResponse
-import com.me.daggersample.model.source.Sources
 import com.me.daggersample.model.base.Status
+import com.me.daggersample.model.source.Sources
 import kotlinx.coroutines.flow.Flow
 
 interface ISourcesListingRepository {

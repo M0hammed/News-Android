@@ -15,16 +15,14 @@ import com.me.daggersample.model.base.Progress
 import com.me.daggersample.model.base.Status
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.ui.HeadLines.presentation.HeadLinesActivity
+import javax.inject.Inject
 import kotlinx.android.synthetic.main.app_recycler_layout.*
 import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.main_progress_bar.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-
-class SourcesListingFragment : BaseFragment(),
-    OnListItemClickListener<Sources> {
+class SourcesListingFragment : BaseFragment(), OnListItemClickListener<Sources> {
 
     @Inject
     lateinit var newsListingViewModelFactory: SourcesListingViewModelFactory
@@ -44,7 +42,6 @@ class SourcesListingFragment : BaseFragment(),
         newsListingAdapter = SourcesListingAdapter(requireContext(), this)
         rvApp.layoutManager = LinearLayoutManager(requireContext())
         rvApp.adapter = newsListingAdapter
-
     }
 
     override fun initDependencyInjection() {

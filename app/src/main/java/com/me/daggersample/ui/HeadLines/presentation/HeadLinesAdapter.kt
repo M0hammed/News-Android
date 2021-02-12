@@ -25,7 +25,6 @@ class HeadLinesAdapter(
 
     override fun getItemCount(): Int = data.size
 
-
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.onBind(position)
     }
@@ -38,8 +37,6 @@ class HeadLinesAdapter(
         }
 
         override fun onClick(p0: View?) {
-
         }
-
     }
 }

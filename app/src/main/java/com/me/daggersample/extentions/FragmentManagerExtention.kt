@@ -5,9 +5,13 @@ import androidx.fragment.app.FragmentManager
 import com.me.daggersample.R
 
 internal fun FragmentManager.addFragment(
-    containerLayout: Int, fragment: Fragment,
-    TAG: String, toolbarTitle: String?, enableToolBarIcons: Boolean,
-    animationIn: Int = R.anim.slide_in, animationOut: Int = R.anim.slide_out
+    containerLayout: Int,
+    fragment: Fragment,
+    TAG: String,
+    toolbarTitle: String?,
+    enableToolBarIcons: Boolean,
+    animationIn: Int = R.anim.slide_in,
+    animationOut: Int = R.anim.slide_out
 ) {
     this.beginTransaction()
         .add(containerLayout, fragment, TAG)
@@ -16,8 +20,11 @@ internal fun FragmentManager.addFragment(
 }
 
 internal fun FragmentManager.removeFragment(
-    TAG: String, toolbarTitle: String?, enableToolBarIcons: Boolean,
-    animationIn: Int = R.anim.slide_in, animationOut: Int = R.anim.slide_out
+    TAG: String,
+    toolbarTitle: String?,
+    enableToolBarIcons: Boolean,
+    animationIn: Int = R.anim.slide_in,
+    animationOut: Int = R.anim.slide_out
 ) {
     this.findFragmentByTag(TAG)?.let {
         this.beginTransaction()
@@ -28,8 +35,11 @@ internal fun FragmentManager.removeFragment(
 }
 
 internal fun FragmentManager.replaceFragment(
-    containerLayout: Int, fragment: Fragment,
-    TAG: String, animationIn: Int = R.anim.slide_in, animationOut: Int = R.anim.slide_out
+    containerLayout: Int,
+    fragment: Fragment,
+    TAG: String,
+    animationIn: Int = R.anim.slide_in,
+    animationOut: Int = R.anim.slide_out
 ) {
     this.beginTransaction()
         .replace(containerLayout, fragment, TAG)

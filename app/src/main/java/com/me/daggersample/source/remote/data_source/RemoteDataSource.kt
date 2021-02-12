@@ -4,12 +4,12 @@ import com.google.gson.Gson
 import com.me.daggersample.model.base.ApiErrorResponse
 import com.me.daggersample.model.base.ApiResponse
 import com.me.daggersample.model.base.ErrorTypes
+import com.me.daggersample.model.base.Status
+import com.me.daggersample.model.headLine.HeadLineModel
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
 import com.me.daggersample.source.remote.handler.NetworkStatus
 import com.me.daggersample.source.remote.handler.ResponseError
-import com.me.daggersample.model.base.Status
-import com.me.daggersample.model.headLine.HeadLineModel
 import com.me.daggersample.source.remote.handler.getNetworkResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,7 +20,8 @@ class RemoteDataSource(private val retrofitApisInterface: RetrofitApisInterface)
     private val apiCallMap = HashMap<String, Call<*>>()
 
     private fun <R> executeApiCall(
-        call: Call<R>, tag: String
+        call: Call<R>,
+        tag: String
     ): Flow<Status<R>> {
         apiCallMap[tag] = call
         return call.getNetworkResponse().map {

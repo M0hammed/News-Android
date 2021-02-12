@@ -8,36 +8,35 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.MediumTest
 import com.me.daggersample.R
 import com.me.daggersample.network.ErrorMockServer
 import com.me.daggersample.network.SourcesMockServer
-import com.me.daggersample.ui.HeadLines.presentation.HeadLinesActivity
 import com.me.daggersample.utils.checker.RecyclerViewChecker
 import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.core.IsNot.not
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-
 
 @MediumTest
 class SourcesListingFragmentTest {
 
-
     lateinit var mockWebServer: MockWebServer
+
+    companion object {
+        private const val API_FAIL =
+            "Your API key is missing. Append this to the URL with the apiKey " +
+                "param, or use the x-api-key HTTP header."
+    }
 
     @Before
     fun setup() {
         IdlingRegistry.getInstance().register()
         mockWebServer = MockWebServer()
         mockWebServer.start(8080)
-        //ActivityScenario.launch(SourcesListingActivity::class.java)
+        // ActivityScenario.launch(SourcesListingActivity::class.java)
     }
 
     @After
@@ -92,7 +91,7 @@ class SourcesListingFragmentTest {
 
         onView(withId(R.id.layoutError)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.tvErrorMessage)).check(matches(withText("Your API key is missing. Append this to the URL with the apiKey param, or use the x-api-key HTTP header.")))
+        onView(withId(R.id.tvErrorMessage)).check(matches(withText(API_FAIL)))
     }
 
     @Test
@@ -113,7 +112,6 @@ class SourcesListingFragmentTest {
         onView(withId(R.id.rvApp))
             .check(matches(isDisplayed()))
             .check(matches(RecyclerViewChecker.atPosition(0, hasDescendant(withText("ABC News")))))
-
     }
 
     @Test
@@ -130,7 +128,7 @@ class SourcesListingFragmentTest {
 
         onView(withId(R.id.layoutError)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.tvErrorMessage)).check(matches(withText("Your API key is missing. Append this to the URL with the apiKey param, or use the x-api-key HTTP header.")))
+        onView(withId(R.id.tvErrorMessage)).check(matches(withText(API_FAIL)))
 
         mockWebServer.dispatcher = SourcesMockServer.getSuccessSourcesList()
 
@@ -141,7 +139,6 @@ class SourcesListingFragmentTest {
         onView(withId(R.id.rvApp))
             .check(matches(isDisplayed()))
             .check(matches(RecyclerViewChecker.atPosition(0, hasDescendant(withText("ABC News")))))
-
     }
 
     @Test
@@ -154,10 +151,8 @@ class SourcesListingFragmentTest {
         Thread.sleep(500)
         onView(withId(R.id.rvApp))
             .perform(
-                RecyclerViewActions.actionOnItemAtPosition<SourcesListingAdapter.SourcesListingViewHolder>(
-                    0,
-                    click()
-                )
+                RecyclerViewActions.actionOnItemAtPosition<SourcesListingAdapter
+                .SourcesListingViewHolder>(0, click())
             )
 
         // THEN - verify successfully navigate to headline

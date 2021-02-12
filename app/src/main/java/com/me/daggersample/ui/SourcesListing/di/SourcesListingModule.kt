@@ -8,5 +8,7 @@ import dagger.Module
 @Module
 abstract class SourcesListingModule {
     @Binds
-    abstract fun provideISourcesListingRepository(sourcesListingRepository: SourcesListingRepository): ISourcesListingRepository
+    abstract fun provideISourcesListingRepository(
+        sourcesListingRepository: SourcesListingRepository
+    ): ISourcesListingRepository
 }

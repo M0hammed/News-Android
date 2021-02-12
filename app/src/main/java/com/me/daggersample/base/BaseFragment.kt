@@ -10,7 +10,6 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.me.daggersample.model.base.Progress
-import com.me.daggersample.model.base.ErrorModel
 import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.error_layout.view.*
 import kotlinx.coroutines.CoroutineScope

@@ -56,7 +56,7 @@ class SourcesListingRepositoryTest {
             // GIVEN
             every { networkValidator.isConnected() } returns (true)
             every { remoteDataSource.getNews() } returns
-                    flowOf(Status.Error(ErrorTypes.ServerError(null)))
+                flowOf(Status.Error(ErrorTypes.ServerError(null)))
 
             // WHEN
             val newsStatusFlow = sourceListingRepository.getNews()

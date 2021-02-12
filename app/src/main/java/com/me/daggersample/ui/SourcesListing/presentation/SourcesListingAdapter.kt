@@ -9,8 +9,8 @@ import com.me.daggersample.base.BaseAdapter
 import com.me.daggersample.base.BaseViewHolder
 import com.me.daggersample.base.OnListItemClickListener
 import com.me.daggersample.model.source.Sources
-import kotlinx.android.synthetic.main.item_source.view.*
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.item_source.view.*
 
 class SourcesListingAdapter @Inject constructor(
     context: Context,

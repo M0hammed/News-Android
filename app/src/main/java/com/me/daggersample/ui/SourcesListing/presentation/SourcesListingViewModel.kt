@@ -6,9 +6,9 @@ import com.me.daggersample.base.BaseViewModel
 import com.me.daggersample.model.base.*
 import com.me.daggersample.model.source.Sources
 import com.me.daggersample.ui.SourcesListing.data.ISourcesListingRepository
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlin.coroutines.CoroutineContext
 
 class SourcesListingViewModel(
     private val sourcesListingRepository: ISourcesListingRepository,
@@ -18,7 +18,6 @@ class SourcesListingViewModel(
     private val _sourcesListingState = MutableStateFlow<Status<ArrayList<Sources>>>(Status.Idle)
     val sourcesListingState: StateFlow<Status<ArrayList<Sources>>>
         get() = _sourcesListingState
-
 
     private var cashedSourcesList: ArrayList<Sources>? = null
 
@@ -65,7 +64,8 @@ class SourcesListingViewModel(
     }
 
     private suspend fun mapNewsListing(
-        it: Status<ApiResponse<ArrayList<Sources>>>, forceRefresh: Boolean
+        it: Status<ApiResponse<ArrayList<Sources>>>,
+        forceRefresh: Boolean
     ): Status<ArrayList<Sources>> {
         return when (it) {
             is Status.Success -> validateSourcesList(it.data?.result, forceRefresh)
@@ -76,7 +76,8 @@ class SourcesListingViewModel(
 
     // validate list Size and nullability
     private suspend fun validateSourcesList(
-        sourcesList: ArrayList<Sources>?, forceRefresh: Boolean
+        sourcesList: ArrayList<Sources>?,
+        forceRefresh: Boolean
     ): Status<ArrayList<Sources>> {
         return if (!sourcesList.isNullOrEmpty()) {
             updateCachedNewsList(sourcesList, forceRefresh)
@@ -104,7 +105,8 @@ class SourcesListingViewModel(
 
     // update cashed data with given new values
     private fun updateCachedNewsList(
-        sourcesList: ArrayList<Sources>, forceRefresh: Boolean
+        sourcesList: ArrayList<Sources>,
+        forceRefresh: Boolean
     ) {
         when {
             cashedSourcesList == null -> this.cashedSourcesList = sourcesList

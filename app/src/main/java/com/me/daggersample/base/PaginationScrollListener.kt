@@ -18,14 +18,14 @@ abstract class PaginationScrollListener(val layoutManager: LinearLayoutManager) 
                 loadMoreItems()
 
                 Log.e(
-                    "xxx", "visibleItemCount : " + visibleItemCount + "  totalItemCount : " + totalItemCount
-                            + "firstVisibleItemPosition :" + firstVisibleItemPosition
+                    "xxx",
+                    "visibleItemCount : " + visibleItemCount + "  totalItemCount : " + totalItemCount +
+                        "firstVisibleItemPosition :" + firstVisibleItemPosition
                 )
             } else {
                 Log.e("xxx", "not scrolled")
             }
         }
-
     }
 
     protected abstract fun loadMoreItems()
@@ -35,5 +35,4 @@ abstract class PaginationScrollListener(val layoutManager: LinearLayoutManager) 
     abstract fun isLastPage(): Boolean
 
     abstract fun isLoading(): Boolean
-
 }

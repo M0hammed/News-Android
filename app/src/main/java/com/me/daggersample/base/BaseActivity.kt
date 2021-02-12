@@ -48,5 +48,4 @@ abstract class BaseActivity : AppCompatActivity() {
     abstract fun isBackEnabled(): Boolean
 
     abstract fun screenToolbar(): Toolbar?
-
 }

@@ -13,5 +13,4 @@ class UrlModule {
     @Provides
     @Named("baseUrl")
     fun providesBaseUrl(): String = BuildConfig.BASE_URL
-
 }

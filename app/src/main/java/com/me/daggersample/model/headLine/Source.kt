@@ -1,6 +1,5 @@
 package com.me.daggersample.model.headLine
 
-
 import com.google.gson.annotations.SerializedName
 
 data class Source(

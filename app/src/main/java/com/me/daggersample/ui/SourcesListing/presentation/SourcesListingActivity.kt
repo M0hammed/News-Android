@@ -5,7 +5,6 @@ import androidx.appcompat.widget.Toolbar
 import com.me.daggersample.R
 import com.me.daggersample.base.BaseActivity
 import com.me.daggersample.extentions.replaceFragment
-import com.me.daggersample.ui.SourcesListing.presentation.SourcesListingFragment
 import kotlinx.android.synthetic.main.appbar_layout.*
 
 class SourcesListingActivity : BaseActivity() {
@@ -24,7 +23,6 @@ class SourcesListingActivity : BaseActivity() {
                 SourcesListingFragment.newInstance(),
                 SourcesListingFragment.TAG
             )
-
     }
 
     override fun setListeners() {

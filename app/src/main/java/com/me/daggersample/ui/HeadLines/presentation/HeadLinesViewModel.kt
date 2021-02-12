@@ -9,9 +9,9 @@ import com.me.daggersample.model.base.ErrorTypes
 import com.me.daggersample.model.base.Status
 import com.me.daggersample.model.headLine.HeadLineModel
 import com.me.daggersample.ui.HeadLines.data.IHeadLinesRepository
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlin.coroutines.CoroutineContext
 
 class HeadLinesViewModel(
     private val headLinesRepository: IHeadLinesRepository,
@@ -72,7 +72,8 @@ class HeadLinesViewModel(
     }
 
     private suspend fun mapHeadLinesList(
-        it: Status<ApiResponse<ArrayList<HeadLineModel>>>, forceRefresh: Boolean
+        it: Status<ApiResponse<ArrayList<HeadLineModel>>>,
+        forceRefresh: Boolean
     ): Status<ArrayList<HeadLineModel>> {
         return when (it) {
             is Status.Success -> validateHeadLinesList(it.data?.articles, forceRefresh)
@@ -83,7 +84,8 @@ class HeadLinesViewModel(
 
     // validate list Size and nullability
     private suspend fun validateHeadLinesList(
-        sourcesList: ArrayList<HeadLineModel>?, forceRefresh: Boolean
+        sourcesList: ArrayList<HeadLineModel>?,
+        forceRefresh: Boolean
     ): Status<ArrayList<HeadLineModel>> {
         return if (!sourcesList.isNullOrEmpty()) {
             updateCachedHeadLinesList(sourcesList, forceRefresh)
@@ -98,7 +100,6 @@ class HeadLinesViewModel(
         }
     }
 
-
     // check cached data if should show error layout or show toast
     private suspend fun validateCachedData(errorType: ErrorTypes): Status<ArrayList<HeadLineModel>> {
         return if (cachedHeadLinesList.isNullOrEmpty()) {
@@ -112,7 +113,8 @@ class HeadLinesViewModel(
 
     // update cached data with given new values
     private fun updateCachedHeadLinesList(
-        headLinesList: ArrayList<HeadLineModel>, forceRefresh: Boolean
+        headLinesList: ArrayList<HeadLineModel>,
+        forceRefresh: Boolean
     ) {
         when {
             cachedHeadLinesList == null -> this.cachedHeadLinesList = headLinesList

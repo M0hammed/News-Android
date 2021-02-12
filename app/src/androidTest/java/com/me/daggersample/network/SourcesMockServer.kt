@@ -21,10 +21,10 @@ object SourcesMockServer {
             override fun dispatch(request: RecordedRequest): MockResponse {
                 return MockResponse().setResponseCode(200).setBody(
                     "{\n" +
-                            "   \"status\":\"ok\",\n" +
-                            "   \"sources\":[\n" +
-                            "]" +
-                            "}"
+                        "   \"status\":\"ok\",\n" +
+                        "   \"sources\":[\n" +
+                        "]" +
+                        "}"
                 )
             }
         }

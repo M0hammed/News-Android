@@ -13,5 +13,5 @@ interface RetrofitApisInterface {
 
     @GET(ConstantsKeys.ApiKeys.HEADLINE)
     fun getHeadLineList(@Query(ConstantsKeys.ApiKeys.SOURCES) sourcesId: String):
-            Call<ApiResponse<ArrayList<HeadLineModel>>>
+        Call<ApiResponse<ArrayList<HeadLineModel>>>
 }

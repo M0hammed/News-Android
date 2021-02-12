@@ -26,12 +26,18 @@ class HeadLinesFragmentTest {
     lateinit var mockWebServer: MockWebServer
     private val sourceValue = "sourceTag"
 
+    companion object {
+        private const val API_FAIL =
+            "Your API key is missing. Append this to the URL with the apiKey " +
+                "param, or use the x-api-key HTTP header."
+    }
+
     @Before
     fun setup() {
         IdlingRegistry.getInstance().register()
         mockWebServer = MockWebServer()
         mockWebServer.start(8080)
-        //ActivityScenario.launch(HeadLinesActivity::class.java)
+        // ActivityScenario.launch(HeadLinesActivity::class.java)
     }
 
     @After
@@ -61,7 +67,11 @@ class HeadLinesFragmentTest {
                 matches(
                     atPosition(
                         0,
-                        hasDescendant(withText("Covid: 'Lessons to be learnt' from NI vaccine row - Irish PM"))
+                        hasDescendant(
+                            withText(
+                                "Covid: 'Lessons to be learnt' from NI vaccine row - Irish PM"
+                            )
+                        )
                     )
                 )
             )
@@ -115,7 +125,7 @@ class HeadLinesFragmentTest {
 
         onView(withId(R.id.layoutError)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.tvErrorMessage)).check(matches(withText("Your API key is missing. Append this to the URL with the apiKey param, or use the x-api-key HTTP header.")))
+        onView(withId(R.id.tvErrorMessage)).check(matches(withText(API_FAIL)))
     }
 
     @Test
@@ -135,7 +145,7 @@ class HeadLinesFragmentTest {
 
         onView(withId(R.id.layoutError)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.tvErrorMessage)).check(matches(withText("Your API key is missing. Append this to the URL with the apiKey param, or use the x-api-key HTTP header.")))
+        onView(withId(R.id.tvErrorMessage)).check(matches(withText(API_FAIL)))
 
         mockWebServer.dispatcher = HeadlinesMockServer.getSuccessHeadlinesList()
 
@@ -149,7 +159,11 @@ class HeadLinesFragmentTest {
                 matches(
                     atPosition(
                         0,
-                        hasDescendant(withText("Covid: 'Lessons to be learnt' from NI vaccine row - Irish PM"))
+                        hasDescendant(
+                            withText(
+                                "Covid: 'Lessons to be learnt' from NI vaccine row - Irish PM"
+                            )
+                        )
                     )
                 )
             )

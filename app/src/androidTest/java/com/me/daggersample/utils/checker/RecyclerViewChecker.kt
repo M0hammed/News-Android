@@ -15,9 +15,9 @@ object RecyclerViewChecker {
             }
 
             override fun matchesSafely(view: RecyclerView): Boolean {
-                val viewHolder = view.findViewHolderForAdapterPosition(position)
-                    ?: // has no item on such position
-                    return false
+                val viewHolder =
+                    view.findViewHolderForAdapterPosition(position) // has no item on such position
+                        ?: return false
                 return itemMatcher.matches(viewHolder.itemView)
             }
         }

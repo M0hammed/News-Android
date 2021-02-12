@@ -1,11 +1,9 @@
 package com.me.daggersample.source.remote.handler
 
 import androidx.annotation.WorkerThread
-import com.me.daggersample.model.base.ErrorTypes
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 

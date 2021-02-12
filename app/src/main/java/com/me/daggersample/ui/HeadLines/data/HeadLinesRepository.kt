@@ -7,10 +7,10 @@ import com.me.daggersample.model.base.Status
 import com.me.daggersample.model.headLine.HeadLineModel
 import com.me.daggersample.source.remote.data_source.IRemoteDataSource
 import com.me.daggersample.validator.INetworkValidator
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import java.util.ArrayList
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 class HeadLinesRepository @Inject constructor(
     private val iRemoteDataSource: IRemoteDataSource,

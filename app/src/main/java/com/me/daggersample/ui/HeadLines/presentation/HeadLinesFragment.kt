@@ -9,19 +9,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.me.daggersample.R
 import com.me.daggersample.app.DaggerSampleApplication
 import com.me.daggersample.base.BaseFragment
-import com.me.daggersample.base.OnListItemClickListener
 import com.me.daggersample.extentions.makeErrorMessage
 import com.me.daggersample.model.base.ErrorTypes
 import com.me.daggersample.model.base.Progress
 import com.me.daggersample.model.base.Status
 import com.me.daggersample.model.headLine.HeadLineModel
 import com.me.daggersample.source.remote.apiInterface.ConstantsKeys
+import javax.inject.Inject
 import kotlinx.android.synthetic.main.app_recycler_layout.*
 import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.main_progress_bar.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class HeadLinesFragment : BaseFragment() {
     @Inject
@@ -47,7 +46,6 @@ class HeadLinesFragment : BaseFragment() {
         headLinesAdapter = HeadLinesAdapter(requireContext(), null)
         rvApp.layoutManager = LinearLayoutManager(requireContext())
         rvApp.adapter = headLinesAdapter
-
     }
 
     override fun initDependencyInjection() {
@@ -94,7 +92,9 @@ class HeadLinesFragment : BaseFragment() {
         viewModel.getHeadLinesListing()
     }
 
-    private fun onHeadLinesListingStatusRetrieved(headLinesListingStatus: Status<ArrayList<HeadLineModel>>) {
+    private fun onHeadLinesListingStatusRetrieved(
+        headLinesListingStatus: Status<ArrayList<HeadLineModel>>
+    ) {
         when (headLinesListingStatus) {
             is Status.Success -> onSourceListingRetrievedSuccessfully(headLinesListingStatus.data!!)
             is Status.Error -> onErrorRetrieved(headLinesListingStatus.errorTypes)

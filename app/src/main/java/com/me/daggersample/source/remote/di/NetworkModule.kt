@@ -6,14 +6,14 @@ import com.me.daggersample.source.remote.apiInterface.RetrofitApisInterface
 import com.me.daggersample.utils.Platform
 import dagger.Module
 import dagger.Provides
+import java.util.concurrent.TimeUnit
+import javax.inject.Named
+import javax.inject.Singleton
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
-import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
 class NetworkModule {
@@ -43,7 +43,8 @@ class NetworkModule {
     @Singleton
     @Provides
     internal fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor, interceptor: Interceptor
+        loggingInterceptor: HttpLoggingInterceptor,
+        interceptor: Interceptor
     ): OkHttpClient {
 
         return OkHttpClient.Builder()

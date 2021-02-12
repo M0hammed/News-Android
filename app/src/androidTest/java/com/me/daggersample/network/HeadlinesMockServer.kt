@@ -22,14 +22,13 @@ object HeadlinesMockServer {
             override fun dispatch(request: RecordedRequest): MockResponse {
                 return MockResponse().setResponseCode(200).setBody(
                     "{\n" +
-                            "\"status\":\"ok\",\n" +
-                            "\"totalResults\": 10,\n" +
-                            "\"articles\": [\n" +
-                            "]" +
-                            "}"
+                        "\"status\":\"ok\",\n" +
+                        "\"totalResults\": 10,\n" +
+                        "\"articles\": [\n" +
+                        "]" +
+                        "}"
                 )
             }
         }
     }
-
 }

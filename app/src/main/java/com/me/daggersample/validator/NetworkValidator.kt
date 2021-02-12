@@ -7,8 +7,10 @@ import com.me.daggersample.utils.Platform
 
 class NetworkValidator(private val context: Context) : INetworkValidator {
     override fun isConnected(): Boolean {
-        val connectivityManager = (context
-            .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
+        val connectivityManager = (
+            context
+                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            )
 
         if (Platform.isAndroidM()) {
             val nw = connectivityManager.activeNetwork ?: return false
