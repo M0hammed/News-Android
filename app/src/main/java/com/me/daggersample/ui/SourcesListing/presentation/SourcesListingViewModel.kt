@@ -1,5 +1,6 @@
 package com.me.daggersample.ui.SourcesListing.presentation
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import com.me.daggersample.R
 import com.me.daggersample.base.BaseViewModel
@@ -19,7 +20,8 @@ class SourcesListingViewModel(
     val sourcesListingState: StateFlow<Status<ArrayList<Sources>>>
         get() = _sourcesListingState
 
-    private var cashedSourcesList: ArrayList<Sources>? = null
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    var cashedSourcesList: ArrayList<Sources>? = null
 
     fun refreshNewsListing() {
         getNewsListing(true, loadMore = false)

@@ -10,7 +10,7 @@ import org.junit.Test
 class NetworkModuleTest {
 
     @Test
-    fun `given buildConfig is not debug when provideHttpInterceptor level then return logging is NONE`() {
+    fun `given buildConfig is not debug when provideHttpInterceptor then return logging is NONE`() {
         // GIVEN
         mockkObject(Platform)
         every { Platform.isBuildConfigDebug() } returns (false)

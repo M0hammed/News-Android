@@ -52,7 +52,7 @@ class HeadLinesRepositoryTest {
         }
 
     @Test
-    fun `given NetworkValidator, when call getHeadLinesList(), then verify call iRemoteDataSource_getHeadLinesList()`() =
+    fun `given NetworkValidator, when call getHeadLinesList(), then verify call getHeadLinesList()`() =
         runBlockingTest {
             // GIVEN
             every { networkValidator.isConnected() } returns (true)
