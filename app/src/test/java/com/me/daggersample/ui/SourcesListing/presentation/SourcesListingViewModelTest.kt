@@ -88,7 +88,7 @@ class SourcesListingViewModelTest {
 
             // THEN
             val first = sourcesListingViewModel.sourcesListingState.first()
-            assertEquals(first, Status.Idle)
+            assertNull(first)
         }
 }
 
