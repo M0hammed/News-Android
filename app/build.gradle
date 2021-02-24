@@ -10,6 +10,8 @@ apply plugin: 'com.google.gms.google-services'
 
 apply from: "$rootDir/jacoco.gradle"
 
+apply from: "$rootDir/git-hooks.gradle"
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
 

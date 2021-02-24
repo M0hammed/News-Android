@@ -1,0 +1,26 @@
+task copyGitHooks(type: Copy) {
+    description("Copis the git hooks files from git-hooks dir to .git/hooks dir")
+    from("${rootDir}/git-hooks") {
+        include("**/*.sh")
+        rename("(.*).sh", "\$1")
+    }
+
+    into("${rootDir}/.git/hooks")
+}
+
+task installGitHooks(type: Exec) {
+    description 'Installs the git hooks git hooks from team-props/git-hooks.'
+    group 'git hooks'
+    workingDir rootDir
+    commandLine 'chmod'
+    args '-R', '+x', '.git/hooks/'
+    dependsOn copyGitHooks
+    doLast {
+        logger.info('Git hook installed successfully.')
+    }
+}
+
+afterEvaluate {
+    tasks['clean'].dependsOn(installGitHooks)
+    tasks['assemble'].dependsOn(installGitHooks)
+}
